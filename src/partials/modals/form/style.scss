@@ -1,0 +1,39 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  width: 340px;
+  margin: 0 auto;
+  border-radius: 12px;
+  padding: 50px 30px 30px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
+  background-color: white;
+}
+
+.modal__container {
+}
+
+.modal__title {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 45px;
+  margin: 0;
+  padding: 0;
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+  }
+}

@@ -17,7 +17,14 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "types": ["vite/client"],
+    "plugins": [
+      {
+        "name": "typescript-hbs-plugin"
+      }
+    ]
   },
   "include": ["src"]
 }

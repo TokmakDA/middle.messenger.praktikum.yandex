@@ -1,0 +1,22 @@
+.form__button {
+  width: 100%;
+  margin: 0;
+  border: none;
+  border-radius: 8px;
+  padding: 12.5px;
+  color: #fdfdfd;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 13px;
+  text-align: center;
+  background-color: #3369f3;
+
+  &:hover {
+    background-color: #3346f3;
+    box-shadow: 0 2px 5px 0 rgba($color: #000000, $alpha: 0.15);
+  }
+
+  &:disabled {
+    background-color: #b3b5b9;
+  }
+}
