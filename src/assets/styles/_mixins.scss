@@ -1,0 +1,12 @@
+// Миксин для заголовков
+@mixin title($size) {
+  font-size: $size;
+  text-align: center;
+  font-weight: 500;
+}
+
+// Миксин для текста
+@mixin text($size) {
+  font-size: $size;
+  font-weight: 400;
+}

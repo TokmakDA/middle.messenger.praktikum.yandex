@@ -1,0 +1,20 @@
+{{#extend "layout"}}
+  {{#content "content"}}
+    <div class="page__modal modal">
+      <h2 class="modal__title">
+        Регистрация
+      </h2>
+      <form class="modal__form form" name="login-form">
+        <div class="form__inputs">
+          {{#each inputsList}}
+            {{> input}}
+          {{/each}}
+        </div>
+        <div class="form__inputs">
+          {{> button text='Зарегистрироваться' type='submit'}}
+          {{> link text="Войти" url="/signin"}}
+        </div>
+      </form>
+    </div>
+  {{/content}}
+{{/extend}}

@@ -1,0 +1,29 @@
+@import '../../assets/styles/_mixins.scss';
+@import '../../assets/styles/_vars.scss';
+
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 35px;
+  width: fit-content;
+  min-width: 180px;
+  height: fit-content;
+  min-height: 180px;
+  margin: 0 auto;
+}
+
+.error__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.error__title {
+  @include title($font-size-title-l);
+}
+
+.error__text {
+  text-align: center;
+  @include text($font-size-text-xl);
+}

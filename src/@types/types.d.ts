@@ -12,3 +12,14 @@ export type ButtonProps = {
   text: string;
   // disabled?: boolean;
 };
+
+export type LinkProps = {
+  text: string;
+  url: string;
+  // disabled?: boolean;
+};
+
+export type ErrorsPageProps = {
+  title: string;
+  text: string;
+};

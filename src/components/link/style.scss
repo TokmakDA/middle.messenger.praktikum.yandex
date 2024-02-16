@@ -1,0 +1,23 @@
+.form__link {
+  width: 100%;
+  margin: 0;
+  border: none;
+  padding: 0;
+  color: #3369f3;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 13px;
+  text-align: center;
+  text-decoration: none;
+  transition: color 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    color: darken(#3369f3, 15%);
+    transition: all 0.2s;
+  }
+
+  &:disabled {
+    background-color: #b3b5b9;
+  }
+}

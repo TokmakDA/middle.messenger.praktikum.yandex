@@ -1,17 +1,46 @@
-import login from "./partials/modals/form";
-import "./index.less";
+import Handlebars from 'handlebars';
+import layouts from 'handlebars-layouts';
+import { isObjKey } from './utils/utils';
+import './assets/styles/index.scss';
 
-document.addEventListener("DOMContentLoaded", () => {
-  const root = document.querySelector("#app");
+import signin from './pages/signin';
+import signup from './pages/signup';
+import errors from './pages/errors';
+import profile from './pages/profile';
 
-  if (root) {
-    root.innerHTML = login({});
+// Register helpers
+layouts.register(Handlebars);
+
+// Добавим роуты
+const routes = {
+  '/': `<h1>Home</h1><p>Welcome home!</p>`,
+  '/signin': signin({}),
+  '/signup': signup({}),
+  '/profile': profile({}),
+
+  '/404': errors({ title: '404', text: 'Не туда попали' }),
+  '/500': errors({ title: '500', text: 'Мы уже фиксим' }),
+};
+
+// Рендерим компоненты
+const render: (path: string) => void = (path) => {
+  const root = document.querySelector('#app');
+
+  // Провекра ключа в роутах
+  if (isObjKey(path, routes)) {
+    if (root) {
+      root.innerHTML = routes[path];
+    }
+  } else {
+    console.log(path, 'маршрут не найден');
   }
-  // let inputs = document.querySelectorAll(".modal__input");
-  // inputs.forEach((input) => {
-  //   console.log(input.name, input.valie);
-  // });
-  // setInterval(()=>{
-  //   console.log(document.querySelector("#login").value);
-  // }, 2000)
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.pathname;
+  if (hash in routes) {
+    render(hash);
+  } else {
+    render('/404');
+  }
 });
