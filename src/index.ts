@@ -7,6 +7,7 @@ import signin from './pages/signin';
 import signup from './pages/signup';
 import errors from './pages/errors';
 import profile from './pages/profile';
+import chats from './modules/chats/side-panel';
 
 // Register helpers
 layouts.register(Handlebars);
@@ -16,8 +17,8 @@ const routes = {
   '/': `<h1>Home</h1><p>Welcome home!</p>`,
   '/signin': signin({}),
   '/signup': signup({}),
-  '/profile': profile({}),
-
+  '/profile': profile(),
+  '/chats': chats(),
   '/404': errors({ title: '404', text: 'Не туда попали' }),
   '/500': errors({ title: '500', text: 'Мы уже фиксим' }),
 };

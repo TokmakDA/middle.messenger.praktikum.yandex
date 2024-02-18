@@ -1,0 +1,89 @@
+<div class="chats__chat-card chat-card" active="{{is_active}}">
+  <div class="chat-card__avatar-wrapper chat-card__avatar-wrapper_is-online">
+    {{#if avatar}}
+      <img
+        class="chat-card__avatar"
+        src="../../assets/images/avatar.svg"
+        alt="аватар"
+      />
+    {{else}}
+      <span class="chat-card__initials">{{initials}}</span>
+    {{/if}}
+  </div>
+  <div class="chat-card__info-blok">
+    {{! Блок с названием чата и датой последнего сообщения }}
+    <div class="chat-card__info_wrapper chat-card__info_wrapper_top">
+      {{! Название чата }}
+      <span class="chat-card__full-username">
+        {{title}}
+      </span>
+      {{! Блок с отчетом о получении и датой последнего сообщения }}
+      <div class="chat-card__report">
+        {{! Блок с отчетом о получении }}
+        {{! временная конструкция}}
+        {{#if is_my}}
+          {{#if is_read}}
+            <div class="chat-card__chek">
+              <svg
+                width="15"
+                height="11"
+                viewBox="0 0 15 11"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1 6.625L3.83636 10L11.4 1"
+                  stroke="#999999"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M5.3335 8.5L6.43653 10L14.0002 1"
+                  stroke="#999999"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          {{else}}
+            <svg
+              width="13"
+              height="11"
+              viewBox="0 0 13 11"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.59961 6.625L4.43597 10L11.9996 1"
+                stroke="#999999"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          {{/if}}
+        {{/if}}
+        {{! дата последнего сообщения }}
+        <time
+          class="chat-card__time"
+          datetime="{{last_message.time}}"
+        >{{display_time}}</time>
+      </div>
+    </div>
+    <div class="chat-card__info_wrapper chat-card__info_wrapper_bottom">
+      <p class="chat-card__message">
+        {{#if is_my}}
+          <span>Вы: </span>
+        {{/if}}
+        {{last_message.content}}
+      </p>
+      {{#if unread_count}}
+        <span class="chat-card__unread-count">
+          {{unread_count}}
+        </span>
+      {{/if}}
+    </div>
+  </div>
+</div>

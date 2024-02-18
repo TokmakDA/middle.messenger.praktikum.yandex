@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   min-width: 320px;
-  max-width: 1280px;
+  width: 100%;
   min-height: 100vh;
   margin: 0 auto;
   font-family: Inter, Arial, sans-serif;
@@ -24,5 +24,6 @@
 }
 
 * {
-  outline: dashed 0.1px lighten(DarkSeaGreen, 30);
+  // outline: dashed 0.1px lighten(DarkSeaGreen, 30);
+  box-sizing: border-box;
 }

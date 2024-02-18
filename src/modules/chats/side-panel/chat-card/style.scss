@@ -1,0 +1,147 @@
+.chat-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  transition: background-color 0.5s;
+  &:hover {
+    background-color: #a3e0f3;
+    transition: all 0.5s;
+  }
+  &[active='true'] {
+    background-color: #e4edfd;
+    transition: all 0.5s;
+  }
+}
+
+.chat-card__avatar-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #efefef;
+  aspect-ratio: 1;
+
+  &_is-online {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      right: 3px;
+      bottom: 3px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #47aa37;
+      aspect-ratio: 1;
+    }
+  }
+}
+
+.chat-card__avatar {
+  width: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.chat-card__info-blok {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  width: 100%;
+}
+
+.chat-card__info_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+  &_top {
+    align-items: center;
+  }
+  &_bottom {
+    align-items: stretch;
+    min-height: 30px;
+    max-height: fit-content;
+  }
+}
+
+.chat-card__full-username {
+  color: #1e1e1e;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.chat-card__report {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-card__chek {
+  display: flex;
+  align-items: center;
+  max-width: fit-content;
+  max-height: 11px;
+  & svg {
+    & path {
+      stroke: #999;
+    }
+  }
+}
+
+.chat-card__time {
+  color: #999;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.chat-card__info_bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.chat-card__message {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #999;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  & span {
+    color: #1e1e1e;
+    font-weight: 600;
+  }
+}
+
+.chat-card__unread-count {
+  align-self: flex-end;
+  width: fit-content;
+  width: 100%;
+  min-width: 20px;
+  max-width: fit-content;
+  min-height: 20px;
+  max-height: 20px;
+  border-radius: 10px;
+  padding: 4px 2px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center;
+  background-color: #f36133;
+  text-wrap: nowrap;
+  white-space: nowrap;
+}
