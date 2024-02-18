@@ -1,9 +1,24 @@
-$primary: #194eb4;
-$secondary: #f2b834;
-$success: #4cb514;
-$black: #000;
-$radius: 12px;
-$lineHeight: 100%;
+// Radius
+$radius-l: 16px;
+$radius-m: 12px;
+$radius-s: 8px;
+$radius-xs: 4px;
+
+// Collors
+$light-gray: #999;
+$alabaster: #f8f8f8;
+$gallery: #efefef;
+$steam: #eaeaea;
+$tangerine: #f75e25;
+$marble-alabaster: #ededf7;
+$alice-blue: #e5f2fc;
+$nero: #1e1e1e;
+$fruit-salad: #47aa37;
+$vermilion: #ff3d16;
+$royal-blue: #3369f3;
+$tangled-web: #b2b2b2;
+
+$shadow: 0 0 4px 0 $tangled-web;
 
 // Константы для размеров шрифтов
 $font-size-title-l: 40px;
@@ -15,3 +30,5 @@ $font-size-text-l: 15px;
 $font-size-text-m: 13px;
 $font-size-text-s: 12px;
 $font-size-text-xs: 11px;
+
+$lineHeight: 100%;
