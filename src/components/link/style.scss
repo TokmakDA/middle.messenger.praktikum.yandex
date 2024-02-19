@@ -1,9 +1,12 @@
+// @import '../../assets/styles/vars';
+@import './src/assets/styles/index.scss';
+
 .form__link {
   width: 100%;
   margin: 0;
   border: none;
   padding: 0;
-  color: #3369f3;
+  color: $royal-blue;
   font-weight: 500;
   font-size: 13px;
   line-height: 13px;
@@ -13,11 +16,11 @@
   cursor: pointer;
 
   &:hover {
-    color: darken(#3369f3, 15%);
+    color: darken($royal-blue, 15%);
     transition: all 0.2s;
   }
 
   &:disabled {
-    background-color: #b3b5b9;
+    background-color: $tangled-web;
   }
 }

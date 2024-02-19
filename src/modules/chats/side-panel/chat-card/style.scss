@@ -1,3 +1,7 @@
+// @import '../../../../assets/styles/index.scss';
+@import './src/assets/styles/index.scss';
+
+
 .chat-card {
   display: flex;
   flex-direction: row;
@@ -6,11 +10,11 @@
   padding: 8px 10px;
   transition: background-color 0.5s;
   &:hover {
-    background-color: #a3e0f3;
+    background-color: $alice-blue;
     transition: all 0.5s;
   }
   &[active='true'] {
-    background-color: #e4edfd;
+    background-color: $marble-alabaster;
     transition: all 0.5s;
   }
 }
@@ -19,7 +23,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: #efefef;
+  background-color: $gallery;
   aspect-ratio: 1;
 
   &_is-online {
@@ -32,7 +36,7 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #47aa37;
+      background: $fruit-salad;
       aspect-ratio: 1;
     }
   }
@@ -69,7 +73,7 @@
 }
 
 .chat-card__full-username {
-  color: #1e1e1e;
+  color: $nero;
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
@@ -89,13 +93,13 @@
   max-height: 11px;
   & svg {
     & path {
-      stroke: #999;
+      stroke: $light-gray;
     }
   }
 }
 
 .chat-card__time {
-  color: #999;
+  color: $light-gray;
   font-weight: 500;
   font-size: 10px;
   line-height: 12px;
@@ -112,7 +116,7 @@
 .chat-card__message {
   display: -webkit-box;
   overflow: hidden;
-  color: #999;
+  color: $light-gray;
   font-weight: 500;
   font-size: 12px;
   line-height: 15px;
@@ -121,7 +125,7 @@
   -webkit-box-orient: vertical;
 
   & span {
-    color: #1e1e1e;
+    color: $nero;
     font-weight: 600;
   }
 }
@@ -141,7 +145,7 @@
   font-size: 12px;
   line-height: 12px;
   text-align: center;
-  background-color: #f36133;
+  background-color: $tangerine;
   text-wrap: nowrap;
   white-space: nowrap;
 }

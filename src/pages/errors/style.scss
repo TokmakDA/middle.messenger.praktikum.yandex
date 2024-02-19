@@ -1,5 +1,7 @@
-@import '../../assets/styles/_mixins.scss';
-@import '../../assets/styles/_vars.scss';
+// @import '../../assets/styles/_mixins.scss';
+// @import '../../assets/styles/_vars.scss';
+@import './src/assets/styles/index.scss';
+
 
 .error {
   display: flex;
@@ -20,10 +22,10 @@
 }
 
 .error__title {
-  @include title($font-size-title-l);
+  @include title($fs-title-l);
 }
 
 .error__text {
   text-align: center;
-  @include text($font-size-text-xl);
+  @include text($fs-text-xl);
 }

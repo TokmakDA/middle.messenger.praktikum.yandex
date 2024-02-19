@@ -5,30 +5,50 @@ $radius-s: 8px;
 $radius-xs: 4px;
 
 // Collors
-$light-gray: #999;
+$snow: #fbfbfb;
 $alabaster: #f8f8f8;
 $gallery: #efefef;
 $steam: #eaeaea;
-$tangerine: #f75e25;
+$tangled-web: #b2b2b2;
+$light-gray: #999;
+$suva-grey: #8d8d8d;
 $marble-alabaster: #ededf7;
 $alice-blue: #e5f2fc;
-$nero: #1e1e1e;
-$fruit-salad: #47aa37;
+$tangerine: #f75e25;
 $vermilion: #ff3d16;
+$fruit-salad: #47aa37;
 $royal-blue: #3369f3;
-$tangled-web: #b2b2b2;
+$nero: #1e1e1e;
 
 $shadow: 0 0 4px 0 $tangled-web;
+$border-steam: 1px solid $steam;
 
 // Константы для размеров шрифтов
-$font-size-title-l: 40px;
-$font-size-title-m: 20px;
-$font-size-title-s: 15px;
+$fs-title-l: 40px;
+$fs-title-m: 20px;
+$fs-title-s: 15px;
 
-$font-size-text-xl: 20px;
-$font-size-text-l: 15px;
-$font-size-text-m: 13px;
-$font-size-text-s: 12px;
-$font-size-text-xs: 11px;
+$fs-text-xl: 20px;
+$fs-text-l: 15px;
+$fs-text-m: 13px;
+$fs-text-s: 12px;
+$fs-text-xs: 11px;
+$fs-text-2xs: 10px;
+$fs-text-3xs: 9px;
 
-$lineHeight: 100%;
+// Константы для размеров шрифтов
+$fs-title-l: 40px;
+$fs-title-m: 20px;
+$fs-title-s: 15px;
+
+$lh-100: 100%;
+
+$fw-thin: 100;
+$fw-extra-light: 200;
+$fw-light: 300;
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-semi-bold: 600;
+$fw-bold: 700;
+$fw-extra-bold: 800;
+$fw-black: 800;
