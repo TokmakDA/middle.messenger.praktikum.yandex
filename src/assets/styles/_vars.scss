@@ -3,8 +3,10 @@ $radius-l: 16px;
 $radius-m: 12px;
 $radius-s: 8px;
 $radius-xs: 4px;
+$radius-50: 50%;
 
 // Collors
+$primery-white: #fdfdfd;
 $snow: #fbfbfb;
 $alabaster: #f8f8f8;
 $gallery: #efefef;
@@ -22,11 +24,15 @@ $nero: #1e1e1e;
 
 $shadow: 0 0 4px 0 $tangled-web;
 $border-steam: 1px solid $steam;
+$border-blue: 1px solid $royal-blue;
+
 
 // Константы для размеров шрифтов
+// перепроверить и поправить
 $fs-title-l: 40px;
 $fs-title-m: 20px;
-$fs-title-s: 15px;
+$fs-title-s: 16px;
+$fs-title-xs: 14px;
 
 $fs-text-xl: 20px;
 $fs-text-l: 15px;
@@ -35,11 +41,6 @@ $fs-text-s: 12px;
 $fs-text-xs: 11px;
 $fs-text-2xs: 10px;
 $fs-text-3xs: 9px;
-
-// Константы для размеров шрифтов
-$fs-title-l: 40px;
-$fs-title-m: 20px;
-$fs-title-s: 15px;
 
 $lh-100: 100%;
 

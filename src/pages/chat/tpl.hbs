@@ -1,4 +1,6 @@
-<div class="page page__chats">
-  {{> sidePanel}}
-  {{> chatroom}}
-</div>
+{{#extend "rows"}}
+  {{#content "row"}}
+    {{> sidePanel}}
+    {{> chatroom}}
+  {{/content}}
+{{/extend}}

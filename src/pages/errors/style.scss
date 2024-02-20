@@ -1,7 +1,7 @@
 // @import '../../assets/styles/_mixins.scss';
 // @import '../../assets/styles/_vars.scss';
-@import './src/assets/styles/index.scss';
-
+@import './src/assets/styles/vars';
+@import './src//assets/styles/mixins';
 
 .error {
   display: flex;

@@ -1,8 +1,6 @@
-.page {
+.center {
   display: flex;
-  &_center {
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-  }
+  justify-content: center;
+  align-items: center;
+  flex: 1;
 }

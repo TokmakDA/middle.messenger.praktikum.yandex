@@ -2,9 +2,9 @@ import Handlebars from 'handlebars';
 import tpl from './tpl.hbs?raw';
 import './style.scss';
 import { ErrorsPageProps } from '../../@types/types';
-import layout from '../../layouts/center';
+import center from '../../layouts/center';
 
-Handlebars.registerPartial('layout', layout);
+Handlebars.registerPartial('center', center);
 
 export default (props: ErrorsPageProps) => {
   return Handlebars.compile(tpl)(props);

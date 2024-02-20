@@ -5,6 +5,7 @@ import './style.scss';
 import input from '../../components/input/index';
 import button from '../../components/button/index';
 import link from '../../components/link/index';
+import center from '../../layouts/center';
 
 const inputsList: InputProps[] = [
   {
@@ -69,6 +70,7 @@ const inputsList: InputProps[] = [
 Handlebars.registerPartial('input', input);
 Handlebars.registerPartial('button', button);
 Handlebars.registerPartial('link', link);
+Handlebars.registerPartial('center', center);
 
 export default ({ props = { inputsList } }) => {
   return Handlebars.compile(tpl)(props);

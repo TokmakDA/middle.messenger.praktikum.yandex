@@ -1,0 +1,40 @@
+@import './src/assets/styles/vars';
+
+.sidebar__back-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+}
+
+.sidebar__back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 30px;
+  aspect-ratio: 1;
+
+  & svg {
+    width: 28px;
+    height: 28px;
+
+    & circle {
+      fill: $royal-blue;
+      transition: all 0.2s;
+    }
+    & path {
+      stroke: $primery-white;
+    }
+  }
+
+  &:hover svg circle {
+    fill: darken($royal-blue, 20);
+    transition: all 0.2s;
+  }
+  
+  &:active svg circle {
+    fill: $suva-grey;
+    transition: all 0.2s;
+  }
+}

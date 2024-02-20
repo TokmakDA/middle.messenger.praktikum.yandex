@@ -1,0 +1,18 @@
+<div class="profile__input-container">
+  <label class="profile__label">Почта
+    <input
+      type="text"
+      class="profile__input"
+      id=""
+      placeholder=""
+      value="12"
+      name=""
+      {{! disabled }}
+      {{! required }}
+    />
+  </label>
+
+  {{#if error}}
+    <span class="profile__input-error">{{error}}</span>
+  {{/if}}
+</div>

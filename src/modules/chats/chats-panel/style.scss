@@ -1,16 +1,5 @@
 // @import '../../../assets/styles/index.scss';
-@import './src/assets/styles/index.scss';
-
-.sidebar {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 310px;
-  height: 100vh;
-  // flex: 0 1 100%;
-  border-right: $border-steam;
-  background-color: $snow;
-}
+@import './src/assets/styles/vars';
 
 .sidebar__header {
   display: flex;
@@ -48,7 +37,6 @@
 }
 
 .sidebar__search-input {
-  position: relative;
   width: 100%;
   border-radius: 5px;
   padding: 8px;
@@ -58,7 +46,6 @@
   background-color: $gallery;
 
   &::placeholder {
-    position: relative;
     left: 50%;
     width: min-content;
     padding-left: 20px;

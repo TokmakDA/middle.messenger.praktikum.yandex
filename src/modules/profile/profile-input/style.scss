@@ -1,0 +1,38 @@
+@import './src/assets/styles/vars';
+
+.profile__input-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &:last-child .profile__label {
+    border-bottom: none;
+  }
+
+  .profile__label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 30px;
+    padding: 9px 0;
+    border-bottom: $border-steam;
+    font-size: 13px;
+    font-weight: $fw-medium;
+    color: $nero;
+
+    &:focus-within {
+      border-bottom: $border-blue;
+      .profile__input {
+        color: $nero;
+      }
+    }
+
+    .profile__input {
+      flex: 1;
+      text-align: end;
+      color: $light-gray;
+    }
+  }
+}
