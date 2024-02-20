@@ -1,19 +1,5 @@
 <section class="chat">
-  <div class="chat__header">
-   <div></div>
-   <div></div>
-  </div>
-  <div class="chat__correspondence">
-    <div class="sidebar__line"></div>
-    <ul class="chats__list">
-      {{#each chats}}
-        <li >
-            {{! Блок с карточкой чата }}
-            {{> chatCard}}
-          <div class="sidebar__line"></div>
-        </li>
-      {{/each}}
-    </ul>
-  </div>
-  <div class="chat__footer"></div>
+  {{> header}}
+  {{> chat}}
+  {{> footer}}
 </section>

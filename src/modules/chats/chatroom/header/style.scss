@@ -1,0 +1,64 @@
+@import './src/assets/styles/index.scss';
+
+.chat__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: $border-steam;
+}
+
+.chat__name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.chat__avatar-wrapper {
+  // переписать
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: $gallery;
+  aspect-ratio: 1;
+
+  &_is-online {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      right: 3px;
+      bottom: 3px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: $fruit-salad;
+      aspect-ratio: 1;
+    }
+  }
+}
+
+.chat__avatar {
+  width: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.chat__title {
+  font-weight: $fw-semi-bold;
+  font-size: $fs-text-m;
+  line-height: $lh-100;
+  text-align: center;
+}
+
+// .chat__menu {
+//   align-self: center;
+//   justify-self: flex-end;
+// }
+
+

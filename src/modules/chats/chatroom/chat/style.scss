@@ -1,0 +1,10 @@
+@import './src/assets/styles/index.scss';
+
+.chat__correspondence {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: end;
+  height: 100%;
+  // align-items: end;
+}

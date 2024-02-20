@@ -6,8 +6,8 @@
   display: flex;
   flex-direction: column;
   width: 310px;
-  height: 100%;
-  flex: 1;
+  height: 100vh;
+  // flex: 0 1 100%;
   border-right: $border-steam;
   background-color: $snow;
 }
@@ -85,6 +85,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex: 1;
 }
 
 .chats__list {

@@ -1,0 +1,17 @@
+@import './src/assets/styles/index.scss';
+
+.flags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 520px;
+  aspect-ratio: 1/1;
+
+  max-width: fit-content;
+  & svg {
+    max-height: 10px;
+    & path {
+      stroke: $light-gray;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import tpl from './tpl.hbs?raw';
 import './style.scss';
 import { getFormattedDate } from '../../../../utils/getFormattedDate';
 import { MY_LOGIN } from '../../../../temp/data';
+import checkmark from '../../../../components/checkmark';
 
 type TypeProps = {
   id: number;
@@ -24,6 +25,9 @@ type TypeProps = {
   };
   is_active?: boolean;
 };
+
+Handlebars.registerPartial('checkmark', checkmark);
+
 export default (props: TypeProps) => {
   const display_time = getFormattedDate(props.last_message.time);
   const is_my = props.last_message.user.login === MY_LOGIN;

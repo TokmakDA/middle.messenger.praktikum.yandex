@@ -1,7 +1,6 @@
 // @import '../../../../assets/styles/index.scss';
 @import './src/assets/styles/index.scss';
 
-
 .chat-card {
   display: flex;
   flex-direction: row;
@@ -48,7 +47,9 @@
   object-fit: cover;
   aspect-ratio: 1;
 }
+// .chat-card__initials{
 
+// }
 .chat-card__info-blok {
   display: flex;
   flex-direction: column;
@@ -84,18 +85,6 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
-}
-
-.chat-card__chek {
-  display: flex;
-  align-items: center;
-  max-width: fit-content;
-  max-height: 11px;
-  & svg {
-    & path {
-      stroke: $light-gray;
-    }
-  }
 }
 
 .chat-card__time {

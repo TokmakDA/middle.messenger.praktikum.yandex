@@ -7,7 +7,7 @@ import signin from './pages/signin';
 import signup from './pages/signup';
 import errors from './pages/errors';
 import profile from './pages/profile';
-import chats from './modules/chats/side-panel';
+import chats from './pages/chat';
 
 // Register helpers
 layouts.register(Handlebars);
