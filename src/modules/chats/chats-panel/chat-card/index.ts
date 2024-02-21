@@ -4,6 +4,7 @@ import './style.scss';
 import { getFormattedDate } from '../../../../utils/getFormattedDate';
 import { MY_LOGIN } from '../../../../temp/data';
 import checkmark from '../../../../components/checkmark';
+import avatarSVG from '../../../../assets/images/avatar.svg'
 
 type TypeProps = {
   id: number;
@@ -36,5 +37,6 @@ export default (props: TypeProps) => {
     ...props,
     display_time,
     is_my,
+    avatarSVG
   });
 };

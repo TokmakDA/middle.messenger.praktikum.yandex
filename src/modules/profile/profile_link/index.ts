@@ -3,6 +3,6 @@ import tpl from './tpl.hbs?raw';
 import './style.scss';
 
 export default (props: {}) => {
-  console.log(props);
+  // console.log(props);
   return Handlebars.compile(tpl)({...props});
 };

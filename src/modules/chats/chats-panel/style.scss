@@ -2,14 +2,14 @@
 @import './src/assets/styles/vars';
 
 .sidebar__header {
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
   align-items: end;
   gap: 10px;
   width: 100%;
   padding: 20px 10px 10px;
-  position: sticky;
-  top: 0;
 }
 
 .sidebar__link_profile {
@@ -71,8 +71,8 @@
 .chats {
   display: flex;
   flex-direction: column;
-  width: 100%;
   flex: 1;
+  width: 100%;
 }
 
 .chats__list {

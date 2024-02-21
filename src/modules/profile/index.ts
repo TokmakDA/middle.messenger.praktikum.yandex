@@ -6,6 +6,7 @@ import back from './back';
 import profileInput from './profile-input';
 import { PROFILE_INPUTS, PROFILE_LINKS } from '../../temp/data';
 import profileLink from './profile_link';
+import avatarSVG from '../../assets/images/avatar.svg';
 
 Handlebars.registerPartial('sidebar', sidebar);
 Handlebars.registerPartial('back', back);
@@ -17,5 +18,6 @@ export default (props: {}) => {
     ...props,
     inputs: PROFILE_INPUTS,
     links: PROFILE_LINKS,
+    avatarSVG,
   });
 };
