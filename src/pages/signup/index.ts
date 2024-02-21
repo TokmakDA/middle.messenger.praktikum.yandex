@@ -1,11 +1,8 @@
 import Handlebars from 'handlebars';
 import { InputProps } from '../../@types/types';
 import tpl from './tpl.hbs?raw';
-import './style.scss';
-import input from '../../components/input/index';
-import button from '../../components/button/index';
-import link from '../../components/link/index';
 import center from '../../layouts/center';
+import authorize from '../../modules/authorize';
 
 const inputsList: InputProps[] = [
   {
@@ -67,11 +64,16 @@ const inputsList: InputProps[] = [
   },
 ];
 
-Handlebars.registerPartial('input', input);
-Handlebars.registerPartial('button', button);
-Handlebars.registerPartial('link', link);
 Handlebars.registerPartial('center', center);
+Handlebars.registerPartial('authorize', authorize);
 
-export default ({ props = { inputsList } }) => {
+export default ({
+  props = {
+    inputsList,
+    button: { text: 'Зарегистрироваться ', type: 'submit' },
+    link: { text: 'Войти', url: '/signin' },
+    title: 'Зарегистрироваться',
+  },
+}) => {
   return Handlebars.compile(tpl)(props);
 };
