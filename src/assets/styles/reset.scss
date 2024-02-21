@@ -1,8 +1,9 @@
 /* Reset and base styles  */
+
 * {
-	padding: 0;
 	margin: 0;
 	border: none;
+	padding: 0;
 }
 
 *,
@@ -45,8 +46,8 @@ h4,
 h5,
 h6,
 p {
-	font-size: inherit;
 	font-weight: inherit;
+	font-size: inherit;
 }
 
 ul,
@@ -74,9 +75,9 @@ input,
 textarea,
 button,
 select {
+	color: inherit;
 	font-family: inherit;
 	font-size: inherit;
-	color: inherit;
 	background-color: transparent;
 }
 
@@ -88,8 +89,8 @@ button,
 input[type='submit'] {
 	display: inline-block;
 	box-shadow: none;
-	background-color: transparent;
 	background: none;
+	background-color: transparent;
 	cursor: pointer;
 }
 
@@ -101,8 +102,8 @@ button:active {
 }
 
 button::-moz-focus-inner {
-	padding: 0;
 	border: 0;
+	padding: 0;
 }
 
 label {

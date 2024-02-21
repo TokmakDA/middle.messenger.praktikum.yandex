@@ -30,13 +30,11 @@
 - Страница 404 (/404)
 - Страница 500 (/500)
 
-Связь с репозиторием:
+## Ссылки:
 
-- [messenger](https://github.com/TokmakDA/middle.messenger.praktikum.yandex)
-
-Figma:
-
-- [Макет](https://www.figma.com/file/c9YiqkWCMqjtdqIDItpCAG/messenger?type=design&node-id=0%3A1&mode=design&t=KKmiJiRISH8hpqlx-1)
+- [GitHub](https://github.com/TokmakDA/middle.messenger.praktikum.yandex)
+- [Figma Макет](https://www.figma.com/file/c9YiqkWCMqjtdqIDItpCAG/messenger?type=design&node-id=0%3A1&mode=design&t=KKmiJiRISH8hpqlx-1)
+- [Deploy Netlify](https://tokmak-da-messenger.netlify.app/)
 
 Автор:
 [Dmitry Tokmak](https://github.com/TokmakDA)
