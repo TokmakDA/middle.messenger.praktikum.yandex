@@ -15,18 +15,18 @@ layouts.register(Handlebars);
 // Добавим роуты
 const routes = {
   '/': `<h1>Home</h1>
-  <a href="/signin">signin</a>
-  <a href="/signup">signup</a>
-  <a href="/profile">profile</a>
-  <a href="/chats">chats</a>
-  <a href="/404">404</a>
-  <a href="/500">500</a>`,
-  '/signin': signin({}),
-  '/signup': signup({}),
-  '/profile': profile(),
-  '/chats': chats(),
-  '/404': errors({ title: '404', text: 'Не туда попали' }),
-  '/500': errors({ title: '500', text: 'Мы уже фиксим' }),
+  <a href="/signin/">signin</a>
+  <a href="/signup/">signup</a>
+  <a href="/profile/">profile</a>
+  <a href="/chats/">chats</a>
+  <a href="/404/">404</a>
+  <a href="/500/">500</a>`,
+  '/signin/': signin({}),
+  '/signup/': signup({}),
+  '/profile/': profile(),
+  '/chats/': chats(),
+  '/404/': errors({ title: '404', text: 'Не туда попали' }),
+  '/500/': errors({ title: '500', text: 'Мы уже фиксим' }),
 };
 
 // Рендерим компоненты

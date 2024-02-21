@@ -23,7 +23,7 @@ export default ({
   props = {
     inputsList,
     button: { text: 'Войти', type: 'submit' },
-    link: { text: 'Зарегистрироваться', url: '/signup' },
+    link: { text: 'Зарегистрироваться', url: '/signup/' },
     title: 'Войти',
   },
 }) => {

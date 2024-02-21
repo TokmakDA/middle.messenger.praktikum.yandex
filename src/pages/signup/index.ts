@@ -71,7 +71,7 @@ export default ({
   props = {
     inputsList,
     button: { text: 'Зарегистрироваться ', type: 'submit' },
-    link: { text: 'Войти', url: '/signin' },
+    link: { text: 'Войти', url: '/signin/' },
     title: 'Зарегистрироваться',
   },
 }) => {
