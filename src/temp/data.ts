@@ -141,5 +141,5 @@ export const PASS_INPUTS = [
 export const PROFILE_LINKS = [
   { text: 'Изменить данные', url: '/profile-edit', natural: true },
   { text: 'Изменить пароль', url: '/profile-pass', natural: true },
-  { text: 'Выйти', url: '/signin/', negative: true },
+  { text: 'Выйти', url: '/signin', negative: true },
 ];
