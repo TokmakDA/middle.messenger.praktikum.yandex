@@ -13,12 +13,19 @@
           </div>
           <h1 class="profile__title">Иван</h1>
         </div>
-        <form class="profile__info-block">
-          {{> profileInput}}
-          {{> profileInput}}
-          {{> profileInput}}
+        <form class="profile__form">
+          <fieldset disabled>
+            {{#each inputs}}
+              {{> profileInput}}
+            {{/each}}
+          </fieldset>
+          {{! тут будет кнопка}}
         </form>
-
+        <div >
+          {{#each links}}
+            {{> profileLink}}
+          {{/each}}
+        </div>
       </div>
     </section>
   {{/content}}

@@ -61,7 +61,7 @@ const inputsList: InputProps[] = [
   {
     type: 'password',
     name: 'rePassword',
-    label: 'Пароль (ещё раз)',
+    label: 'Повторите пароль',
     value: 'qazwsx',
     required: true,
   },

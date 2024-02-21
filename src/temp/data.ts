@@ -62,3 +62,84 @@ export const CHAT_LIST = [
     },
   },
 ];
+
+export const PROFILE_INPUTS = [
+  {
+    type: 'text',
+    name: 'login',
+    label: 'Логин',
+    value: 'ivanivanov',
+    error: null,
+    required: true,
+  },
+  {
+    type: 'text',
+    name: 'first_name',
+    label: 'Имя',
+    value: 'Иван',
+    error: null,
+    required: true,
+  },
+  {
+    type: 'text',
+    name: 'second_name',
+    label: 'Фамилия',
+    value: 'Иванов',
+    error: null,
+    required: true,
+  },
+  {
+    type: 'text',
+    name: 'display_name',
+    label: 'Имя в чате',
+    value: 'Иван Васильевич',
+    error: null,
+    required: true,
+  },
+  {
+    type: 'email',
+    name: 'email',
+    label: 'Почта',
+    value: 'email@yandex.ru',
+    error: null,
+    required: true,
+  },
+  {
+    type: 'phone',
+    name: 'phone',
+    label: 'Телефон',
+    value: '+7(912)345-67-89',
+    error: null,
+    required: true,
+  },
+];
+
+export const PASS_INPUTS = [
+  {
+    type: 'password',
+    name: 'oldPassword',
+    label: 'Старый пароль',
+    value: 'qazwsx',
+    required: true,
+  },
+  {
+    type: 'password',
+    name: 'newPassword',
+    label: 'Новый пароль',
+    value: 'qazwsx',
+    required: true,
+  },
+  {
+    type: 'password',
+    name: 'rePassword',
+    label: 'Повторите пароль',
+    value: 'qazwsx',
+    required: true,
+  },
+];
+
+export const PROFILE_LINKS = [
+  { text: 'Изменить данные', url: '/profile-edit', natural: true },
+  { text: 'Изменить пароль', url: '/profile-pass', natural: true },
+  { text: 'Выйти', url: '/signin', negative: true },
+];

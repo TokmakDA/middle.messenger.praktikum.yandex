@@ -14,7 +14,13 @@ layouts.register(Handlebars);
 
 // Добавим роуты
 const routes = {
-  '/': `<h1>Home</h1><p>Welcome home!</p>`,
+  '/': `<h1>Home</h1>
+  <a href="/signin">signin</a>
+  <a href="/signup">signup</a>
+  <a href="/profile">profile</a>
+  <a href="/chats">chats</a>
+  <a href="/404">404</a>
+  <a href="/500">500</a>`,
   '/signin': signin({}),
   '/signup': signup({}),
   '/profile': profile(),
