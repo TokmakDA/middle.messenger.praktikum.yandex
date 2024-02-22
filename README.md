@@ -39,4 +39,3 @@
 ## Автор:
 
 [Dmitry Tokmak](https://github.com/TokmakDA)
-

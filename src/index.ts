@@ -8,24 +8,17 @@ import signup from './pages/signup';
 import errors from './pages/errors';
 import profile from './pages/profile';
 import chats from './pages/chat';
+import home from './pages/home';
 
 // Register helpers
 layouts.register(Handlebars);
 
 // Добавим роуты
 const routes = {
-  '/': `<h1>Home</h1>
-  <nav>
-  <a href="/signin">signin</a>
-  <a href="/signup">signup</a>
-  <a href="/profile">profile</a>
-  <a href="/chats">chats</a>
-  <a href="/404">404</a>
-  <a href="/500">500</a>
-  </nav>`,
+  '/': home(),
   '/signin': signin({}),
   '/signup': signup({}),
-  '/profile': profile(),
+  '/profile': profile({}),
   '/chats': chats(),
   '/404': errors({ title: '404', text: 'Не туда попали' }),
   '/500': errors({ title: '500', text: 'Мы уже фиксим' }),
