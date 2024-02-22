@@ -6,6 +6,7 @@
 // Возвращаемое значение:
 // boolean: true, если ключ key является ключом объекта obj, иначе false.
 
-export function isObjKey(key: any, obj: {}): key is keyof {} {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isObjKey(key: any, obj: object): key is keyof object {
   return key in obj;
 }

@@ -5,8 +5,6 @@ import message from './message';
 
 Handlebars.registerPartial('message', message);
 
-export default (props: {}) => {
-  return Handlebars.compile(tpl)({
-    ...props,
-  });
+export default (props: object) => {
+  return Handlebars.compile(tpl)(props);
 };

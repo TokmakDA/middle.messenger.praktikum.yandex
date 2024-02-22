@@ -15,12 +15,14 @@ layouts.register(Handlebars);
 // Добавим роуты
 const routes = {
   '/': `<h1>Home</h1>
+  <nav>
   <a href="/signin">signin</a>
   <a href="/signup">signup</a>
   <a href="/profile">profile</a>
   <a href="/chats">chats</a>
   <a href="/404">404</a>
-  <a href="/500">500</a>`,
+  <a href="/500">500</a>
+  </nav>`,
   '/signin': signin({}),
   '/signup': signup({}),
   '/profile': profile(),
@@ -39,6 +41,7 @@ const render: (path: string) => void = (path) => {
       root.innerHTML = routes[path];
     }
   } else {
+    // eslint-disable-next-line no-console
     console.log(path, 'маршрут не найден');
   }
 };

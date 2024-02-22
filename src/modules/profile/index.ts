@@ -13,7 +13,7 @@ Handlebars.registerPartial('back', back);
 Handlebars.registerPartial('profileInput', profileInput);
 Handlebars.registerPartial('profileLink', profileLink);
 
-export default (props: {}) => {
+export default (props: object) => {
   return Handlebars.compile(tpl)({
     ...props,
     inputs: PROFILE_INPUTS,

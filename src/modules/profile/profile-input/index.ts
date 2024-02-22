@@ -4,6 +4,5 @@ import './style.scss';
 import { InputProps } from '../../../@types/types';
 
 export default (props: InputProps) => {
-  // console.log(props);
-  return Handlebars.compile(tpl)({...props});
+  return Handlebars.compile(tpl)(props);
 };
