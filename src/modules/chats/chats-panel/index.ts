@@ -3,7 +3,7 @@ import tpl from './tpl.hbs?raw';
 import './style.scss';
 import chatCard from './chat-card';
 import sidebar from '../../../layouts/sidebar';
-import arrowSVG from '../../../assets/images/arrow-right.svg'
+import arrowSVG from '../../../assets/images/arrow-right.svg';
 
 Handlebars.registerPartial('chatCard', chatCard);
 Handlebars.registerPartial('sidebar', sidebar);

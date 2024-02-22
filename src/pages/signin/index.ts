@@ -25,6 +25,7 @@ export default ({
     button: { text: 'Войти', type: 'submit' },
     link: { text: 'Зарегистрироваться', url: '/signup' },
     title: 'Войти',
+    formName: 'signin',
   },
 }) => {
   return Handlebars.compile(tpl)({ ...props });

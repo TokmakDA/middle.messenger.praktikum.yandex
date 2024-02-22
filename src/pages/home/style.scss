@@ -1,0 +1,19 @@
+@import './src/assets/styles/vars';
+@import './src/assets/styles/mixins';
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  &__title {
+    @include title($fs-title-m);
+  }
+  &__naw-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  &__link {
+    @include text($fs-text-m);
+  }
+}

@@ -9,6 +9,6 @@ Handlebars.registerPartial('header', header);
 Handlebars.registerPartial('chat', chat);
 Handlebars.registerPartial('footer', footer);
 
-export default (props: {}) => {
-  return Handlebars.compile(tpl)({ ...props });
+export default (props: object) => {
+  return Handlebars.compile(tpl)(props);
 };
