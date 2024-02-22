@@ -12,7 +12,10 @@ export const getFormattedDate: (time: string) => string = (time) => {
   const daysOfTheWeek = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
 
   // Форматируем дату
-  const formatDate: (time: Date, options: {}) => string = (time, options) => {
+  const formatDate: (time: Date, options: object) => string = (
+    time,
+    options,
+  ) => {
     return time.toLocaleDateString(`ru-RU`, options).replace(/\.|( г.)/gi, '');
   };
   // Форматируем Время

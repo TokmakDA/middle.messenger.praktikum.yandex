@@ -15,6 +15,7 @@ export default (props: {
   title: string;
   link: { text: string; url: string };
   button: { text: string; type: string };
+  formName: string;
 }) => {
   return Handlebars.compile(tpl)(props);
 };

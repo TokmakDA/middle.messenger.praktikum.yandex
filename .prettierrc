@@ -4,12 +4,10 @@
     {
       "files": "*.hbs",
       "options": {
-        "singleQuote": false
+        "singleQuote": false,
+        "endOfLine": "lf"
       }
     }
   ],
-  "plugins": [
-    "prettier-plugin-hbs",
-    "ember-template-lint-plugin-prettier"
-  ]
+  "plugins": ["prettier-plugin-hbs", "ember-template-lint-plugin-prettier"]
 }

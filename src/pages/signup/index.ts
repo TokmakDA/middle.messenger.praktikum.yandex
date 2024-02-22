@@ -73,6 +73,7 @@ export default ({
     button: { text: 'Зарегистрироваться ', type: 'submit' },
     link: { text: 'Войти', url: '/signin' },
     title: 'Зарегистрироваться',
+    formName: 'signup',
   },
 }) => {
   return Handlebars.compile(tpl)(props);
