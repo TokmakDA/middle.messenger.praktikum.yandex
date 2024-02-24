@@ -1,0 +1,17 @@
+<div class="profile__input-container">
+  <label class="profile__label">{{label}}
+    <input
+      type="{{type}}"
+      class="profile__input"
+      id="{{name}}"
+      placeholder="{{label}}"
+      value="{{value}}"
+      name="{{name}}"
+      required
+    />
+  </label>
+
+  {{#if error}}
+    <span class="profile__error">{{error}}</span>
+  {{/if}}
+</div>

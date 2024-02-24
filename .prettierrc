@@ -1,0 +1,13 @@
+{
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": "*.hbs",
+      "options": {
+        "singleQuote": false,
+        "endOfLine": "lf"
+      }
+    }
+  ],
+  "plugins": ["prettier-plugin-hbs", "ember-template-lint-plugin-prettier"]
+}

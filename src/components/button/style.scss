@@ -1,0 +1,25 @@
+@import './src/assets/styles/vars';
+
+.form__button {
+  width: 100%;
+  margin: 0;
+  border: none;
+  border-radius: 8px;
+  padding: 12.5px;
+  color: #fdfdfd;
+  font-weight: 500;
+  font-weight: $fw-medium;
+  font-size: 13px;
+  line-height: 13px;
+  text-align: center;
+  background-color: $royal-blue;
+
+  &:hover {
+    box-shadow: $shadow;
+    background-color: darken($royal-blue, 20);
+  }
+
+  &:disabled {
+    background-color: #b3b5b9;
+  }
+}

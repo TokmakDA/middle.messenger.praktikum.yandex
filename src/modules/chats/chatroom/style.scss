@@ -1,0 +1,32 @@
+@import './src/assets/styles/vars';
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 15px;
+  height: 100vh;
+  padding: 0 20px;
+}
+
+.chat__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: 100%;
+  max-height: 30px;
+  padding: 4px 10px;
+  &:hover svg {
+    & circle,
+    path {
+      fill: darken($light-gray, 10);
+    }
+    // & * {
+    //   fill: darken($light-gray, 10);
+    // }
+  }
+  // & svg {
+  //   align-self: center;
+  // }
+}

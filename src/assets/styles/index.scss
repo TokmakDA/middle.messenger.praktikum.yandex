@@ -1,0 +1,30 @@
+// Импорты сброса стилей
+@import 'reset.scss';
+// Импорты миксинов и функций
+@import '_vars.scss';
+@import '_mixins.scss';
+
+#app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  width: 100%;
+  min-height: 100vh;
+  // height: 100vh;
+  margin: 0 auto;
+  font-family: Inter, Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  word-break: break-word;
+  text-rendering: optimizeLegibility;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  // outline: dashed 0.1px lighten(DarkSeaGreen, 30);
+  box-sizing: border-box;
+}

@@ -1,0 +1,14 @@
+@import '_vars.scss';
+
+// Миксин для заголовков
+@mixin title($size) {
+  font-size: $size;
+  text-align: center;
+  font-weight: $fw-semi-bold;
+}
+
+// Миксин для текста
+@mixin text($size) {
+  font-size: $size;
+  font-weight: $fw-medium;
+}

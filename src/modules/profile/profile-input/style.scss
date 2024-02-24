@@ -1,0 +1,39 @@
+@import './src/assets/styles/vars';
+
+.profile__input-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &:last-child .profile__label {
+    border-bottom: none;
+  }
+
+  .profile__label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    border-bottom: $border-steam;
+    padding: 9px 0;
+    color: $nero;
+    font-weight: $fw-medium;
+    font-size: $fs-text-m;
+    line-height: $lh-100;
+
+    &:focus-within {
+      border-bottom: $border-blue;
+      .profile__input {
+        color: $nero;
+      }
+    }
+
+    .profile__input {
+      flex: 1;
+      color: $light-gray;
+      text-align: end;
+    }
+  }
+}
