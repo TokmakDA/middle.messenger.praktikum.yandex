@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars';
 import tpl from './tpl.hbs?raw';
 import './style.scss';
-import { getFormattedDate } from '../../../../utils/getFormattedDate';
+import getFormattedDate from '../../../../utils/getFormattedDate';
 import { MY_LOGIN } from '../../../../temp/data';
 import checkmark from '../../../../components/checkmark';
 import avatarSVG from '../../../../assets/images/avatar.svg';
@@ -30,13 +30,13 @@ type TypeProps = {
 Handlebars.registerPartial('checkmark', checkmark);
 
 export default (props: TypeProps) => {
-  const display_time = getFormattedDate(props.last_message.time);
-  const is_my = props.last_message.user.login === MY_LOGIN;
+  const displayTime = getFormattedDate(props.last_message.time);
+  const isMy = props.last_message.user.login === MY_LOGIN;
 
   return Handlebars.compile(tpl)({
     ...props,
-    display_time,
-    is_my,
+    displayTime,
+    isMy,
     avatarSVG,
   });
 };

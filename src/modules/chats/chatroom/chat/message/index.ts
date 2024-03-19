@@ -9,9 +9,8 @@ const text = `Привет! Смотри, тут всплыл интересны
 
 Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они так никогда и не попали. Всего их было произведено 25 штук, одну из них недавно продали на аукционе за 45000 евро.`;
 
-export default (props: object) => {
-  return Handlebars.compile(tpl)({
+export default (props: object) =>
+  Handlebars.compile(tpl)({
     ...props,
     text,
   });
-};

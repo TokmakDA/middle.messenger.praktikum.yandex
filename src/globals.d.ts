@@ -10,3 +10,4 @@ declare module '*.svg' {
 }
 
 declare module 'handlebars-layouts';
+declare module 'vite-plugin-sass';

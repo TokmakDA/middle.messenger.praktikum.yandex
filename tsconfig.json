@@ -26,5 +26,12 @@
       }
     ]
   },
-  "include": ["src", "src/globals.d.ts", "src/@types"]
+  "include": [
+    "src",
+    "src/globals.d.ts",
+    "src/@types",
+    ".eslintrc.cjs",
+    "vite.config.ts",
+    "vite-plugin-handlebars-precompile.ts"
+  ]
 }

@@ -2,15 +2,18 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    es2020: true,
+    es2023: true,
     node: true,
   },
   extends: [
     'airbnb-base',
     'airbnb-typescript/base',
+    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
     'plugin:prettier/recommended',
+    'eslint-config-prettier',
+    'pretter',
   ],
   overrides: [
     {
@@ -19,16 +22,16 @@ module.exports = {
       },
       files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
-        sourceType: 'module',
+        sourceType: 'script',
       },
     },
   ],
-  plugins: ['import', 'prettier'],
+  plugins: ['import', 'prettier', '@typescript-eslint'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 'latest',
     sourceType: 'module',
-    project: './tsconfig.json',
+    // project: './tsconfig.json',
   },
   settings: {
     'import/resolver': {
@@ -56,10 +59,10 @@ module.exports = {
     ],
     'import/extensions': [
       'error',
+      'ignorePackages',
       {
         js: 'never',
         ts: 'never',
-        ignorePackages: true,
       },
     ],
   },

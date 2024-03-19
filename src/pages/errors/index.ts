@@ -6,6 +6,4 @@ import center from '../../layouts/center';
 
 Handlebars.registerPartial('center', center);
 
-export default (props: ErrorsPageProps) => {
-  return Handlebars.compile(tpl)(props);
-};
+export default (props: ErrorsPageProps) => Handlebars.compile(tpl)(props);

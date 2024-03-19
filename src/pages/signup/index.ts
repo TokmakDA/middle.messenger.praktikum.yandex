@@ -75,6 +75,4 @@ export default ({
     title: 'Зарегистрироваться',
     formName: 'signup',
   },
-}) => {
-  return Handlebars.compile(tpl)(props);
-};
+}) => Handlebars.compile(tpl)(props);

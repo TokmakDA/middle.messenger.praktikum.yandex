@@ -13,7 +13,12 @@ const inputsList: InputProps[] = [
     error: 'некорректный логин',
     required: true,
   },
-  { type: 'password', name: 'password', label: 'Пароль', value: '' },
+  {
+    type: 'password',
+    name: 'password',
+    label: 'Пароль',
+    value: '',
+  },
 ];
 
 Handlebars.registerPartial('center', center);
@@ -27,6 +32,4 @@ export default ({
     title: 'Войти',
     formName: 'signin',
   },
-}) => {
-  return Handlebars.compile(tpl)({ ...props });
-};
+}) => Handlebars.compile(tpl)({ ...props });

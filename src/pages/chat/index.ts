@@ -10,6 +10,4 @@ Handlebars.registerPartial('rows', rows);
 Handlebars.registerPartial('sidePanel', sidePanel);
 Handlebars.registerPartial('chatroom', chatroom);
 
-export default (props = { chats: CHAT_LIST }) => {
-  return Handlebars.compile(tpl)(props);
-};
+export default (props = { chats: CHAT_LIST }) => Handlebars.compile(tpl)(props);

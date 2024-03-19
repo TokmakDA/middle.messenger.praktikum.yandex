@@ -22,19 +22,19 @@
       <div class="chat-card__report">
         {{! Блок с отчетом о получении }}
         {{! временная конструкция}}
-        {{#if is_my}}
+        {{#if isMy}}
           {{> checkmark}}
         {{/if}}
         {{! дата последнего сообщения }}
         <time
           class="chat-card__time"
           datetime="{{last_message.time}}"
-        >{{display_time}}</time>
+        >{{displayTime}}</time>
       </div>
     </div>
     <div class="chat-card__info_wrapper chat-card__info_wrapper_bottom">
       <p class="chat-card__message">
-        {{#if is_my}}
+        {{#if isMy}}
           <span>Вы: </span>
         {{/if}}
         {{last_message.content}}

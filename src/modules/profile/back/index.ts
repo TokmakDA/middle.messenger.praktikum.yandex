@@ -2,6 +2,4 @@ import Handlebars from 'handlebars';
 import tpl from './tpl.hbs?raw';
 import './style.scss';
 
-export default (props: object) => {
-  return Handlebars.compile(tpl)(props);
-};
+export default (props: object) => Handlebars.compile(tpl)(props);

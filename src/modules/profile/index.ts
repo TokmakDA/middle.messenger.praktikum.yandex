@@ -13,11 +13,10 @@ Handlebars.registerPartial('back', back);
 Handlebars.registerPartial('profileInput', profileInput);
 Handlebars.registerPartial('profileLink', profileLink);
 
-export default (props: object) => {
-  return Handlebars.compile(tpl)({
+export default (props: object) =>
+  Handlebars.compile(tpl)({
     ...props,
     inputs: PROFILE_INPUTS,
     links: PROFILE_LINKS,
     avatarSVG,
   });
-};

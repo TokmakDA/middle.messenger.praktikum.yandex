@@ -1,6 +1,6 @@
 import Handlebars from 'handlebars';
 import layouts from 'handlebars-layouts';
-import { isObjKey } from './utils/utils';
+import isObjKey from './utils/utils';
 import './assets/styles/index.scss';
 
 import signin from './pages/signin';

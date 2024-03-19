@@ -5,6 +5,4 @@ import profile from '../../modules/profile';
 
 Handlebars.registerPartial('profile', profile);
 
-export default (props: object) => {
-  return Handlebars.compile(tpl)(props);
-};
+export default (props: object) => Handlebars.compile(tpl)(props);
