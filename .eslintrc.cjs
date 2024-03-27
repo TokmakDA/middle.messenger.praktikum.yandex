@@ -62,5 +62,6 @@ module.exports = {
         ignorePackages: true,
       },
     ],
+    'no-underscore-dangle': ['error', { allowAfterThis: true }],
   },
 };
