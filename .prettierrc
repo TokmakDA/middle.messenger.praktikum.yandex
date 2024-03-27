@@ -1,12 +1,13 @@
 {
   "singleQuote": true,
   "semi": true,
+  "endOfLine": "lf",
   "overrides": [
     {
-      "files": "*.hbs",
+      "files": "**/*.{hbs}",
       "options": {
         "singleQuote": false,
-        "endOfLine": "lf"
+        "parser": "glimmer"
       }
     }
   ],

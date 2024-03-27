@@ -1,5 +1,4 @@
-// @import '../../assets/styles/index.scss';
-@import './src/assets/styles/vars';
+@use './src/assets/styles/vars' as *;
 
 .form__input-container {
   display: flex;

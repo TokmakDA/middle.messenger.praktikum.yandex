@@ -1,5 +1,5 @@
-// @import '../../assets/styles/vars';
-@import './src/assets/styles/vars';
+@use 'sass:color';
+@use './src/assets/styles/vars' as *;
 
 .form__link {
   width: 100%;
@@ -16,7 +16,7 @@
   cursor: pointer;
 
   &:hover {
-    color: darken($royal-blue, 15%);
+    color: color.adjust($royal-blue, $lightness: -15%);
     transition: all 0.2s;
   }
 

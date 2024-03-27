@@ -1,4 +1,5 @@
-@import './src/assets/styles/vars';
+@use 'sass:color';
+@use './src/assets/styles/vars' as *;
 
 .chat {
   display: flex;
@@ -20,7 +21,7 @@
   &:hover svg {
     & circle,
     path {
-      fill: darken($light-gray, 10);
+      fill: color.adjust($royal-blue, $lightness: -10%);
     }
     // & * {
     //   fill: darken($light-gray, 10);

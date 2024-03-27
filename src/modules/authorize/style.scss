@@ -1,5 +1,4 @@
-// @import '../../assets/styles/_vars.scss';
-@import './src/assets/styles/vars';
+@use './src/assets/styles/vars' as *;
 
 .modal {
   display: flex;

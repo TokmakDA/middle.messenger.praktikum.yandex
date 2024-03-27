@@ -1,4 +1,5 @@
-@import './src/assets/styles/vars';
+@use 'sass:color';
+@use './src/assets/styles/vars' as *;
 
 .form__button {
   width: 100%;
@@ -16,7 +17,7 @@
 
   &:hover {
     box-shadow: $shadow;
-    background-color: darken($royal-blue, 20);
+    background-color: color.adjust($royal-blue, $lightness: -20%);
   }
 
   &:disabled {

@@ -1,4 +1,5 @@
-@import './src/assets/styles/vars';
+@use 'sass:color';
+@use './src/assets/styles/vars' as *;
 
 .profile__link-container {
   display: flex;
@@ -22,14 +23,14 @@
     &_neutral {
       color: $royal_blue;
       &:hover {
-        color: darken($royal_blue, 20);
+        color: color.adjust($royal-blue, $lightness: -20%);
       }
     }
 
     &_negative {
       color: $vermilion;
       &:hover {
-        color: darken($vermilion, 20);
+        color: color.adjust($vermilion, $lightness: -20%);
       }
     }
 
