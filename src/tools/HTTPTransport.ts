@@ -28,6 +28,38 @@ export default class HTTPTransport {
     );
   }
 
+  post(url: string, options: TOptions) {
+    return this.request(
+      url,
+      { ...options, method: METHODS.POST },
+      options.timeout,
+    );
+  }
+
+  put(url: string, options: TOptions) {
+    return this.request(
+      url,
+      { ...options, method: METHODS.PUT },
+      options.timeout,
+    );
+  }
+
+  patch(url: string, options: TOptions) {
+    return this.request(
+      url,
+      { ...options, method: METHODS.PATCH },
+      options.timeout,
+    );
+  }
+
+  delete(url: string, options: TOptions) {
+    return this.request(
+      url,
+      { ...options, method: METHODS.DELETE },
+      options.timeout,
+    );
+  }
+
   // eslint-disable-next-line class-methods-use-this
   request = (
     url: string,

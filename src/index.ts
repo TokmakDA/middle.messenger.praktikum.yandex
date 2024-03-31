@@ -15,7 +15,7 @@ layouts.register(Handlebars);
 
 // Добавим роуты
 const routes = {
-  '/': home(),
+  '/': home,
   '/signin': signin({}),
   '/signup': signup({}),
   '/profile': profile({}),
@@ -26,12 +26,16 @@ const routes = {
 
 // Рендерим компоненты
 const render: (path: string) => void = (path) => {
-  const root = document.querySelector('#app');
+  const root = document.getElementById('app');
 
   // Провекра ключа в роутах
   if (isObjKey(path, routes)) {
     if (root) {
-      root.innerHTML = routes[path];
+      if (path === '/') {
+        root.append(routes[path]);
+      } else {
+        root.innerHTML = routes[path];
+      }
     }
   } else {
     // eslint-disable-next-line no-console

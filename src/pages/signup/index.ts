@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars';
 import { InputProps } from '../../@types/types';
 import tpl from './tpl.hbs?raw';
-import center from '../../layouts/center';
+// import center from '../../layouts/center';
 import authorize from '../../modules/authorize';
 
 const inputsList: InputProps[] = [
@@ -64,7 +64,7 @@ const inputsList: InputProps[] = [
   },
 ];
 
-Handlebars.registerPartial('center', center);
+// Handlebars.registerPartial('center', center);
 Handlebars.registerPartial('authorize', authorize);
 
 export default ({

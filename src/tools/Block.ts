@@ -1,4 +1,19 @@
-import EventBus from './EventBus';
+/* eslint-disable no-console */
+import Handlebars from 'handlebars'; // Импорт библиотеки Handlebars для работы с шаблонами
+import EventBus from './EventBus'; // Импорт класса EventBus для работы с событиями
+
+interface EventMap {
+  [key: string]: EventListenerOrEventListenerObject; // Интерфейс для определения структуры событий
+}
+
+interface Attributes {
+  [key: string]: string; // Интерфейс для определения атрибутов
+}
+
+interface Props {
+  events?: EventMap; // Интерфейс для определения свойств компонента
+  attr?: Attributes;
+}
 
 export default class Block {
   static EVENTS = {
@@ -8,29 +23,41 @@ export default class Block {
     FLOW_RENDER: 'flow:render',
   };
 
-  private _element: HTMLElement | null = null;
+  // Элемент, к которому привязан компонент
+  protected _element: HTMLElement | null = null;
 
-  private _meta: { tagName: string; props: object };
+  // Уникальный идентификатор компонента
+  protected _id: string = this._generateRandomId();
 
-  private props: object;
+  // Свойства компонента
+  protected props: Props = {};
 
-  private eventBus: () => EventBus;
+  // Дочерние компоненты
+  protected children: Record<string, Block> = {};
 
-  constructor(tagName: string = 'div', props: object = {}) {
-    const eventBus = new EventBus();
-    this._meta = {
-      tagName,
-      props,
-    };
+  // Экземпляр EventBus для работы с событиями
+  protected eventBus: () => EventBus;
 
-    this.props = this._makePropsProxy(props);
-
-    this.eventBus = () => eventBus;
-
-    this._registerEvents(eventBus);
-    eventBus.emit(Block.EVENTS.INIT);
+  constructor(propsWithChildren = {}) {
+    const eventBus = new EventBus(); // Создание нового экземпляра EventBus
+    const { props, children } =
+      this._extractPropsAndChildren(propsWithChildren); // Извлечение свойств и дочерних компонентов
+    this.props = this._makePropsProxy({ ...props }); // Проксирование свойств компонента
+    this.children = children; // Установка дочерних компонентов
+    this.eventBus = () => eventBus; // Установка экземпляра EventBus
+    this._registerEvents(eventBus); // Регистрация событий
+    eventBus.emit(Block.EVENTS.INIT); // Инициирование события INIT
   }
 
+  // Добавление обработчиков событий к элементу
+  _addEvents(): void {
+    const { events = {} } = this.props;
+    Object.keys(events).forEach((eventName) => {
+      this._element!.addEventListener(eventName, events[eventName]);
+    });
+  }
+
+  // Регистрация обработчиков событий
   private _registerEvents(eventBus: EventBus): void {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
@@ -38,27 +65,47 @@ export default class Block {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  private _createResources(): void {
-    const { tagName } = this._meta;
-    this._element = this._createDocumentElement(tagName);
-  }
-
+  // Инициализация компонента
   private init(): void {
-    this._createResources();
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
+  // Извлечение свойств и дочерних компонентов
+  // eslint-disable-next-line class-methods-use-this
+  private _extractPropsAndChildren(
+    propsAndChildren: { [s: string]: unknown } | ArrayLike<unknown>,
+  ) {
+    const children: { [key: string]: Block } = {};
+    const props: { [key: string]: unknown } = {};
+
+    Object.entries(propsAndChildren).forEach(([key, value]) => {
+      if (value instanceof Block) {
+        children[key] = value;
+      } else {
+        props[key] = value;
+      }
+    });
+
+    return { children, props };
+  }
+
+  // Обработчик события "componentDidMount"
   private _componentDidMount(): void {
     this.componentDidMount();
   }
 
+  // Обновление свойств компонента
   // eslint-disable-next-line class-methods-use-this
-  componentDidMount(oldProps?: object): void {}
+  componentDidMount(oldProps?: object): void {
+    console.log('componentDidUpdate => oldProps', oldProps);
+  }
 
+  // Инициирование события "FLOW_CDM"
   dispatchComponentDidMount(): void {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
+  // Обновление компонента при изменении свойств
   private _componentDidUpdate(oldProps: object, newProps: object): void {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
@@ -67,10 +114,14 @@ export default class Block {
     this._render();
   }
 
+  // Обработчик события "componentDidUpdate"
+  // eslint-disable-next-line class-methods-use-this
   componentDidUpdate(oldProps: object, newProps: object): boolean {
+    console.log('componentDidUpdate =>', oldProps, newProps);
     return true;
   }
 
+  // Установка новых свойств компонента
   setProps = (nextProps: object): void => {
     if (!nextProps) {
       return;
@@ -78,31 +129,60 @@ export default class Block {
     Object.assign(this.props, nextProps);
   };
 
-  get element(): HTMLElement | null {
-    return this._element;
+  // Получение элемента компонента
+  get element(): HTMLElement {
+    return this._element!;
   }
 
-  private _render(): void {
-    const block = this.render();
-    // Этот небезопасный метод для упрощения логики
-    // Используйте шаблонизатор из npm или напишите свой безопасный
-    // Нужно не в строку компилировать (или делать это правильно),
-    // либо сразу в DOM-элементы возвращать из compile DOM-ноду
+  // Рендеринг компонента
+  _render() {
+    const propsAndStubs: Record<string, unknown> = { ...this.props };
+
+    // Заменяем в шаблоне дочерние компоненты на заполнители
+    Object.entries(this.children).forEach(([key, child]) => {
+      // eslint-disable-next-line no-underscore-dangle
+      propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
+    });
+
+    // Компилируем шаблон, используя Handlebars и обновленные реквизиты
+    const compiledTemplate = Handlebars.compile(this.render())(propsAndStubs);
+    // Создаем фрагмент документа для работы с шаблоном
+    const fragment = this._createDocumentElement('template');
+    fragment.innerHTML = compiledTemplate;
+
+    // Заменяем фрагмент на реальные дочерние компоненты
+    Object.values(this.children).forEach((child) => {
+      const stub = fragment.content.querySelector(
+        // eslint-disable-next-line no-underscore-dangle
+        `[data-id="${child._id}"]`,
+      ) as HTMLElement;
+      stub.replaceWith(child.getContent()!);
+    });
+
+    // Заменяем текущий элемент на обновленный
+    const newElement = fragment.content.firstElementChild;
     if (this._element) {
-      this._element.innerHTML = block;
+      this._element.replaceWith(newElement!);
     }
+    this._element = newElement as HTMLElement;
+
+    // Добавляем слушателей событий в новый элемент
+    this._addEvents();
   }
 
+  // Генерация шаблона компонента
   // eslint-disable-next-line class-methods-use-this
   render(): string {
     return '';
   }
 
+  // Получение содержимого компонента
   getContent(): HTMLElement | null {
     return this.element;
   }
 
-  private _makePropsProxy(props: object): object {
+  // Проксирование свойств компонента
+  _makePropsProxy(props: object): object {
     const { eventBus } = this;
     return new Proxy(props, {
       get(target: { [key: string]: object }, prop: string) {
@@ -110,13 +190,8 @@ export default class Block {
         return typeof value === 'function' ? value.bind(target) : value;
       },
       set(target: { [key: string]: object }, prop: string, value: object) {
-        // eslint-disable-next-line no-console
-        console.log(target);
-
         const updateTarget = target;
         updateTarget[prop] = value;
-        // eslint-disable-next-line no-console
-        console.log(updateTarget);
 
         // Запускаем обновление компоненты
         eventBus().emit(
@@ -132,23 +207,15 @@ export default class Block {
     });
   }
 
+  // Создание элемента документа
   // eslint-disable-next-line class-methods-use-this
-  private _createDocumentElement(tagName: string): HTMLElement {
-    // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-    return document.createElement(tagName);
+  _createDocumentElement(tagName: string): HTMLTemplateElement {
+    return document.createElement(tagName) as HTMLTemplateElement;
   }
 
-  show(): void {
-    const content = this.getContent();
-    if (content) {
-      content.style.display = 'block';
-    }
-  }
-
-  hide(): void {
-    const content = this.getContent();
-    if (content) {
-      content.style.display = 'none';
-    }
+  // Генерация случайного идентификатора
+  // eslint-disable-next-line class-methods-use-this
+  _generateRandomId(): string {
+    return Math.random().toString(36).substr(2, 9);
   }
 }

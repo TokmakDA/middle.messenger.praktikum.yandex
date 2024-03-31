@@ -1,13 +1,25 @@
-import Handlebars from 'handlebars';
+// eslint-disable-next-line max-classes-per-file
 import tpl from './tpl.hbs?raw';
 import './style.scss';
-import center from '../../layouts/center';
+import { CenterBlock } from '../../layouts/center';
 import ROUTES from '../../data/constants';
+import Block from '../../tools/Block';
 
-Handlebars.registerPartial('center', center);
+class HomeBlock extends Block {
+  constructor({ ...props }) {
+    super({ ...props });
+  }
 
-export default (
-  props = {
+  // eslint-disable-next-line class-methods-use-this
+  render(): string {
+    return tpl;
+  }
+}
+
+const centerBlock = new CenterBlock({
+  content: new HomeBlock({
     links: ROUTES,
-  },
-) => Handlebars.compile(tpl)(props);
+  }),
+});
+
+export default centerBlock.getContent();
