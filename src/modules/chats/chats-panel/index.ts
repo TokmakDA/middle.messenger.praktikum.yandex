@@ -1,12 +1,14 @@
-import Handlebars from 'handlebars';
 import tpl from './tpl.hbs?raw';
 import './style.scss';
-import chatCard from './chat-card';
-import sidebar from '../../../layouts/sidebar';
-import arrowSVG from '../../../assets/images/arrow-right.svg';
+import Block from '../../../tools/Block';
 
-Handlebars.registerPartial('chatCard', chatCard);
-Handlebars.registerPartial('sidebar', sidebar);
+// Handlebars.registerPartial('chatCard', chatCard);
+// Handlebars.registerPartial('sidebar', sidebar);
 
-export default (props = { chats: [] }) =>
-  Handlebars.compile(tpl)({ ...props, arrowSVG });
+class ChatsPanelBlock extends Block {
+  constructor({ ...props }) {
+    super({ tpl, ...props });
+  }
+}
+
+export default ChatsPanelBlock;

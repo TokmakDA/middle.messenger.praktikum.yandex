@@ -1,18 +1,23 @@
 /* eslint-disable no-console */
-import Handlebars from 'handlebars'; // Импорт библиотеки Handlebars для работы с шаблонами
-import EventBus from './EventBus'; // Импорт класса EventBus для работы с событиями
+import Handlebars from 'handlebars';
+import EventBus from './EventBus';
 
 interface EventMap {
-  [key: string]: EventListenerOrEventListenerObject; // Интерфейс для определения структуры событий
+  [key: string]: EventListenerOrEventListenerObject;
 }
 
 interface Attributes {
-  [key: string]: string; // Интерфейс для определения атрибутов
+  [key: string]: string;
+}
+
+interface Children {
+  [key: string]: Block;
 }
 
 interface Props {
-  events?: EventMap; // Интерфейс для определения свойств компонента
+  events?: EventMap;
   attr?: Attributes;
+  tpl?: string;
 }
 
 export default class Block {
@@ -27,26 +32,47 @@ export default class Block {
   protected _element: HTMLElement | null = null;
 
   // Уникальный идентификатор компонента
-  protected _id: string = this._generateRandomId();
+  protected id: string = this._generateRandomId();
 
   // Свойства компонента
   protected props: Props = {};
 
   // Дочерние компоненты
-  protected children: Record<string, Block> = {};
+  protected children: Children = {};
 
   // Экземпляр EventBus для работы с событиями
   protected eventBus: () => EventBus;
 
-  constructor(propsWithChildren = {}) {
+  protected lists: { [key: string]: Children[] } = {};
+
+  protected tpl: string | undefined;
+
+  constructor({ ...propsWithChildren }) {
     const eventBus = new EventBus(); // Создание нового экземпляра EventBus
-    const { props, children } =
+    const { props, children, lists } =
       this._extractPropsAndChildren(propsWithChildren); // Извлечение свойств и дочерних компонентов
-    this.props = this._makePropsProxy({ ...props }); // Проксирование свойств компонента
+    this.props = this._makePropsProxy(props); // Проксирование свойств компонента
     this.children = children; // Установка дочерних компонентов
+    this.lists = lists; // Установка списка дочерних компонентов
+    this.tpl = this.props.tpl; // Установка шаблона
     this.eventBus = () => eventBus; // Установка экземпляра EventBus
     this._registerEvents(eventBus); // Регистрация событий
     eventBus.emit(Block.EVENTS.INIT); // Инициирование события INIT
+
+    // eslint-disable-next-line no-console
+    console.log(
+      this,
+      'this.id =>',
+      this.id,
+      'props => ',
+      props,
+      'children =>',
+      children,
+      'lists =>',
+      lists,
+      'this._element =>',
+      this._element,
+    );
   }
 
   // Добавление обработчиков событий к элементу
@@ -58,7 +84,7 @@ export default class Block {
   }
 
   // Регистрация обработчиков событий
-  private _registerEvents(eventBus: EventBus): void {
+  _registerEvents(eventBus: EventBus): void {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -66,37 +92,43 @@ export default class Block {
   }
 
   // Инициализация компонента
-  private init(): void {
+  init(): void {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
   // Извлечение свойств и дочерних компонентов
   // eslint-disable-next-line class-methods-use-this
-  private _extractPropsAndChildren(
-    propsAndChildren: { [s: string]: unknown } | ArrayLike<unknown>,
-  ) {
-    const children: { [key: string]: Block } = {};
+  _extractPropsAndChildren(propsAndChildren: { [s: string]: unknown }) {
+    const children: Children = {};
     const props: { [key: string]: unknown } = {};
+    const lists: { [key: string]: Children[] } = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
         children[key] = value;
+      } else if (
+        Array.isArray(value) &&
+        value.some((item) => Object.values(item)[0] instanceof Block)
+      ) {
+        lists[key] = value;
+        console.log(lists);
       } else {
         props[key] = value;
       }
     });
 
-    return { children, props };
+    return { children, props, lists };
   }
 
   // Обработчик события "componentDidMount"
-  private _componentDidMount(): void {
+  _componentDidMount(): void {
     this.componentDidMount();
   }
 
   // Обновление свойств компонента
   // eslint-disable-next-line class-methods-use-this
   componentDidMount(oldProps?: object): void {
+    // eslint-disable-next-line no-console
     console.log('componentDidUpdate => oldProps', oldProps);
   }
 
@@ -106,7 +138,7 @@ export default class Block {
   }
 
   // Обновление компонента при изменении свойств
-  private _componentDidUpdate(oldProps: object, newProps: object): void {
+  _componentDidUpdate(oldProps: object, newProps: object): void {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -117,6 +149,7 @@ export default class Block {
   // Обработчик события "componentDidUpdate"
   // eslint-disable-next-line class-methods-use-this
   componentDidUpdate(oldProps: object, newProps: object): boolean {
+    // eslint-disable-next-line no-console
     console.log('componentDidUpdate =>', oldProps, newProps);
     return true;
   }
@@ -136,12 +169,17 @@ export default class Block {
 
   // Рендеринг компонента
   _render() {
+    // console.log('_render', this);
     const propsAndStubs: Record<string, unknown> = { ...this.props };
-
+    const listID = this._generateRandomId();
     // Заменяем в шаблоне дочерние компоненты на заполнители
     Object.entries(this.children).forEach(([key, child]) => {
-      // eslint-disable-next-line no-underscore-dangle
-      propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
+      propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
+    });
+
+    // Заменяем в шаблоне дочерние компоненты на заполнители
+    Object.entries(this.lists).forEach(([key]) => {
+      propsAndStubs[key] = `<div data-id="${listID}"></div>`;
     });
 
     // Компилируем шаблон, используя Handlebars и обновленные реквизиты
@@ -150,13 +188,35 @@ export default class Block {
     const fragment = this._createDocumentElement('template');
     fragment.innerHTML = compiledTemplate;
 
+    // console.log(this, fragment, this.children);
+
     // Заменяем фрагмент на реальные дочерние компоненты
     Object.values(this.children).forEach((child) => {
       const stub = fragment.content.querySelector(
         // eslint-disable-next-line no-underscore-dangle
-        `[data-id="${child._id}"]`,
+        `[data-id="${child.id}"]`,
       ) as HTMLElement;
-      stub.replaceWith(child.getContent()!);
+
+      if (stub) {
+        stub.replaceWith(child.getContent()!);
+      }
+    });
+
+    // Заменяем фрагмент на реальные  на реальные дочерние компоненты из массива
+    Object.values(this.lists).forEach((child) => {
+      const stub = fragment.content.querySelector(
+        `[data-id="${listID}"]`,
+      ) as HTMLElement;
+      const listCont = this._createDocumentElement('template');
+      child.forEach((item) => {
+        listCont.content.append(
+          Object.values(item)[0].getContent() as HTMLElement,
+        );
+      });
+
+      if (stub) {
+        stub.replaceWith(listCont.content);
+      }
     });
 
     // Заменяем текущий элемент на обновленный
@@ -171,9 +231,11 @@ export default class Block {
   }
 
   // Генерация шаблона компонента
-  // eslint-disable-next-line class-methods-use-this
   render(): string {
-    return '';
+    if (this.tpl) {
+      return this.tpl;
+    }
+    return '<div></div>';
   }
 
   // Получение содержимого компонента
@@ -182,8 +244,9 @@ export default class Block {
   }
 
   // Проксирование свойств компонента
-  _makePropsProxy(props: object): object {
-    const { eventBus } = this;
+  _makePropsProxy(props: object): Props {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this;
     return new Proxy(props, {
       get(target: { [key: string]: object }, prop: string) {
         const value = target[prop];
@@ -194,11 +257,9 @@ export default class Block {
         updateTarget[prop] = value;
 
         // Запускаем обновление компоненты
-        eventBus().emit(
-          Block.EVENTS.FLOW_CDU,
-          { ...updateTarget },
-          updateTarget,
-        );
+        self
+          .eventBus()
+          .emit(Block.EVENTS.FLOW_CDU, { ...updateTarget }, updateTarget);
         return true;
       },
       deleteProperty() {

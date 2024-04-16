@@ -1,9 +1,16 @@
-import Handlebars from 'handlebars';
+import Block from '../../tools/Block';
 import tpl from './tpl.hbs?raw';
 import './style.scss';
-import { ErrorsPageProps } from '../../@types/types';
-import { center } from '../../layouts/center';
+import LinkBlock from '../../components/link';
 
-Handlebars.registerPartial('center', center);
+class ErrorBlock extends Block {
+  constructor({ ...props }) {
+    super({
+      tpl,
+      link: new LinkBlock({ text: 'Назад к чатам', url: '/chats' }),
+      ...props,
+    });
+  }
+}
 
-export default (props: ErrorsPageProps) => Handlebars.compile(tpl)(props);
+export default ErrorBlock;

@@ -1,5 +1,16 @@
 @use './src/assets/styles/vars' as *;
 
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  max-width: 310px;
+  height: 100vh;
+  border-right: $border-steam;
+  background-color: $snow;
+}
+
 .sidebar__header {
   position: sticky;
   top: 0;

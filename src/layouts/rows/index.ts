@@ -1,5 +1,11 @@
-import Handlebars from 'handlebars';
+import Block from '../../tools/Block';
 import tpl from './tpl.hbs?raw';
 import './style.scss';
 
-export default (props = {}) => Handlebars.compile(tpl)(props);
+class LoyautRowsBlock extends Block {
+  constructor({ ...props }) {
+    super({ tpl, ...props });
+  }
+}
+
+export default LoyautRowsBlock;

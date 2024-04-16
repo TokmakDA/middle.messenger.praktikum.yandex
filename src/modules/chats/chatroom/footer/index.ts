@@ -1,5 +1,28 @@
-import Handlebars from 'handlebars';
+import Block from '../../../../tools/Block';
 import tpl from './tpl.hbs?raw';
 import './style.scss';
 
-export default (props: object) => Handlebars.compile(tpl)(props);
+class FooterChatsBlock extends Block {
+  constructor({ ...props }) {
+    super({
+      tpl,
+      ...props,
+      events: {
+        // change: (e: { target: { value: any } }) =>
+        //   props.onChange(e.target.value),
+        // blur: (e: any) => {
+        //   props.onBlur(e.target.value);
+        // },
+        // submit: (value) => props.onSubmit(value),
+      },
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  validate(e: any) {
+    // eslint-disable-next-line no-console
+    console.log('blur', e);
+  }
+}
+
+export default FooterChatsBlock;

@@ -1,18 +1,14 @@
-import Handlebars from 'handlebars';
 import Block from '../../tools/Block';
-import './style.scss';
 import tpl from './tpl.hbs?raw';
+import './style.scss';
 
-const center = (props = {}) => Handlebars.compile(tpl)(props);
-class CenterBlock extends Block {
+class LoyautCenterBlock extends Block {
   constructor({ ...props }) {
-    super({ ...props });
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  render(): string {
-    return tpl;
+    super({ tpl, ...props });
+    // setTimeout(() => {
+    //   this.children.content.setProps({ title: 'Проход' });
+    // }, 2000);
   }
 }
 
-export { CenterBlock, center };
+export default LoyautCenterBlock;

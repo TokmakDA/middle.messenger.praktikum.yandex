@@ -63,5 +63,10 @@ module.exports = {
       },
     ],
     'no-underscore-dangle': ['error', { allowAfterThis: true }],
+    'class-methods-use-this': 'off',
+    'import/prefer-default-export': [
+      'off' | 'warn' | 'error',
+      { target: 'any' },
+    ],
   },
 };

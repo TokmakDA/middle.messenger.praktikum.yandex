@@ -1,8 +1,10 @@
-import Handlebars from 'handlebars';
+/* eslint-disable no-console */
 import { InputProps } from '../../@types/types';
-import tpl from './tpl.hbs?raw';
-import authorize from '../../modules/authorize';
-// import center from '../../layouts/center';
+import AuthorizeBlock from '../../modules/authorize';
+import { InputBlock } from '../../components/input';
+import ButtonBlock from '../../components/button';
+import LinkBlock from '../../components/link';
+import LoyautCenterBlock from '../../layouts/center';
 
 const inputsList: InputProps[] = [
   {
@@ -18,18 +20,28 @@ const inputsList: InputProps[] = [
     name: 'password',
     label: 'Пароль',
     value: '',
+    required: true,
   },
 ];
 
-// Handlebars.registerPartial('center', center);
-Handlebars.registerPartial('authorize', authorize);
-
-export default ({
-  props = {
-    inputsList,
-    button: { text: 'Войти', type: 'submit' },
-    link: { text: 'Зарегистрироваться', url: '/signup' },
+const signInPage = new LoyautCenterBlock({
+  content: new AuthorizeBlock({
+    inputsList: inputsList.map((item) => ({
+      input: new InputBlock({
+        ...item,
+        onBlur: (e) => {
+          console.log(e.target);
+        },
+        onClick: (e: any) => {
+          console.log('onClick', e.target.value, e.target.name);
+        },
+      }),
+    })),
     title: 'Войти',
     formName: 'signin',
-  },
-}) => Handlebars.compile(tpl)({ ...props });
+    button: new ButtonBlock({ text: 'Войти', type: 'submit' }),
+    link: new LinkBlock({ text: 'Зарегистрироваться', url: '/signup' }),
+  }),
+});
+
+export default signInPage;

@@ -1,28 +1,31 @@
-import Handlebars from 'handlebars';
-import layouts from 'handlebars-layouts';
 import isObjKey from './utils/utils';
 import './assets/styles/index.scss';
 
-import signin from './pages/signin';
-import signup from './pages/signup';
-import errors from './pages/errors';
-import profile from './pages/profile';
-import chats from './pages/chat';
-import home from './pages/home';
-
-// Register helpers
-layouts.register(Handlebars);
+import signInPage from './pages/signin';
+import signUpPage from './pages/signup';
+// import profile from './pages/profile';
+import homePage from './pages/home';
+import ErrorBlock from './pages/errors';
+import LoyautCenterBlock from './layouts/center';
+import chatPage from './pages/chat';
 
 // Добавим роуты
 const routes = {
-  '/': home,
-  '/signin': signin({}),
-  '/signup': signup({}),
-  '/profile': profile({}),
-  '/chats': chats(),
-  '/404': errors({ title: '404', text: 'Не туда попали' }),
-  '/500': errors({ title: '500', text: 'Мы уже фиксим' }),
+  '/': homePage.getContent(),
+  '/signin': signInPage.getContent(),
+  '/signup': signUpPage.getContent(),
+  // '/profile': profile({}),
+  '/chats': chatPage.getContent(),
+  '/404': new LoyautCenterBlock({
+    content: new ErrorBlock({ title: '404', text: 'Не туда попали' }),
+  }).getContent(),
+  '/500': new LoyautCenterBlock({
+    content: new ErrorBlock({ title: '500', text: 'Мы уже фиксим' }),
+  }).getContent(),
 };
+
+// .setProps({ title: '404', text: 'Не туда попали' })
+// .setProps({ title: '500', text: 'Мы уже фиксим' })
 
 // Рендерим компоненты
 const render: (path: string) => void = (path) => {
@@ -31,11 +34,7 @@ const render: (path: string) => void = (path) => {
   // Провекра ключа в роутах
   if (isObjKey(path, routes)) {
     if (root) {
-      if (path === '/') {
-        root.append(routes[path]);
-      } else {
-        root.innerHTML = routes[path];
-      }
+      root.append(routes[path]);
     }
   } else {
     // eslint-disable-next-line no-console

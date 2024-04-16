@@ -1,8 +1,9 @@
-import Handlebars from 'handlebars';
 import { InputProps } from '../../@types/types';
-import tpl from './tpl.hbs?raw';
-// import center from '../../layouts/center';
-import authorize from '../../modules/authorize';
+import AuthorizeBlock from '../../modules/authorize';
+import { InputBlock } from '../../components/input';
+import ButtonBlock from '../../components/button';
+import LinkBlock from '../../components/link';
+import LoyautCenterBlock from '../../layouts/center';
 
 const inputsList: InputProps[] = [
   {
@@ -18,13 +19,6 @@ const inputsList: InputProps[] = [
     name: 'first_name',
     label: 'Имя',
     value: 'Иван',
-    required: true,
-  },
-  {
-    type: 'text',
-    name: 'second_name',
-    label: 'Фамилия',
-    value: 'Иванов',
     required: true,
   },
   {
@@ -64,15 +58,16 @@ const inputsList: InputProps[] = [
   },
 ];
 
-// Handlebars.registerPartial('center', center);
-Handlebars.registerPartial('authorize', authorize);
-
-export default ({
-  props = {
-    inputsList,
-    button: { text: 'Зарегистрироваться ', type: 'submit' },
-    link: { text: 'Войти', url: '/signin' },
+const signUpPage = new LoyautCenterBlock({
+  content: new AuthorizeBlock({
+    inputsList: inputsList.map(item => ({
+      input: new InputBlock({ ...item }),
+    })),
     title: 'Зарегистрироваться',
     formName: 'signup',
-  },
-}) => Handlebars.compile(tpl)(props);
+    button: new ButtonBlock({ text: 'Войти', url: '/signin' }),
+    link: new LinkBlock({ text: 'Зарегистрироваться ', type: 'submit' }),
+  }),
+});
+
+export default signUpPage;

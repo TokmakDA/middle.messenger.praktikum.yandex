@@ -4,12 +4,36 @@
   "endOfLine": "lf",
   "overrides": [
     {
-      "files": "**/*.{hbs}",
+      "files": "*.hbs",
       "options": {
+        "printWidth": 80,
+        "tabWidth": 2,
+        "useTabs": false,
+        "semi": true,
         "singleQuote": false,
-        "parser": "glimmer"
+        "trailingComma": "all",
+        "bracketSpacing": true,
+        "jsxBracketSameLine": false,
+        "arrowParens": "avoid",
+        "endOfLine": "lf",
+        "parser": "html"
+      }
+    },
+    {
+      "files": "*.svg",
+      "options": {
+        "parser": "html",
+        "printWidth": 80,
+        "tabWidth": 2,
+        "useTabs": false,
+        "semi": false,
+        "singleQuote": true,
+        "trailingComma": "all",
+        "bracketSpacing": true,
+        "jsxBracketSameLine": false,
+        "arrowParens": "avoid",
+        "endOfLine": "lf"
       }
     }
-  ],
-  "plugins": ["prettier-plugin-hbs", "ember-template-lint-plugin-prettier"]
+  ]
 }

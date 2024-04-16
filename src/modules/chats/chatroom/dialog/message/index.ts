@@ -1,16 +1,21 @@
-import Handlebars from 'handlebars';
+import Block from '../../../../../tools/Block';
+import CheckmarkBlock from '../../../../../components/checkmark';
 import tpl from './tpl.hbs?raw';
 import './style.scss';
-import checkmark from '../../../../../components/checkmark';
-
-Handlebars.registerPartial('checkmark', checkmark);
 
 const text = `Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер все еще находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с пленкой.
 
 Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они так никогда и не попали. Всего их было произведено 25 штук, одну из них недавно продали на аукционе за 45000 евро.`;
 
-export default (props: object) =>
-  Handlebars.compile(tpl)({
-    ...props,
-    text,
-  });
+class MessageBlock extends Block {
+  constructor({ ...props }) {
+    super({
+      tpl,
+      text,
+      checkmark: new CheckmarkBlock({ is_read: true }),
+      ...props,
+    });
+  }
+}
+
+export default MessageBlock;

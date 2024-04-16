@@ -1,16 +1,16 @@
 import Block from '../../../../tools/Block';
 import tpl from './tpl.hbs?raw';
 import './style.scss';
-import avatarSVG from '../../../../assets/images/avatar.svg';
+import MessageBlock from './message';
 
-class HeaderChatsBlock extends Block {
+class DialogBlock extends Block {
   constructor({ ...props }) {
     super({
       tpl,
-      avatarSVG,
+      message: new MessageBlock({}),
       ...props,
     });
   }
 }
 
-export default HeaderChatsBlock;
+export default DialogBlock;

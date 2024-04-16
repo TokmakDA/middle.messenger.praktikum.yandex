@@ -1,20 +1,15 @@
-<div class='form__input-container'>
-  <label class='form__input-label' for='{{name}}'>
-    {{#if value}}
-      {{label}}
-    {{else}}
-    {{/if}}
+<div class="input">
+  <label class="input__container" for="{{name}}">
+    <input
+      type="{{type}}"
+      class="input__element"
+      id="{{name}}"
+      placeholder="{{label}}"
+      value="{{value}}"
+      name="{{name}}"
+      required="{{required}}"
+    />
+    <div class="input__label">{{label}}</div>
   </label>
-  <input
-    type='{{type}}'
-    class='form__input'
-    id='{{name}}'
-    placeholder='{{label}}'
-    value='{{value}}'
-    name='{{name}}'
-    required='{{required}}'
-  />
-  {{#if error}}
-    <span class='form__input-error'>{{error}}</span>
-  {{/if}}
+  <span class="input__error">{{error}}</span>
 </div>
