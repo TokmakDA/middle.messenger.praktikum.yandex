@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { InputProps } from '../../@types/types';
 import AuthorizeBlock from '../../modules/authorize';
-import { InputBlock } from '../../components/input';
-import ButtonBlock from '../../components/button';
+import { Input } from '../../components/input';
+import { Button } from '../../components/button';
 import LinkBlock from '../../components/link';
 import LoyautCenterBlock from '../../layouts/center';
 
@@ -27,7 +27,7 @@ const inputsList: InputProps[] = [
 const signInPage = new LoyautCenterBlock({
   content: new AuthorizeBlock({
     inputsList: inputsList.map((item) => ({
-      input: new InputBlock({
+      input: new Input({
         ...item,
         onBlur: (e) => {
           console.log(e.target);
@@ -39,7 +39,7 @@ const signInPage = new LoyautCenterBlock({
     })),
     title: 'Войти',
     formName: 'signin',
-    button: new ButtonBlock({ text: 'Войти', type: 'submit' }),
+    button: new Button({ text: 'Войти', type: 'submit' }),
     link: new LinkBlock({ text: 'Зарегистрироваться', url: '/signup' }),
   }),
 });

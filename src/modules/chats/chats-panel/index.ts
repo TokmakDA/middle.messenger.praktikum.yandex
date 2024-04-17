@@ -1,4 +1,4 @@
-import tpl from './tpl.hbs?raw';
+import template from './tpl.hbs?raw';
 import './style.scss';
 import Block from '../../../tools/Block';
 
@@ -7,7 +7,7 @@ import Block from '../../../tools/Block';
 
 class ChatsPanelBlock extends Block {
   constructor({ ...props }) {
-    super({ tpl, ...props });
+    super({ template, ...props });
   }
 }
 

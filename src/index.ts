@@ -1,4 +1,4 @@
-import isObjKey from './utils/utils';
+import isObjKey from './tools/utils';
 import './assets/styles/index.scss';
 
 import signInPage from './pages/signin';

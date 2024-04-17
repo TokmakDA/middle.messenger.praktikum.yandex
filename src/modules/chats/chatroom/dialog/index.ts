@@ -1,12 +1,12 @@
 import Block from '../../../../tools/Block';
-import tpl from './tpl.hbs?raw';
+import template from './tpl.hbs?raw';
 import './style.scss';
 import MessageBlock from './message';
 
 class DialogBlock extends Block {
   constructor({ ...props }) {
     super({
-      tpl,
+      template,
       message: new MessageBlock({}),
       ...props,
     });

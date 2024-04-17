@@ -1,4 +1,4 @@
-import tpl from './tpl.hbs?raw';
+import template from './tpl.hbs?raw';
 import './style.scss';
 import Block from '../../../tools/Block';
 import HeaderChatsBlock from './header';
@@ -8,7 +8,7 @@ import DialogBlock from './dialog';
 class ChatroomBlock extends Block {
   constructor({ ...props }) {
     super({
-      tpl,
+      template,
       header: new HeaderChatsBlock({}),
       footer: new FooterChatsBlock({
         // onChange: (value) => {

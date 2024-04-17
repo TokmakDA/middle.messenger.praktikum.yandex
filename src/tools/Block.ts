@@ -17,7 +17,7 @@ interface Children {
 interface Props {
   events?: EventMap;
   attr?: Attributes;
-  tpl?: string;
+  template?: string;
 }
 
 export default class Block {
@@ -43,9 +43,11 @@ export default class Block {
   // Экземпляр EventBus для работы с событиями
   protected eventBus: () => EventBus;
 
+  // Список дочерних компонентов
   protected lists: { [key: string]: Children[] } = {};
 
-  protected tpl: string | undefined;
+  // Шаблон
+  protected template: string | undefined;
 
   constructor({ ...propsWithChildren }) {
     const eventBus = new EventBus(); // Создание нового экземпляра EventBus
@@ -54,25 +56,25 @@ export default class Block {
     this.props = this._makePropsProxy(props); // Проксирование свойств компонента
     this.children = children; // Установка дочерних компонентов
     this.lists = lists; // Установка списка дочерних компонентов
-    this.tpl = this.props.tpl; // Установка шаблона
+    this.template = this.props.template; // Установка шаблона
     this.eventBus = () => eventBus; // Установка экземпляра EventBus
     this._registerEvents(eventBus); // Регистрация событий
     eventBus.emit(Block.EVENTS.INIT); // Инициирование события INIT
 
-    // eslint-disable-next-line no-console
-    console.log(
-      this,
-      'this.id =>',
-      this.id,
-      'props => ',
-      props,
-      'children =>',
-      children,
-      'lists =>',
-      lists,
-      'this._element =>',
-      this._element,
-    );
+    // // eslint-disable-next-line no-console
+    // console.log(
+    //   this,
+    //   'this.id =>',
+    //   this.id,
+    //   'props => ',
+    //   props,
+    //   'children =>',
+    //   children,
+    //   'lists =>',
+    //   lists,
+    //   'this._element =>',
+    //   this._element,
+    // );
   }
 
   // Добавление обработчиков событий к элементу
@@ -232,10 +234,10 @@ export default class Block {
 
   // Генерация шаблона компонента
   render(): string {
-    if (this.tpl) {
-      return this.tpl;
+    if (this.template) {
+      return this.template;
     }
-    return '<div></div>';
+    return '<div>Нет шаблона</div>';
   }
 
   // Получение содержимого компонента

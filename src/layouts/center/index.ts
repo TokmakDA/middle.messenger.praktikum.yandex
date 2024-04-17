@@ -1,10 +1,10 @@
 import Block from '../../tools/Block';
-import tpl from './tpl.hbs?raw';
+import template from './tpl.hbs?raw';
 import './style.scss';
 
 class LoyautCenterBlock extends Block {
   constructor({ ...props }) {
-    super({ tpl, ...props });
+    super({ template, ...props });
     // setTimeout(() => {
     //   this.children.content.setProps({ title: 'Проход' });
     // }, 2000);

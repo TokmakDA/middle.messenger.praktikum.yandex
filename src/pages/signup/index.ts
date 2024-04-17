@@ -1,7 +1,7 @@
 import { InputProps } from '../../@types/types';
 import AuthorizeBlock from '../../modules/authorize';
-import { InputBlock } from '../../components/input';
-import ButtonBlock from '../../components/button';
+import { Input } from '../../components/input';
+import { Button } from '../../components/button';
 import LinkBlock from '../../components/link';
 import LoyautCenterBlock from '../../layouts/center';
 
@@ -60,12 +60,12 @@ const inputsList: InputProps[] = [
 
 const signUpPage = new LoyautCenterBlock({
   content: new AuthorizeBlock({
-    inputsList: inputsList.map(item => ({
-      input: new InputBlock({ ...item }),
+    inputsList: inputsList.map((item) => ({
+      input: new Input({ ...item }),
     })),
     title: 'Зарегистрироваться',
     formName: 'signup',
-    button: new ButtonBlock({ text: 'Войти', url: '/signin' }),
+    button: new Button({ text: 'Войти', url: '/signin' }),
     link: new LinkBlock({ text: 'Зарегистрироваться ', type: 'submit' }),
   }),
 });

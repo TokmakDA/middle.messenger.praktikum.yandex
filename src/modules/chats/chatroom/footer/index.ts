@@ -1,11 +1,11 @@
 import Block from '../../../../tools/Block';
-import tpl from './tpl.hbs?raw';
+import template from './tpl.hbs?raw';
 import './style.scss';
 
 class FooterChatsBlock extends Block {
   constructor({ ...props }) {
     super({
-      tpl,
+      template,
       ...props,
       events: {
         // change: (e: { target: { value: any } }) =>

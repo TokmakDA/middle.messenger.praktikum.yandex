@@ -1,23 +1,23 @@
-import tpl from './tpl.hbs?raw';
+import template from './tpl.hbs?raw';
 import './style.scss';
 import ChatsPanelBlock from '../../modules/chats/chats-panel';
 import { CHAT_LIST, MY_LOGIN } from '../../temp/data';
 import Block from '../../tools/Block';
 import ChatRoomBlock from '../../modules/chats/chatroom';
 import ChatCardBlock from '../../modules/chats/chats-panel/chat-card';
-import getFormattedDate from '../../utils/getFormattedDate';
+import getFormattedDate from '../../tools/getFormattedDate';
 import CheckmarkBlock from '../../components/checkmark';
 import avatarSVG from '../../assets/images/avatar.svg';
 import arrowSVG from '../../assets/images/arrow-right.svg';
 
 // class ChatPageBlock extends Block {
 //   constructor({ ...props }) {
-//     super({ tpl, ...props });
+//     super({ template, ...props });
 //   }
 // }
 
 const chatPage = new Block({
-  tpl,
+  template,
   chatRoom: new ChatRoomBlock({}),
   sidePanel: new ChatsPanelBlock({
     arrowSVG,

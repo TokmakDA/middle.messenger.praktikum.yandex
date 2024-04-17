@@ -25,7 +25,7 @@
     transition:
       font-size 0.5s,
       transform 0.5s;
-    transform: translateY(22px);
+    transform: translateY(20px);
   }
 
   &__element {
@@ -54,6 +54,7 @@
     font-weight: $fw-regular;
     font-size: 8px;
     line-height: $lh-100;
+    display: none;
   }
 
   &__element:not(:placeholder-shown) + &__label,
@@ -67,5 +68,9 @@
 
   &[data-error]:not([data-error='']) &__element {
     color: $vermilion;
+  }
+
+  &[data-error]:not([data-error='']) &__error {
+    display: block;
   }
 }

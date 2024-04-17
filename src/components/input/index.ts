@@ -1,3 +1,3 @@
 import './style.scss';
 
-export { default as InputBlock } from './input';
+export { default as Input } from './input';
