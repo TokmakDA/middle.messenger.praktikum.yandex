@@ -1,9 +1,16 @@
-import './style.scss';
-import Block from '../../tools/Block';
-import { LoyautCenter } from '../../layouts';
+import { LoyautRows, LoyautSidebar } from '../../layouts';
+import { BackBlock } from '../../modules/profile/back';
+import { ProfileBlock } from '../../modules/profile';
 
-const profilePage = new LoyautCenter({
-  content: new Block({}),
+const profilePage = new LoyautRows({
+  rows: [
+    {
+      row: new LoyautSidebar({
+        content: new BackBlock({}),
+      }),
+    },
+    { row: new ProfileBlock({}) },
+  ],
 });
 
 export default profilePage;

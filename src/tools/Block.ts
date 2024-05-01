@@ -98,7 +98,6 @@ export default class Block {
         value.some((item) => Object.values(item)[0] instanceof Block)
       ) {
         lists[key] = value;
-        console.log(lists);
       } else {
         props[key] = value;
       }
