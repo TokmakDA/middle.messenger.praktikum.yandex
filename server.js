@@ -5,8 +5,8 @@ const PORT = 3000;
 const app = express();
 
 // Раздача статических файлов из папки dist
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-app.use(express.static(path.join(__dirname, 'dist')));
+const dirname = path.dirname(new URL(import.meta.url).pathname);
+app.use(express.static(path.join(dirname, 'dist')));
 
 // Маршрут для главной страницы
 app.get('*', (req, res) => {
