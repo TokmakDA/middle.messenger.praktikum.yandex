@@ -30,6 +30,7 @@
     "src/globals.d.ts",
     "src/@types",
     "vite.config.ts",
-    "vite-plugin-handlebars-precompile.ts"
+    "vite-plugin-handlebars-precompile.ts",
+    "server.js"
   ]
 }
