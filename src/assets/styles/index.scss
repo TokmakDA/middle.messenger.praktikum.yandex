@@ -1,8 +1,8 @@
 // Импорты сброса стилей
-@import 'reset.scss';
-// Импорты миксинов и функций
-@import '_vars.scss';
-@import '_mixins.scss';
+@use 'reset';
+// // Импорты миксинов и функций
+// @use 'vars';
+// @use 'mixins';
 
 #app {
   position: relative;

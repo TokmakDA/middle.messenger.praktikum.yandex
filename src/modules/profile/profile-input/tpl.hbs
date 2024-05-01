@@ -1,8 +1,9 @@
-<div class="profile__input-container">
-  <label class="profile__label">{{label}}
+<div class="input-container">
+  <label class="input-container__label">
+    {{label}}
     <input
       type="{{type}}"
-      class="profile__input"
+      class="input-container__input"
       id="{{name}}"
       placeholder="{{label}}"
       value="{{value}}"
@@ -12,6 +13,6 @@
   </label>
 
   {{#if error}}
-    <span class="profile__error">{{error}}</span>
+  <span class="input-container__error">{{error}}</span>
   {{/if}}
 </div>

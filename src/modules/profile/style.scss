@@ -1,5 +1,3 @@
-@import './src/assets/styles/vars';
-
 .profile {
   display: flex;
   flex: 1;
@@ -44,14 +42,4 @@
   &__info-block {
     width: 100%;
   }
-}
-
-.profile__error {
-  align-self: start;
-  width: 100%;
-  margin: 6px 0 0;
-  padding: 0;
-  color: $vermilion;
-  font-size: 8px;
-  line-height: 8px;
 }

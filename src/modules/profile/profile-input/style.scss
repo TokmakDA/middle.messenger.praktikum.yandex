@@ -1,15 +1,15 @@
-@import './src/assets/styles/vars';
-
-.profile__input-container {
+.input-container {
   display: flex;
   flex-direction: column;
   width: 100%;
 
-  &:last-child .profile__label {
-    border-bottom: none;
+  &__input {
+    flex: 1;
+    color: $light-gray;
+    text-align: end;
   }
 
-  .profile__label {
+  &__label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -25,15 +25,22 @@
 
     &:focus-within {
       border-bottom: $border-blue;
-      .profile__input {
+      .input-container__input {
         color: $nero;
       }
     }
+  }
+  &:last-child &__label {
+    border-bottom: none;
+  }
 
-    .profile__input {
-      flex: 1;
-      color: $light-gray;
-      text-align: end;
-    }
+  &__error {
+    align-self: start;
+    width: 100%;
+    margin: 6px 0 0;
+    padding: 0;
+    color: $vermilion;
+    font-size: 8px;
+    line-height: 8px;
   }
 }

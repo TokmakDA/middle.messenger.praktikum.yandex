@@ -2,15 +2,15 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    es2023: true,
+    es2020: true,
     node: true,
   },
   extends: [
-    'eslint:recommended',
+    'airbnb-base',
+    'airbnb-typescript/base',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
     'plugin:prettier/recommended',
-    'eslint-config-prettier',
   ],
   overrides: [
     {
@@ -19,15 +19,16 @@ module.exports = {
       },
       files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
-        sourceType: 'script',
+        sourceType: 'module',
       },
     },
   ],
-  plugins: ['import', 'prettier', '@typescript-eslint'],
+  plugins: ['import', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 'latest',
+    ecmaVersion: 2020,
     sourceType: 'module',
+    project: './tsconfig.json',
   },
   settings: {
     'import/resolver': {
@@ -52,6 +53,20 @@ module.exports = {
       {
         devDependencies: true,
       },
+    ],
+    'import/extensions': [
+      'error',
+      {
+        js: 'never',
+        ts: 'never',
+        ignorePackages: true,
+      },
+    ],
+    'no-underscore-dangle': ['error', { allowAfterThis: true }],
+    'class-methods-use-this': 'off',
+    'import/prefer-default-export': [
+      'off' | 'warn' | 'error',
+      { target: 'any' },
     ],
   },
 };

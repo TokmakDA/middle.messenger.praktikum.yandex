@@ -1,9 +1,6 @@
-// @import '../../assets/styles/vars';
-@import './src/assets/styles/vars';
-
-.form__link {
-  width: 100%;
-  margin: 0;
+.link {
+  width: fit-content;
+  margin: 0 auto;
   border: none;
   padding: 0;
   color: $royal-blue;
@@ -16,11 +13,17 @@
   cursor: pointer;
 
   &:hover {
-    color: darken($royal-blue, 15%);
+    color: color.adjust($royal-blue, $lightness: -15%);
     transition: all 0.2s;
   }
 
   &:disabled {
     background-color: $tangled-web;
+  }
+
+  &:focus {
+    outline: solid 2px $royal-blue;
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }

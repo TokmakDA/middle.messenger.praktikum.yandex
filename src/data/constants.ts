@@ -1,4 +1,4 @@
-export const ROUTES = [
+const ROUTES = [
   { url: '/', name: 'Home' },
   { url: '/signin', name: 'signin' },
   { url: '/signup', name: 'signup' },
@@ -7,3 +7,5 @@ export const ROUTES = [
   { url: '/404', name: '404' },
   { url: '/500', name: '500' },
 ];
+
+export default ROUTES;

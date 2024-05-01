@@ -1,6 +1,4 @@
-@import './src/assets/styles/vars';
-
-.form__button {
+.button {
   width: 100%;
   margin: 0;
   border: none;
@@ -16,7 +14,13 @@
 
   &:hover {
     box-shadow: $shadow;
-    background-color: darken($royal-blue, 20);
+    background-color: color.adjust($royal-blue, $lightness: -20%);
+  }
+
+  &:focus {
+    outline: solid 2px $royal-blue;
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
   &:disabled {
