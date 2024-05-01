@@ -11,7 +11,7 @@ class ChatsPanelBlock extends Block {
             <a href='/profile' class='sidebar__link_profile'><span
                 class='sidebar__link-text'
               >Профиль</span>
-              <object type='image/svg+xml' data="{{ arrowSVG }}"></object>
+              <img src="${arrowSVG}" alt="Arrow" class="sidebar__link-icon">
             </a>
             <form class='sidebar__search'>
               <input
