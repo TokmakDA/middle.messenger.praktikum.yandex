@@ -5,12 +5,13 @@ export default class Input extends Block {
   constructor({ ...props }) {
     super({
       ...props,
+      attr: false,
       template: `
-        <div class="input" data-error={{ error }} >
-          <label class="input__container" for={{ name }} >
+        <div class="input">
+          <div class="input__container" >
             {{{ input }}}
-            <div class="input__label">{{ label }}</div>
-          </label>
+            <label class="input__label"  for='{{ name }}' >{{ label }}</label>
+          </div>
           <span class="input__error">{{ error }}</span>
         </div>
       `,

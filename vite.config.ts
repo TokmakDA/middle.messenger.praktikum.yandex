@@ -10,4 +10,16 @@ export default defineConfig({
   },
 
   plugins: [handlebars()],
+
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @use 'sass:color';
+          @use './src/assets/styles/vars' as *;
+          @use './src/assets/styles/mixins' as *;
+        `,
+      },
+    },
+  },
 });

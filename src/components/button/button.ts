@@ -4,7 +4,7 @@ class Button extends Block {
   constructor({ ...props }) {
     super({
       template: `
-        <button type={{ type }} class="form__button">
+        <button type={{ type }} class="button">
           {{ text }}
         </button>
       `,

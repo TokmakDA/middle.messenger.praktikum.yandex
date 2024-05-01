@@ -1,26 +1,27 @@
 import Block from '../../tools/Block';
+import FormValidate from '../../tools/FormValidator';
 
-class InputElement extends Block {
+export default class InputElement extends Block {
+  formValidator: FormValidate;
+
   constructor({ ...props }) {
     super({
       ...props,
       template: `
         <input
-          type={{ type }}
           class="input__element"
-          id={{ name }}
           placeholder=""
-          value={{ value }}
-          name={{ name }}
-          required={{ required }}
+          name='{{ name }}'
+          id='{{ name }}'
+          value='{{ value }}'
         />
       `,
       events: {
-        blur: props.onBlur,
-        click: props.onClick,
+        blur: (e: Event): void => {
+          this.formValidator.validateInput(e.currentTarget as HTMLInputElement);
+        },
       },
     });
+    this.formValidator = new FormValidate();
   }
 }
-
-export default InputElement;

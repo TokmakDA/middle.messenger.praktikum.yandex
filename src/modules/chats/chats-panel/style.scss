@@ -1,5 +1,3 @@
-@use './src/assets/styles/vars' as *;
-
 .sidebar {
   position: relative;
   display: flex;
@@ -54,8 +52,10 @@
   font-size: 12px;
   line-height: 15px;
   background-color: $gallery;
+  position: relative;
 
   &::placeholder {
+    position: absolute;
     left: 50%;
     width: min-content;
     padding-left: 20px;

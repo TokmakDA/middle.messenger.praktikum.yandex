@@ -60,21 +60,6 @@ export default class Block {
     this.eventBus = () => eventBus; // Установка экземпляра EventBus
     this._registerEvents(eventBus); // Регистрация событий
     eventBus.emit(Block.EVENTS.INIT); // Инициирование события INIT
-
-    // // eslint-disable-next-line no-console
-    // console.log(
-    //   this,
-    //   'this.id =>',
-    //   this.id,
-    //   'props => ',
-    //   props,
-    //   'children =>',
-    //   children,
-    //   'lists =>',
-    //   lists,
-    //   'this._element =>',
-    //   this._element,
-    // );
   }
 
   // Добавление обработчиков событий к элементу
@@ -209,20 +194,26 @@ export default class Block {
       const stub = fragment.content.querySelector(
         `[data-id="${listID}"]`,
       ) as HTMLElement;
-      const listCont = this._createDocumentElement('template');
+      const childElement = this._createDocumentElement('template').content;
       child.forEach((item) => {
-        listCont.content.append(
-          Object.values(item)[0].getContent() as HTMLElement,
-        );
+        childElement.append(Object.values(item)[0].getContent() as HTMLElement);
       });
 
       if (stub) {
-        stub.replaceWith(listCont.content);
+        stub.replaceWith(childElement);
       }
     });
 
     // Заменяем текущий элемент на обновленный
     const newElement = fragment.content.firstElementChild;
+
+    // Добавление атрибутов к элементу компонента
+    if (newElement && this.props.attr) {
+      Object.entries(this.props.attr).forEach(([key, value]) => {
+        newElement.setAttribute(key, value);
+      });
+    }
+
     if (this._element) {
       this._element.replaceWith(newElement!);
     }
