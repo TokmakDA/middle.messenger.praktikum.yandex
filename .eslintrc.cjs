@@ -20,16 +20,15 @@ module.exports = {
       },
       files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
-        sourceType: 'module',
+        sourceType: 'script',
       },
     },
   ],
-  plugins: ['import', 'prettier'],
+  plugins: ['import', 'prettier', '@typescript-eslint'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 'latest',
     sourceType: 'module',
-    project: './tsconfig.json',
   },
   settings: {
     'import/resolver': {
