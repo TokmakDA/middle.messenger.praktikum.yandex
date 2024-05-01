@@ -16,7 +16,7 @@ interface Children {
 
 interface Props {
   events?: EventMap;
-  attr?: Attributes;
+  attr?: Attributes | false;
   template?: string;
 }
 
@@ -134,7 +134,6 @@ export default class Block {
   }
 
   // Обработчик события "componentDidUpdate"
-  // eslint-disable-next-line class-methods-use-this
   componentDidUpdate(oldProps: object, newProps: object): boolean {
     // eslint-disable-next-line no-console
     console.log('componentDidUpdate =>', oldProps, newProps);
