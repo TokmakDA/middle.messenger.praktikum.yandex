@@ -70,6 +70,19 @@ export default class Block {
     });
   }
 
+  // Удаление обработчиков событий к элементу
+  _removeEvents() {
+    const { events } = this.props;
+
+    if (!events) {
+      return;
+    }
+
+    Object.keys(events).forEach((eventName) => {
+      this._element?.removeEventListener(eventName, events[eventName]);
+    });
+  }
+
   // Регистрация обработчиков событий
   _registerEvents(eventBus: EventBus): void {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
@@ -154,7 +167,6 @@ export default class Block {
 
   // Рендеринг компонента
   _render() {
-    // console.log('_render', this);
     const propsAndStubs: Record<string, unknown> = { ...this.props };
     const listID = this._generateRandomId();
     // Заменяем в шаблоне дочерние компоненты на заполнители
@@ -172,8 +184,6 @@ export default class Block {
     // Создаем фрагмент документа для работы с шаблоном
     const fragment = this._createDocumentElement('template');
     fragment.innerHTML = compiledTemplate;
-
-    // console.log(this, fragment, this.children);
 
     // Заменяем фрагмент на реальные дочерние компоненты
     Object.values(this.children).forEach((child) => {
@@ -201,6 +211,9 @@ export default class Block {
         stub.replaceWith(childElement);
       }
     });
+
+    // Удаляем обработчики
+    this._removeEvents();
 
     // Заменяем текущий элемент на обновленный
     const newElement = fragment.content.firstElementChild;

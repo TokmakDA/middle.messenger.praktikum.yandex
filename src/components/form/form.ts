@@ -2,7 +2,7 @@ import Block from '../../tools/Block';
 import FormValidate from '../../tools/FormValidator';
 
 export default class Form extends Block {
-  formValidator: FormValidate;
+  validator: FormValidate;
 
   constructor({ ...props }) {
     super({
@@ -20,11 +20,11 @@ export default class Form extends Block {
       `,
       events: {
         submit: (e: SubmitEvent): void => {
-          this.formValidator.formValidate(e);
+          this.validator.formValidate(e);
         },
       },
     });
 
-    this.formValidator = new FormValidate();
+    this.validator = new FormValidate();
   }
 }

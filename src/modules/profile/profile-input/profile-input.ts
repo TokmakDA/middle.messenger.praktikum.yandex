@@ -1,4 +1,5 @@
 import Block from '../../../tools/Block';
+import InputElement from './input-element';
 import './style.scss';
 
 class ProfileInput extends Block {
@@ -8,23 +9,14 @@ class ProfileInput extends Block {
         <div class="input-container">
           <label class="input-container__label">
             {{label}}
-            <input
-              type="{{type}}"
-              class="input-container__input"
-              id="{{name}}"
-              placeholder="{{label}}"
-              value="{{value}}"
-              name="{{name}}"
-              required
-            />
+           {{{ input }}}
           </label>
-
-          {{#if error}}
-          <span class="input-container__error">{{error}}</span>
-          {{/if}}
+          <span class="input-container__error">{{ error }}</span>
         </div>
       `,
       ...props,
+      attr: false,
+      input: new InputElement({ ...props }),
     });
   }
 }

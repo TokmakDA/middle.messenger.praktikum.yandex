@@ -1,19 +1,23 @@
 export default class FormValidate {
   isValidForm: boolean = true;
 
-  formValidate = (e: SubmitEvent): void => {
+  formValidate = (e: SubmitEvent): boolean => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
     const { elements } = form;
 
     const formData: Record<string, string> = {};
-    this.isValidForm = Array.from(elements).reduce((isValid, el) => {
-      if (el instanceof HTMLInputElement) {
-        if (el.value) formData[el.getAttribute('name') as string] = el.value;
-        return this.validateInput(el);
+    this.isValidForm = Array.from(elements).every((el) => {
+      if (this.isFormInputElement(el)) {
+        const input = el as HTMLInputElement;
+        if (input.value) {
+          formData[input.name] = input.value;
+        }
+        return this.validateInput(input);
       }
-      return isValid;
-    }, true);
+      // Пропускаем элементы формы, которые не являются формовыми элементами в валидацию
+      return true;
+    });
 
     if (this.isValidForm) {
       // eslint-disable-next-line no-console
@@ -22,9 +26,18 @@ export default class FormValidate {
       // eslint-disable-next-line no-console
       console.log('Form is invalid');
     }
+    return this.isValidForm;
   };
 
-  _showInputErrors = (input: HTMLInputElement): void => {
+  isFormInputElement = (element: Element): element is HTMLInputElement => {
+    return (
+      element instanceof HTMLInputElement ||
+      element instanceof HTMLTextAreaElement ||
+      element instanceof HTMLSelectElement
+    );
+  };
+
+  showInputErrors = (input: HTMLInputElement): void => {
     const parent = input.closest('.input');
 
     if (parent) {
@@ -41,7 +54,7 @@ export default class FormValidate {
   };
 
   validateInput = (input: HTMLInputElement): boolean => {
-    this._showInputErrors(input);
+    this.showInputErrors(input);
     return input.checkValidity();
   };
 }

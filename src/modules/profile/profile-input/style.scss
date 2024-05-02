@@ -35,6 +35,7 @@
   }
 
   &__error {
+    display: none;
     align-self: start;
     width: 100%;
     margin: 6px 0 0;
@@ -42,5 +43,13 @@
     color: $vermilion;
     font-size: 8px;
     line-height: 8px;
+
+  }
+
+  &[data-error='true'] &__label {
+    border-bottom: $border-error;
+  }
+  &[data-error='true'] &__error {
+    display: block;
   }
 }

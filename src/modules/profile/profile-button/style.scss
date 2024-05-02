@@ -1,4 +1,4 @@
-.profile__link-container {
+.profile__button-container {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -9,7 +9,7 @@
     border-bottom: none;
   }
 
-  .profile__link {
+  .profile__button {
     width: fit-content;
     font-weight: $fw-medium;
     font-size: $fs-text-m;

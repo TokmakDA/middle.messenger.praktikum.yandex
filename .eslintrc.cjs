@@ -11,6 +11,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
     'plugin:prettier/recommended',
+    'eslint-config-prettier',
   ],
   overrides: [
     {
@@ -19,14 +20,14 @@ module.exports = {
       },
       files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
-        sourceType: 'module',
+        sourceType: 'script',
       },
     },
   ],
-  plugins: ['import', 'prettier'],
+  plugins: ['import', 'prettier', '@typescript-eslint'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 'latest',
     sourceType: 'module',
     project: './tsconfig.json',
   },
@@ -65,6 +66,7 @@ module.exports = {
     'no-underscore-dangle': ['error', { allowAfterThis: true }],
     'class-methods-use-this': 'off',
     'import/prefer-default-export': [
+      // eslint-disable-next-line no-bitwise
       'off' | 'warn' | 'error',
       { target: 'any' },
     ],
