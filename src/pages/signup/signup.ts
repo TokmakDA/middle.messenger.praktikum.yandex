@@ -2,6 +2,7 @@ import { InputProps } from '../../@types/types';
 import { Input, Button, Link, AuthorizeWrapper, Form } from '../../components';
 import { LoyautCenter } from '../../layouts';
 
+// TODO Вынести инпуты и аттрибуты в отдельную переменную
 const inputsList: InputProps[] = [
   {
     name: 'login',
@@ -23,8 +24,6 @@ const inputsList: InputProps[] = [
       type: 'text',
       required: true,
       pattern: '^[A-ZА-Я]+[A-Za-zА-Яа-я\\-]*',
-      minlength: 3,
-      maxlength: 20,
     },
   },
   {
@@ -35,8 +34,6 @@ const inputsList: InputProps[] = [
       type: 'text',
       required: true,
       pattern: '^[A-ZА-Я]+[A-Za-zА-Яа-я\\-]*',
-      minlength: 3,
-      maxlength: 20,
     },
   },
   {
@@ -56,7 +53,6 @@ const inputsList: InputProps[] = [
     name: 'phone',
     label: 'Телефон',
     value: '',
-
     attr: {
       type: 'phone',
       required: true,

@@ -1,4 +1,4 @@
-const METHODS = {
+const METHODS: Record<string, string> = {
   GET: 'GET',
   POST: 'POST',
   PUT: 'PUT',
@@ -7,7 +7,7 @@ const METHODS = {
 };
 
 type TOptions = {
-  method: string;
+  method: keyof typeof METHODS;
   data?: { [key: string]: string };
   headers?: { [key: string]: string };
   timeout?: number;
@@ -19,54 +19,33 @@ function queryStringify(data: { [key: string]: string }): string {
     .join('&');
 }
 
+// создаем тип метода
+type HTTPMethod = (url: string, options?: TOptions) => Promise<unknown>;
+
 export default class HTTPTransport {
-  get(url: string, options: TOptions) {
-    return this.request(
-      url,
-      { ...options, method: METHODS.GET },
-      options.timeout,
-    );
-  }
+  // используем тип и удаляем дублирование в аргументах
+  get: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.GET });
 
-  post(url: string, options: TOptions) {
-    return this.request(
-      url,
-      { ...options, method: METHODS.POST },
-      options.timeout,
-    );
-  }
+  // используем тип и удаляем дублирование в аргументах
+  put: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.PUT });
 
-  put(url: string, options: TOptions) {
-    return this.request(
-      url,
-      { ...options, method: METHODS.PUT },
-      options.timeout,
-    );
-  }
+  // используем тип и удаляем дублирование в аргументах
+  post: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.POST });
+
+  // используем тип и удаляем дублирование в аргументах
+  delete: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.DELETE });
 
   patch(url: string, options: TOptions) {
-    return this.request(
-      url,
-      { ...options, method: METHODS.PATCH },
-      options.timeout,
-    );
-  }
-
-  delete(url: string, options: TOptions) {
-    return this.request(
-      url,
-      { ...options, method: METHODS.DELETE },
-      options.timeout,
-    );
+    return this.request(url, { ...options, method: METHODS.PATCH });
   }
 
   // eslint-disable-next-line class-methods-use-this
-  request = (
-    url: string,
-    options: TOptions,
-    timeout = 5000,
-  ): Promise<unknown> => {
-    const { method, data, headers } = options;
+  request = (url: string, options: TOptions): Promise<unknown> => {
+    const { method, data, headers, timeout = 5000 } = options;
     let updatedUrl = url;
 
     if (method === METHODS.GET && data) {
