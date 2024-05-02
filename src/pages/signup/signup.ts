@@ -43,7 +43,7 @@ const inputsList: InputProps[] = [
     attr: {
       type: 'email',
       required: true,
-      pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+      pattern: '^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$',
       minlength: 3,
       maxlength: 20,
     },
