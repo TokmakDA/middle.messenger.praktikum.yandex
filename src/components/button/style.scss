@@ -1,13 +1,12 @@
-@import './src/assets/styles/vars';
-
-.form__button {
+.button {
+  align-self: center;
   width: 100%;
+  max-width: 280px;
   margin: 0;
   border: none;
   border-radius: 8px;
   padding: 12.5px;
   color: #fdfdfd;
-  font-weight: 500;
   font-weight: $fw-medium;
   font-size: 13px;
   line-height: 13px;
@@ -16,7 +15,13 @@
 
   &:hover {
     box-shadow: $shadow;
-    background-color: darken($royal-blue, 20);
+    background-color: color.adjust($royal-blue, $lightness: -20%);
+  }
+
+  &:focus {
+    border-radius: 4px;
+    outline: solid 2px $royal-blue;
+    outline-offset: 2px;
   }
 
   &:disabled {

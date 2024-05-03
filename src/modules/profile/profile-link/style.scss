@@ -1,0 +1,38 @@
+.profile__link-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-bottom: $border-steam;
+  padding: 9px 0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .profile__link {
+    width: fit-content;
+    font-weight: $fw-medium;
+    font-size: $fs-text-m;
+    line-height: $lh-100;
+    transition: color 0.2s;
+    cursor: pointer;
+
+    &.primary {
+      color: $royal_blue;
+      &:hover {
+        color: color.adjust($royal-blue, $lightness: -20%);
+      }
+    }
+
+    &.warning {
+      color: $vermilion;
+      &:hover {
+        color: color.adjust($vermilion, $lightness: -20%);
+      }
+    }
+
+    &:hover {
+      transition: color 0.2s;
+    }
+  }
+}

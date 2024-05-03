@@ -15,6 +15,7 @@ export default function handlebars(): PluginOption {
         import Handlebars from 'handLebars/runtime';
         export default Handlebars. template(${Handlebars.precompile(src)});
       `;
+      // eslint-disable-next-line consistent-return
       return {
         code,
       };

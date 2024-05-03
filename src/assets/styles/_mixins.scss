@@ -1,4 +1,4 @@
-@import '_vars.scss';
+@use 'vars' as *;
 
 // Миксин для заголовков
 @mixin title($size) {

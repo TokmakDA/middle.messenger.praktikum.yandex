@@ -1,7 +1,14 @@
-import Handlebars from 'handlebars';
-import tpl from './tpl.hbs?raw';
+import template from './tpl.hbs?raw';
 import './style.scss';
+import Block from '../../tools/Block';
 
-export default (props: object) => {
-  return Handlebars.compile(tpl)(props);
-};
+class CheckmarkBlock extends Block {
+  constructor({ ...props }) {
+    super({
+      template,
+      ...props,
+    });
+  }
+}
+
+export default CheckmarkBlock;

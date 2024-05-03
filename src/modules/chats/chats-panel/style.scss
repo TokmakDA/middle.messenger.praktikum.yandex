@@ -1,4 +1,13 @@
-@import './src/assets/styles/vars';
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  max-width: 310px;
+  height: 100vh;
+  border-right: $border-steam;
+  background-color: $snow;
+}
 
 .sidebar__header {
   position: sticky;
@@ -43,8 +52,10 @@
   font-size: 12px;
   line-height: 15px;
   background-color: $gallery;
+  position: relative;
 
   &::placeholder {
+    position: absolute;
     left: 50%;
     width: min-content;
     padding-left: 20px;

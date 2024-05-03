@@ -2,11 +2,12 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    es2023: true,
+    es2020: true,
     node: true,
   },
   extends: [
-    'eslint:recommended',
+    'airbnb-base',
+    'airbnb-typescript/base',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
     'plugin:prettier/recommended',
@@ -28,6 +29,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    project: './tsconfig.json',
   },
   settings: {
     'import/resolver': {
@@ -52,6 +54,21 @@ module.exports = {
       {
         devDependencies: true,
       },
+    ],
+    'import/extensions': [
+      'error',
+      {
+        js: 'never',
+        ts: 'never',
+        ignorePackages: true,
+      },
+    ],
+    'no-underscore-dangle': ['error', { allowAfterThis: true }],
+    'class-methods-use-this': 'off',
+    'import/prefer-default-export': [
+      // eslint-disable-next-line no-bitwise
+      'off' | 'warn' | 'error',
+      { target: 'any' },
     ],
   },
 };
