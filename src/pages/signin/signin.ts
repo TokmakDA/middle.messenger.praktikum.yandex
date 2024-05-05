@@ -38,7 +38,15 @@ const signInPage = new LoyautCenter({
       })),
       formName: 'signin',
       button: new Button({ text: 'Войти', type: 'submit' }),
-      link: new Link({ text: 'Зарегистрироваться', url: '/signup' }),
+      link: new Link({
+        text: 'Зарегистрироваться',
+        url: '/signup',
+        // events: {
+        //   click: () => {
+        //     window.router.go('/signup');
+        //   },
+        // },
+      }),
     }),
   }),
 });
