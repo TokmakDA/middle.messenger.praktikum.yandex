@@ -283,4 +283,16 @@ export default class Block {
   _generateRandomId(): string {
     return Math.random().toString(36).substr(2, 9);
   }
+
+  show() {
+    console.log(`Block => show => this => ${this}`);
+
+    this.getContent()!.style.display = 'block';
+  }
+
+  hide() {
+    console.log(`Block => hide => this => ${this}`);
+
+    this.getContent()!.style.display = 'none';
+  }
 }
