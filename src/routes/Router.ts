@@ -13,7 +13,7 @@ class Router {
   private _currentRoute: Route | null = null;
 
   // Корневой селектор, в котором будет отрисовываться контент
-  private _rootQuery: string;
+  private readonly _rootQuery: string;
 
   // Массив всех маршрутов
   routes: Route[] = [];
@@ -76,7 +76,6 @@ class Router {
     }
 
     // console.log('route => ', route);
-
     if (this._currentRoute) {
       // console.log('this._currentRoute => leave()', this._currentRoute);
       this._currentRoute.leave();

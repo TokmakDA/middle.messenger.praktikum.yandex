@@ -7,7 +7,7 @@ export default class Route {
 
   private _block: Block | null;
 
-  private _blockClass: new () => Block;
+  private readonly _blockClass: new () => Block;
 
   private _props: { rootQuery: string };
 

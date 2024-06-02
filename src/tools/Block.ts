@@ -197,7 +197,7 @@ export default class Block {
       }
     });
 
-    // Заменяем фрагмент на реальные  на реальные дочерние компоненты из массива
+    // Заменяем фрагмент на реальные на реальные дочерние компоненты из массива
     Object.values(this.lists).forEach((child) => {
       const stub = fragment.content.querySelector(
         `[data-id="${listID}"]`,
@@ -281,7 +281,7 @@ export default class Block {
   // Генерация случайного идентификатора
   // eslint-disable-next-line class-methods-use-this
   _generateRandomId(): string {
-    return Math.random().toString(36).substr(2, 9);
+    return Math.random().toString(36).substring(2, 9);
   }
 
   show() {

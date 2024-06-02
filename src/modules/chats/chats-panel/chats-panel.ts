@@ -1,6 +1,7 @@
 import './style.scss';
 import Block from '../../../tools/Block';
 import arrowSVG from '../../../assets/images/arrow-right.svg';
+import { ROUTES_PATH } from '../../../lib/constants';
 
 class ChatsPanelBlock extends Block {
   constructor({ ...props }) {
@@ -8,7 +9,7 @@ class ChatsPanelBlock extends Block {
       template: `
         <section class='sidebar'>
           <div class='sidebar__header'>
-            <a href='/profile' class='sidebar__link_profile'><span
+            <a href='{{ url }}' class='sidebar__link_profile'><span
                 class='sidebar__link-text'
               >Профиль</span>
               <img src="${arrowSVG}" alt="Arrow" class="sidebar__link-icon">
@@ -34,6 +35,7 @@ class ChatsPanelBlock extends Block {
       `,
       ...props,
       arrowSVG,
+      url: ROUTES_PATH.profile,
     });
   }
 }

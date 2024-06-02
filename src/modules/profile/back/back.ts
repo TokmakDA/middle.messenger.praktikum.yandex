@@ -7,7 +7,7 @@ class BackBlock extends Block {
       ...props,
       template: `
         <div class="sidebar__back-container">
-          <a href="/chats" class="sidebar__back">
+          <a href="{{ url }}" class="sidebar__back">
             <svg
               width="28"
               height="28"

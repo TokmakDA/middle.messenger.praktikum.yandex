@@ -1,5 +1,6 @@
 import { InputProps } from '../../@types/types';
 import { Input, Button, Link, AuthorizeWrapper, Form } from '../../components';
+import { ROUTES_PATH } from '../../lib/constants';
 import { LoyautCenter } from '../../layouts';
 
 // TODO Вынести инпуты и аттрибуты в отдельную переменную
@@ -96,7 +97,7 @@ const signUpPage = new LoyautCenter({
       })),
       formName: 'signup',
       button: new Button({ text: 'Зарегистрироваться ', type: 'submit' }),
-      link: new Link({ text: 'Войти', url: '/signin' }),
+      link: new Link({ text: 'Войти', url: ROUTES_PATH.signin }),
     }),
   }),
 });

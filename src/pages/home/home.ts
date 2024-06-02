@@ -1,7 +1,7 @@
 import Block from '../../tools/Block';
 import './style.scss';
 import { LoyautCenter } from '../../layouts';
-import ROUTES from '../../data/constants';
+import { ROUTES } from '../../lib/constants';
 
 class HomeBlock extends Block {
   constructor({ ...props }) {

@@ -1,6 +1,7 @@
 import Block from '../../tools/Block';
 import './style.scss';
 import { Link } from '../../components';
+import { ROUTES_PATH } from '../../lib/constants';
 
 class ErrorBlock extends Block {
   constructor({ ...props }) {
@@ -16,7 +17,7 @@ class ErrorBlock extends Block {
           {{{link}}}
         </div>
       `,
-      link: new Link({ text: 'Назад к чатам', url: '/chats' }),
+      link: new Link({ text: 'Назад к чатам', url: ROUTES_PATH.chat }),
       ...props,
     });
   }

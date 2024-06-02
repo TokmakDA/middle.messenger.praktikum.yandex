@@ -1,5 +1,6 @@
 import { InputProps } from '../../@types/types';
 import { Input, Button, Link, AuthorizeWrapper, Form } from '../../components';
+import { ROUTES_PATH } from '../../lib/constants';
 import { LoyautCenter } from '../../layouts';
 
 const inputsList: InputProps[] = [
@@ -40,7 +41,7 @@ const signInPage = new LoyautCenter({
       button: new Button({ text: 'Войти', type: 'submit' }),
       link: new Link({
         text: 'Зарегистрироваться',
-        url: '/signup',
+        url: ROUTES_PATH.signup,
         // events: {
         //   click: () => {
         //     window.router.go('/signup');

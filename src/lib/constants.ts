@@ -1,4 +1,4 @@
-const ROUTES = [
+export const ROUTES = [
   { url: '/', name: 'Home' },
   { url: '/signin', name: 'signin' },
   { url: '/signup', name: 'signup' },
@@ -8,4 +8,11 @@ const ROUTES = [
   { url: '/500', name: '500' },
 ];
 
-export default ROUTES;
+export const ROUTES_PATH = {
+  signin: '/',
+  signup: '/sign-up',
+  profile: '/settings',
+  chat: '/messenger',
+  error5XX: '/500',
+  error404: '*',
+};
