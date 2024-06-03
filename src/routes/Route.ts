@@ -1,13 +1,12 @@
 import Block from '../tools/Block';
-import isEqual from '../tools/isEqual';
-import render from '../tools/renderDOM';
+import renderDOM from '../tools/renderDOM';
 
 export default class Route {
   private _pathname: string;
 
   private _block: Block | null;
 
-  private _blockClass: Block;
+  private readonly _blockClass: Block;
 
   private _props: { rootQuery: string };
 
@@ -36,7 +35,7 @@ export default class Route {
   }
 
   match(pathname: string) {
-    return isEqual(pathname, this._pathname);
+    return pathname === this._pathname;
   }
 
   render() {
@@ -44,7 +43,7 @@ export default class Route {
 
     if (!this._block) {
       this._block = this._blockClass;
-      render(this._props.rootQuery, this._block!);
+      renderDOM(this._props.rootQuery, this._block!);
       return;
     }
 

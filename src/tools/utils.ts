@@ -52,6 +52,12 @@ function getParams(
   return result;
 }
 
+function queryStringify(data: { [key: string]: string }): string {
+  return Object.keys(data)
+    .map((key) => `${key}=${data[key]}`)
+    .join('&');
+}
+
 function queryString(data: PlainObject): string {
   if (!isPlainObject(data)) {
     throw new Error('input must be an object');
@@ -84,4 +90,4 @@ function isEqual(lhs: PlainObject, rhs: PlainObject): boolean {
   return true;
 }
 
-export { isObjKey, queryString, isEqual };
+export { isObjKey, queryString, queryStringify, isEqual };

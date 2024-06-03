@@ -1,52 +1,58 @@
-const METHODS: Record<string, string> = {
+import { queryStringify } from './utils.ts';
+import { BASE_URL } from '../lib/constants.ts';
+
+const METHODS = {
   GET: 'GET',
   POST: 'POST',
   PUT: 'PUT',
   PATCH: 'PATCH',
   DELETE: 'DELETE',
-};
+} as const;
 
-type TOptions = {
-  method: keyof typeof METHODS;
-  data?: { [key: string]: string };
-  headers?: { [key: string]: string };
+type TMethod = keyof typeof METHODS;
+
+type THeaders = Record<string, string>;
+
+interface TOptions<TRequest> {
+  method: TMethod;
+  data?: TRequest;
+  headers?: THeaders;
   timeout?: number;
-};
-
-function queryStringify(data: { [key: string]: string }): string {
-  return Object.keys(data)
-    .map((key) => `${key}=${data[key]}`)
-    .join('&');
 }
 
-// создаем тип метода
-type HTTPMethod = (url: string, options?: TOptions) => Promise<unknown>;
+type HTTPMethod = <TRequest, TResponse>(
+  url: string,
+  options?: { data?: TRequest },
+) => Promise<TResponse>;
 
 export default class HTTPTransport {
-  // используем тип и удаляем дублирование в аргументах
+  protected apiUrl: string;
+
+  constructor(apiPath: string) {
+    this.apiUrl = `${BASE_URL}${apiPath}`;
+  }
+
   get: HTTPMethod = (url, options) =>
     this.request(url, { ...options, method: METHODS.GET });
 
-  // используем тип и удаляем дублирование в аргументах
   put: HTTPMethod = (url, options) =>
     this.request(url, { ...options, method: METHODS.PUT });
 
-  // используем тип и удаляем дублирование в аргументах
   post: HTTPMethod = (url, options) =>
     this.request(url, { ...options, method: METHODS.POST });
 
-  // используем тип и удаляем дублирование в аргументах
   delete: HTTPMethod = (url, options) =>
     this.request(url, { ...options, method: METHODS.DELETE });
 
-  patch(url: string, options: TOptions) {
-    return this.request(url, { ...options, method: METHODS.PATCH });
-  }
+  patch: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.PATCH });
 
-  // eslint-disable-next-line class-methods-use-this
-  request = (url: string, options: TOptions): Promise<unknown> => {
+  request = <TRequest, TResponse>(
+    url: string,
+    options: TOptions<TRequest>,
+  ): Promise<TResponse> => {
     const { method, data, headers, timeout = 5000 } = options;
-    let updatedUrl = url;
+    let updatedUrl = `${this.apiUrl}${url}`;
 
     if (method === METHODS.GET && data) {
       const queryParams = queryStringify(data);
@@ -60,16 +66,21 @@ export default class HTTPTransport {
       xhr.setRequestHeader('Content-Type', 'application/json');
 
       if (headers) {
-        Object.keys(headers).forEach((header) => {
-          xhr.setRequestHeader(header, headers[header]);
+        Object.entries(headers).forEach(([header, value]) => {
+          xhr.setRequestHeader(header, value);
         });
       }
-
       xhr.timeout = timeout;
 
       xhr.onload = () => {
         if (xhr.status >= 200 && xhr.status < 300) {
-          resolve(xhr);
+          try {
+            console.log(xhr);
+            const response = JSON.parse(xhr.response);
+            resolve(response);
+          } catch (error) {
+            reject(new Error(`Failed to parse response: ${error}`));
+          }
         } else {
           reject(new Error(`Request failed with status ${xhr.status}`));
         }

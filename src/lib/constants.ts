@@ -16,3 +16,5 @@ export const ROUTES_PATH = {
   error5XX: '/500',
   error404: '*',
 };
+
+export const BASE_URL: string = 'https://ya-praktikum.tech/api/v2';
