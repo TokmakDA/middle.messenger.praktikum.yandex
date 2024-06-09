@@ -6,24 +6,33 @@ import { LoyautRows } from '../../layouts';
 import getFormattedDate from '../../tools/getFormattedDate';
 import CheckmarkBlock from '../../components/checkmark';
 import avatarSVG from '../../assets/images/avatar.svg';
+import Block from '../../tools/Block.ts';
+import { connect } from '../../tools/connect.ts';
 
-const chatPage = new LoyautRows({
-  rows: [
-    {
-      sidePanel: new ChatsPanelBlock({
-        chats: CHAT_LIST.map((item) => ({
-          chat: new ChatCardBlock({
-            displayTime: getFormattedDate(item.last_message.time!),
-            isMy: item.last_message.user.login === MY_LOGIN,
-            checkmark: new CheckmarkBlock({}),
-            avatarSVG,
-            ...item,
+class ChatPage extends LoyautRows {
+  constructor(props: { rows: Block[] }) {
+    super({
+      ...props,
+      rows: [
+        {
+          sidePanel: new ChatsPanelBlock({
+            chats: CHAT_LIST.map((item) => ({
+              chat: new ChatCardBlock({
+                displayTime: getFormattedDate(item.last_message.time!),
+                isMy: item.last_message.user.login === MY_LOGIN,
+                checkmark: new CheckmarkBlock({}),
+                avatarSVG,
+                ...item,
+              }),
+            })),
           }),
-        })),
-      }),
-    },
-    { chatRoom: new ChatroomBlock({}) },
-  ],
-});
+        },
+        { chatRoom: new ChatroomBlock({}) },
+      ],
+    });
+  }
+}
 
-export default chatPage;
+export default connect(({ chats }) => ({
+  chats,
+}))(ChatPage as typeof Block);

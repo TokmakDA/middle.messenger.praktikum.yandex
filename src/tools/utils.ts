@@ -6,11 +6,11 @@
 // Возвращаемое значение:
 // boolean: true, если ключ key является ключом объекта obj, иначе false.
 
-function isObjKey(key: string, obj: object): key is keyof object {
-  return key in obj;
-}
+// function isObjKey(key: string, obj: object): key is keyof object {
+//   return key in obj;
+// }
 
-type PlainObject<T = any> = {
+type PlainObject<T = unknown> = {
   [k in string]: T;
 };
 
@@ -23,11 +23,11 @@ function isPlainObject(value: unknown): value is PlainObject {
   );
 }
 
-function isArray(value: unknown): value is [] {
+function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value);
 }
 
-function isArrayOrObject(value: unknown): value is [] | PlainObject {
+function isArrayOrObject(value: unknown): value is unknown[] | PlainObject {
   return isPlainObject(value) || isArray(value);
 }
 
@@ -36,25 +36,41 @@ function getKey(key: string, parentKey?: string) {
 }
 
 function getParams(
-  data: PlainObject | [],
+  data: PlainObject | unknown[],
   parentKey?: string,
 ): [string, string][] {
   const result: [string, string][] = [];
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (isArrayOrObject(value)) {
-      result.push(...getParams(value, getKey(key, parentKey)));
-    } else {
-      result.push([getKey(key, parentKey), encodeURIComponent(String(value))]);
-    }
-  });
+  if (isPlainObject(data)) {
+    Object.entries(data).forEach(([key, value]) => {
+      if (isArrayOrObject(value)) {
+        result.push(...getParams(value, getKey(key, parentKey)));
+      } else {
+        result.push([
+          getKey(key, parentKey),
+          encodeURIComponent(String(value)),
+        ]);
+      }
+    });
+  } else if (isArray(data)) {
+    data.forEach((value, index) => {
+      if (isArrayOrObject(value)) {
+        result.push(...getParams(value, getKey(String(index), parentKey)));
+      } else {
+        result.push([
+          getKey(String(index), parentKey),
+          encodeURIComponent(String(value)),
+        ]);
+      }
+    });
+  }
 
   return result;
 }
 
 function queryStringify(data: { [key: string]: string }): string {
   return Object.keys(data)
-    .map((key) => `${key}=${data[key]}`)
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
     .join('&');
 }
 
@@ -68,26 +84,34 @@ function queryString(data: PlainObject): string {
     .join('&');
 }
 
-function isEqual(lhs: PlainObject, rhs: PlainObject): boolean {
-  if (Object.keys(lhs).length !== Object.keys(rhs).length) {
+function isEqual<T>(lhs: T, rhs: T): boolean {
+  if (typeof lhs !== typeof rhs) {
     return false;
   }
 
-  for (const [key, value] of Object.entries(lhs)) {
-    const rightValue = rhs[key];
-    if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
-      if (isEqual(value, rightValue)) {
-        continue;
-      }
-      return false;
-    }
-
-    if (value !== rightValue) {
-      return false;
-    }
+  if (typeof lhs !== 'object' || lhs === null || rhs === null) {
+    return lhs === rhs;
   }
 
-  return true;
+  if (isArray(lhs) && isArray(rhs)) {
+    if (lhs.length !== rhs.length) {
+      return false;
+    }
+    return lhs.every((value, index) => isEqual(value, rhs[index]));
+  }
+
+  if (isPlainObject(lhs) && isPlainObject(rhs)) {
+    const lhsKeys = Object.keys(lhs);
+    const rhsKeys = Object.keys(rhs);
+
+    if (lhsKeys.length !== rhsKeys.length) {
+      return false;
+    }
+
+    return lhsKeys.every((key) => isEqual(lhs[key], rhs[key]));
+  }
+
+  return false;
 }
 
-export { isObjKey, queryString, queryStringify, isEqual };
+export { isPlainObject, queryString, queryStringify, isEqual };

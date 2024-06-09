@@ -1,5 +1,5 @@
-import { queryStringify } from './utils.ts';
-import { BASE_URL } from '../lib/constants.ts';
+import { queryStringify } from './utils';
+import { BASE_URL } from '../lib/constants';
 
 const METHODS = {
   GET: 'GET',
@@ -13,23 +13,26 @@ type TMethod = keyof typeof METHODS;
 
 type THeaders = Record<string, string>;
 
-interface TOptions<TRequest> {
-  method: TMethod;
-  data?: TRequest;
+interface TOptions<T> {
+  method?: TMethod;
+  data?: T;
   headers?: THeaders;
   timeout?: number;
+  withCredentials?: boolean;
 }
 
 type HTTPMethod = <TRequest, TResponse>(
   url: string,
-  options?: { data?: TRequest },
+  options?: TOptions<TRequest>,
 ) => Promise<TResponse>;
 
 export default class HTTPTransport {
   protected apiUrl: string;
+  protected withCredentialsDefault: boolean;
 
-  constructor(apiPath: string) {
+  constructor(apiPath: string, withCredentialsDefault = false) {
     this.apiUrl = `${BASE_URL}${apiPath}`;
+    this.withCredentialsDefault = withCredentialsDefault;
   }
 
   get: HTTPMethod = (url, options) =>
@@ -38,7 +41,7 @@ export default class HTTPTransport {
   put: HTTPMethod = (url, options) =>
     this.request(url, { ...options, method: METHODS.PUT });
 
-  post: HTTPMethod = (url, options) =>
+  post: HTTPMethod = (url: string, options) =>
     this.request(url, { ...options, method: METHODS.POST });
 
   delete: HTTPMethod = (url, options) =>
@@ -51,7 +54,13 @@ export default class HTTPTransport {
     url: string,
     options: TOptions<TRequest>,
   ): Promise<TResponse> => {
-    const { method, data, headers, timeout = 5000 } = options;
+    const {
+      method = 'GET',
+      data,
+      headers,
+      timeout = 5000,
+      withCredentials = this.withCredentialsDefault,
+    } = options;
     let updatedUrl = `${this.apiUrl}${url}`;
 
     if (method === METHODS.GET && data) {
@@ -70,14 +79,19 @@ export default class HTTPTransport {
           xhr.setRequestHeader(header, value);
         });
       }
+
+      xhr.withCredentials = withCredentials;
       xhr.timeout = timeout;
 
       xhr.onload = () => {
         if (xhr.status >= 200 && xhr.status < 300) {
           try {
-            console.log(xhr);
-            const response = JSON.parse(xhr.response);
-            resolve(response);
+            if (xhr.response === 'OK') {
+              resolve(xhr.response);
+            } else {
+              const response = JSON.parse(xhr.response);
+              resolve(response);
+            }
           } catch (error) {
             reject(new Error(`Failed to parse response: ${error}`));
           }

@@ -1,11 +1,11 @@
 import './style.scss';
-// import sidebar from '../../layouts/sidebar';
 
 import { PROFILE_INPUTS } from '../../temp/data';
 import avatarSVG from '../../assets/images/avatar.svg';
 import Block from '../../tools/Block';
 import { ProfileInput } from './profile-input';
 import { ProfileFormBlock } from './profile-form';
+import { connect } from '../../tools/connect';
 
 class ProfileBlock extends Block {
   constructor({ ...props }) {
@@ -23,18 +23,23 @@ class ProfileBlock extends Block {
           </div>
         </section>
       `,
-      isEdition: true,
-
       ...props,
       profileForm: new ProfileFormBlock({
         ...props,
-        inputList: PROFILE_INPUTS.map((prop) => ({
-          inpit: new ProfileInput({ ...prop }),
-        })),
+        inputList: PROFILE_INPUTS.map((prop) => {
+          return {
+            input: new ProfileInput({
+              ...prop,
+              value: props.user?.[prop.name] || prop.value,
+            }),
+          };
+        }),
       }),
       avatarSVG,
     });
   }
 }
 
-export default ProfileBlock;
+export default connect(({ isEditionProfile }) => ({
+  isEditionProfile,
+}))(ProfileBlock as typeof Block);

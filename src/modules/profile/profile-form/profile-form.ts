@@ -4,6 +4,7 @@ import { ProfileButton } from '../profile-button';
 import { ProfileLink } from '../profile-link';
 import './style.scss';
 import CustomFormValidate from './validator';
+import { UserAuthController } from '../../../controllers/auth.ts';
 
 export default class ProfileFormBlock extends Block {
   validator: CustomFormValidate;
@@ -14,14 +15,14 @@ export default class ProfileFormBlock extends Block {
       template: `
         <form class="profile__form"  name="profile" novalidate>
           <fieldset 
-            {{#if isEdition}}
+            {{#if isEditionProfile}}
             {{else}}
               disabled
             {{/if}} 
           >
             {{{ inputList }}}
           </fieldset>
-          {{#if isEdition }}
+          {{#if isEditionProfile }}
             {{{ submitButton }}}
           {{ else}}
           <div>{{{ links }}}</div>
@@ -29,13 +30,12 @@ export default class ProfileFormBlock extends Block {
         </form>
 
       `,
-      isEdition: true,
       events: {
         submit: (e: SubmitEvent) => {
           e.preventDefault();
           const valid = this.validator.formValidate(e);
           if (valid) {
-            this.setProps({ isEdition: false, isDisabled: true });
+            this.setProps({ isEdition: false });
           }
         },
       },
@@ -48,10 +48,9 @@ export default class ProfileFormBlock extends Block {
           buttonLink: new ProfileButton({
             text: 'Изменить данные',
             type: 'button',
-            events: {
-              click: () => {
-                this.setProps({ isEdition: true, isDisabled: false });
-              },
+            onClick: () => {
+              window.store.set({ isEditionProfile: true });
+              this.setProps({ isEdition: true });
             },
           }),
         },
@@ -62,10 +61,12 @@ export default class ProfileFormBlock extends Block {
           }),
         },
         {
-          link: new ProfileLink({
+          link: new ProfileButton({
             text: 'Выйти',
-            url: '/signin',
             color: 'warning',
+            onClick: async () => {
+              await UserAuthController.logout();
+            },
           }),
         },
       ],

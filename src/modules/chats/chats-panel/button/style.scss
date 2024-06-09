@@ -1,0 +1,19 @@
+.sidebar__button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  color: $light-gray;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  text-decoration: none;
+  & svg {
+    width: 6px;
+    aspect-ratio: 2/3;
+    & path {
+      stroke: $light-gray;
+    }
+  }
+}

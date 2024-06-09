@@ -1,25 +1,22 @@
-import {isEqual} from './utils.ts';
-import {StoreEvents} from "../services/Store.ts";
-import Block from "./Block.ts";
+import { isEqual } from './utils';
+import { StoreEvents } from '../services/Store';
+import Block from './Block';
+import { AppState } from '../@types/types';
 
-export function connect(mapStateToProps: (state: Indexed) => Indexed, dispatch?:) {
+export function connect(
+  mapStateToProps: (state: AppState) => Partial<AppState>,
+) {
   return function (Component: typeof Block) {
     return class extends Component {
-      private onChangeStoreCallback: () => void;
-      constructor(props) {
-        const store = window.store;
+      protected onChangeStoreCallback: () => void;
+
+      constructor(props: { [x: string]: never }) {
+        const { store } = window;
+
         // сохраняем начальное состояние
         let state = mapStateToProps(store.getState());
 
         super({ ...props, ...state });
-
-        const dispatchHundler = {};
-        Object.entries(dispatch || {}).forEach(([key, hundler]) => {
-          dispatchHundler[key] = (...args) =>
-            hundler(window.store.set.bind(window.store), ...args);
-        });
-
-        this.setProps({ ...dispatchHundler });
 
         this.onChangeStoreCallback = () => {
           // при обновлении получаем новое состояние

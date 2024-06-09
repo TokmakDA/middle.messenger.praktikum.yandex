@@ -1,3 +1,5 @@
+import { b } from 'vite/dist/node/types.d-aGj9QkWt';
+
 export type InputProps = {
   type?: string;
   name?: string;
@@ -26,12 +28,13 @@ export type ErrorsPageProps = {
 };
 
 export type AppState = {
-  isLoading: boolean
+  isLoading: boolean;
   error: string | null;
   user: User | null;
   isOpenDialogChat: boolean;
   chats: Chat[];
-  
+  loginError?: string;
+  isEditionProfile: boolean;
 };
 
 export type User = {
@@ -57,4 +60,8 @@ export type Chat = {
   avatar: string | null;
   unreadCount: number;
   lastMessage: LastMessage | null;
+};
+
+export type TFormData = {
+  [key: string]: string;
 };

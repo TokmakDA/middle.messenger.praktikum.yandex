@@ -1,13 +1,14 @@
-import { Store } from './Store.ts';
+import { Store } from './Store';
 import { AppState } from '../@types/types';
 
 // Начальное состояние приложения
-const initialState = {
+const initialState: AppState = {
   isLoading: false,
   error: null,
   user: null,
   isOpenDialogChat: false,
   chats: [],
+  isEditionProfile: false,
 };
 
 // Создание единственного экземпляра Store с начальным состоянием
@@ -20,8 +21,8 @@ declare global {
   }
 }
 
-// // Установка глобальной переменной store
-// window.store = store;
+// Установка глобальной переменной store
+window.store = store;
 
 // Экспортирование экземпляра store
 export default store;

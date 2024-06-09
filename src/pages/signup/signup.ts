@@ -2,6 +2,10 @@ import { InputProps } from '../../@types/types';
 import { Input, Button, Link, AuthorizeWrapper, Form } from '../../components';
 import { ROUTES_PATH } from '../../lib/constants';
 import { LoyautCenter } from '../../layouts';
+import { TSignUpRequest } from '../../@types/api';
+import { UserAuthController } from '../../controllers/auth';
+import Block from '../../tools/Block.ts';
+import { connect } from '../../tools/connect.ts';
 
 // TODO Вынести инпуты и аттрибуты в отдельную переменную
 const inputsList: InputProps[] = [
@@ -88,18 +92,39 @@ const inputsList: InputProps[] = [
   },
 ];
 
-const signUpPage = new LoyautCenter({
-  content: new AuthorizeWrapper({
-    title: 'Зарегистрироваться',
-    form: new Form({
-      inputsList: inputsList.map((item) => ({
-        input: new Input({ ...item }),
-      })),
-      formName: 'signup',
-      button: new Button({ text: 'Зарегистрироваться ', type: 'submit' }),
-      link: new Link({ text: 'Войти', url: ROUTES_PATH.signin }),
-    }),
-  }),
-});
+const authController = new UserAuthController();
 
-export default signUpPage;
+class SignUpPage extends LoyautCenter {
+  constructor(props: { content: Block }) {
+    super({
+      ...props,
+      content: new AuthorizeWrapper({
+        title: 'Зарегистрироваться',
+        form: new Form({
+          inputsList: inputsList.map((item) => ({
+            input: new Input({ ...item }),
+          })),
+          formName: 'signup',
+          button: new Button({ text: 'Зарегистрироваться ', type: 'submit' }),
+          link: new Link({ text: 'Войти', url: ROUTES_PATH.signin }),
+          onSubmit: async (formData) => {
+            const data: TSignUpRequest = {
+              login: formData.login,
+              password: formData.password,
+              first_name: formData.first_name,
+              second_name: formData.second_name,
+              email: formData.email,
+              phone: formData.phone,
+            };
+            await authController.signUp(data);
+          },
+        }),
+      }),
+    });
+  }
+}
+
+export default connect(({ isLoading, loginError }) => ({
+  isLoading,
+  loginError,
+}))(SignUpPage as typeof Block);

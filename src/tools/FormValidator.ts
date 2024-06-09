@@ -1,17 +1,21 @@
+import { TFormData } from '../@types/types';
+
 export default class FormValidate {
   isValidForm: boolean = true;
+
+  formData: TFormData = {};
 
   formValidate = (e: SubmitEvent): boolean => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
     const { elements } = form;
 
-    const formData: Record<string, string> = {};
+    this.formData = {};
     this.isValidForm = Array.from(elements).every((el) => {
       if (this.isFormInputElement(el)) {
         const input = el as HTMLInputElement;
         if (input.value) {
-          formData[input.name] = input.value;
+          this.formData[input.name] = input.value;
         }
         return this.validateInput(input);
       }
@@ -19,13 +23,13 @@ export default class FormValidate {
       return true;
     });
 
-    if (this.isValidForm) {
-      // eslint-disable-next-line no-console
-      console.log('Form is valid:', formData);
-    } else {
-      // eslint-disable-next-line no-console
-      console.log('Form is invalid');
-    }
+    // if (this.isValidForm) {
+    //   // eslint-disable-next-line no-console
+    //   console.log('Form is valid:', this.formData);
+    // } else {
+    //   // eslint-disable-next-line no-console
+    //   console.log('Form is invalid');
+    // }
     return this.isValidForm;
   };
 
@@ -56,5 +60,9 @@ export default class FormValidate {
   validateInput = (input: HTMLInputElement): boolean => {
     this.showInputErrors(input);
     return input.checkValidity();
+  };
+
+  giveFieldData = (): TFormData => {
+    return this.formData;
   };
 }

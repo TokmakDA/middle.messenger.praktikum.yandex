@@ -25,10 +25,10 @@ class HomeBlock extends Block {
   }
 }
 
-const homePage = new LoyautCenter({
+const HomePage = new LoyautCenter({
   content: new HomeBlock({
     links: ROUTES,
   }),
 });
 
-export default homePage;
+export default HomePage;
