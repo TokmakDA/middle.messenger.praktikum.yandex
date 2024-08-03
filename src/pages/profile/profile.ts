@@ -1,12 +1,12 @@
 import { LoyautRows, LoyautSidebar } from '../../layouts';
 import { BackBlock } from '../../modules/profile/back';
 import { ProfileBlock } from '../../modules/profile';
-import { ROUTES_PATH } from '../../lib/constants';
+import { ROUTES_PATH } from '../../lib/constants/routes';
 import Block from '../../tools/Block';
 import { connect } from '../../tools/connect';
 
 class ProfilePage extends LoyautRows {
-  constructor(props: { rows: Block[] }) {
+  constructor({ ...props }) {
     super({
       ...props,
       rows: [
@@ -17,12 +17,10 @@ class ProfilePage extends LoyautRows {
             }),
           }),
         },
-        { row: new ProfileBlock({ ...props }) },
+        { row: new ProfileBlock({}) },
       ],
     });
   }
 }
 
-export default connect(({ user }) => ({
-  user,
-}))(ProfilePage as typeof Block);
+export default connect(() => ({}))(ProfilePage as typeof Block);

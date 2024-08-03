@@ -1,39 +1,12 @@
 import { InputProps } from '../../@types/types';
 import { Input, Button, Link, AuthorizeWrapper, Form } from '../../components';
-import { ROUTES_PATH } from '../../lib/constants';
+import { ROUTES_PATH } from '../../lib/constants/routes';
 import { LoyautCenter } from '../../layouts';
-import { UserAuthController } from '../../controllers/auth';
+import { UserAuthController } from '../../controllers/Auth';
 import { TSignInRequest } from '../../@types/api';
 import { connect } from '../../tools/connect';
 import Block from '../../tools/Block';
-
-
-const inputsList: InputProps[] = [
-  {
-    label: 'Логин',
-    name: 'login',
-    value: '',
-    attr: {
-      type: 'text',
-      required: true,
-      pattern: `(?=.*[a-z]|[A-Z])[a-zA-Z0-9\\-_]{3,20}`,
-      minlength: 3,
-      maxlength: 20,
-    },
-  },
-  {
-    label: 'Пароль',
-    name: 'password',
-    value: '',
-    attr: {
-      type: 'password',
-      required: true,
-      pattern: `((?=.*\\d)(?=.*[A-Z]).{8,40})`,
-      minlength: 8,
-      maxlength: 40,
-    },
-  },
-];
+import { SIGN_IN_INPUT_FIELDS as signInInputs } from '../../lib/constants/formFieldConstants';
 
 class SignInPage extends LoyautCenter {
   constructor(props: { content: AuthorizeWrapper }) {
@@ -42,7 +15,7 @@ class SignInPage extends LoyautCenter {
       content: new AuthorizeWrapper({
         title: 'Войти',
         form: new Form({
-          inputsList: inputsList.map((item) => ({
+          inputsList: signInInputs.map((item: InputProps) => ({
             input: new Input({ ...item }),
           })),
           formName: 'signin',
@@ -51,16 +24,24 @@ class SignInPage extends LoyautCenter {
             text: 'Зарегистрироваться',
             url: ROUTES_PATH.signup,
           }),
-          onSubmit: async (formData) => {
-            const data: TSignInRequest = {
-              login: formData.login,
-              password: formData.password,
-            };
-            await UserAuthController.login(data);
-          },
+          onSubmit: (formData) => this.handleSubmit(formData),
         }),
       }),
     });
+  }
+
+  async handleSubmit(formData: Record<string, string>): Promise<void> {
+    const data: TSignInRequest = {
+      login: formData.login,
+      password: formData.password,
+    };
+
+    try {
+      await UserAuthController.login(data);
+    } catch (error) {
+      console.error('Login error:', error);
+      // Handle error (e.g., show a message to the user)
+    }
   }
 }
 

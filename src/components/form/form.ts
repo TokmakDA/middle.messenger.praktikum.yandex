@@ -33,16 +33,19 @@ export default class Form extends Block {
         </form>
       `,
       events: {
-        submit: (e: SubmitEvent): void => {
-          if (this.validator.formValidate(e)) {
-            const formData = this.validator.giveFieldData();
-            this.onSubmit(formData); // Вызываем переданный коллбэк с данными формы
-          }
-        },
+        submit: (e: SubmitEvent): void => this.handleSubmit(e),
       },
     });
 
     this.validator = new FormValidate();
     this.onSubmit = onSubmit; // Сохраняем коллбэк для сабмита
+  }
+
+  handleSubmit(e: SubmitEvent): void {
+    e.preventDefault();
+    if (this.validator.formValidate(e)) {
+      const formData = this.validator.giveFieldData();
+      this.onSubmit(formData); // Вызываем переданный коллбэк с данными формы
+    }
   }
 }

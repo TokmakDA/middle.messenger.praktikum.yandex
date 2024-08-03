@@ -9,6 +9,8 @@ const initialState: AppState = {
   isOpenDialogChat: false,
   chats: [],
   isEditionProfile: false,
+  isAuthorized: false,
+  findUsers: [],
 };
 
 // Создание единственного экземпляра Store с начальным состоянием

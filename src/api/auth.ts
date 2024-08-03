@@ -6,25 +6,38 @@ import {
   TSignUpResponse,
 } from '../@types/api';
 import { User } from '../@types/types';
+import URLS from '../lib/constants/urls';
 
-const authApi = new HTTPTransport('/auth', true);
+const authTransport = new HTTPTransport({ withCredentials: true });
 
 export default class AuthApi {
-  async create(data: TSignUpRequest): Promise<TSignUpResponse | APIError> {
-    return authApi.post<TSignUpRequest, TSignUpResponse | APIError>('/signup', {
-      data,
+  static async create(
+    data: TSignUpRequest,
+  ): Promise<TSignUpResponse | APIError> {
+    return authTransport.post<TSignUpRequest, TSignUpResponse | APIError>(
+      URLS.auth.signup,
+      {
+        data,
+      },
+    );
+  }
+
+  static async login(data: TSignInRequest): Promise<void | APIError> {
+    return authTransport.post<TSignInRequest, void | APIError>(
+      URLS.auth.signin,
+      {
+        data,
+      },
+    );
+  }
+
+  static async me(): Promise<User | APIError> {
+    return authTransport.get<void, User | APIError>(URLS.auth.user, {
+      withCredentials: true,
     });
   }
 
-  async login(data: TSignInRequest): Promise<void | APIError> {
-    return authApi.post<TSignInRequest, void | APIError>('/signin', { data });
-  }
-
-  async me(): Promise<User | APIError> {
-    return authApi.get<void, User | APIError>('/user');
-  }
-
-  async logout(): Promise<void | APIError> {
-    return authApi.post<void, void | APIError>('/logout');
+  static async logout(): Promise<void | APIError> {
+    return authTransport.post<void, void | APIError>(URLS.auth.logout);
   }
 }

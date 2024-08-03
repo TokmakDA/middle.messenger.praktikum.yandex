@@ -4,9 +4,11 @@ import { ProfileButton } from '../profile-button';
 import { ProfileLink } from '../profile-link';
 import './style.scss';
 import CustomFormValidate from './validator';
-import { UserAuthController } from '../../../controllers/auth.ts';
+import { UserAuthController } from '../../../controllers/Auth';
+import { connect } from '../../../tools/connect';
+import { UserController } from '../../../controllers/User';
 
-export default class ProfileFormBlock extends Block {
+class ProfileFormBlock extends Block {
   validator: CustomFormValidate;
 
   constructor({ ...props }) {
@@ -28,30 +30,20 @@ export default class ProfileFormBlock extends Block {
           <div>{{{ links }}}</div>
           {{/if}}
         </form>
-
       `,
       events: {
-        submit: (e: SubmitEvent) => {
-          e.preventDefault();
-          const valid = this.validator.formValidate(e);
-          if (valid) {
-            this.setProps({ isEdition: false });
-          }
-        },
+        submit: (e: SubmitEvent) => this.handleSubmit(e),
       },
       submitButton: new Button({
         type: 'submit',
-        text: 'сахранить',
+        text: 'Сохранить',
       }),
       links: [
         {
           buttonLink: new ProfileButton({
             text: 'Изменить данные',
             type: 'button',
-            onClick: () => {
-              window.store.set({ isEditionProfile: true });
-              this.setProps({ isEdition: true });
-            },
+            onClick: () => this.handleEdition(true),
           }),
         },
         {
@@ -64,9 +56,7 @@ export default class ProfileFormBlock extends Block {
           link: new ProfileButton({
             text: 'Выйти',
             color: 'warning',
-            onClick: async () => {
-              await UserAuthController.logout();
-            },
+            onClick: () => this.handleLogOut(),
           }),
         },
       ],
@@ -74,4 +64,35 @@ export default class ProfileFormBlock extends Block {
 
     this.validator = new CustomFormValidate();
   }
+  handleEdition(value: boolean) {
+    window.store.set({
+      isEditionProfile: value,
+    });
+  }
+
+  async handleLogOut() {
+    await UserAuthController.logout();
+  }
+
+  async handleSubmit(e: SubmitEvent) {
+    e.preventDefault();
+    console.log(e);
+    const valid = this.validator.formValidate(e);
+    if (valid) {
+      const formData = this.validator.giveFieldData();
+
+      await UserController.updateProfile({
+        email: formData.email,
+        display_name: formData.display_name,
+        login: formData.login,
+        phone: formData.phone,
+        first_name: formData.first_name,
+        second_name: formData.second_name,
+      });
+    }
+  }
 }
+
+export default connect(({ isEditionProfile }) => ({
+  isEditionProfile,
+}))(ProfileFormBlock as typeof Block);

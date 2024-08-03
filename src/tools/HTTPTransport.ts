@@ -1,5 +1,5 @@
-import { queryStringify } from './utils';
-import { BASE_URL } from '../lib/constants';
+import { queryStringify } from '../lib/utils/utils';
+import { BASE_URL } from '../lib/constants/apiEndpoints';
 
 const METHODS = {
   GET: 'GET',
@@ -26,13 +26,21 @@ type HTTPMethod = <TRequest, TResponse>(
   options?: TOptions<TRequest>,
 ) => Promise<TResponse>;
 
+/**
+ * Класс для выполнения HTTP-запросов
+ */
 export default class HTTPTransport {
   protected apiUrl: string;
   protected withCredentialsDefault: boolean;
 
-  constructor(apiPath: string, withCredentialsDefault = false) {
+  /**
+   * Конструктор класса HTTPTransport
+   * @param apiPath - Путь к API
+   * @param withCredentialsDefault - Значение по умолчанию для withCredentials
+   */
+  constructor({ apiPath = '', withCredentials = false }) {
     this.apiUrl = `${BASE_URL}${apiPath}`;
-    this.withCredentialsDefault = withCredentialsDefault;
+    this.withCredentialsDefault = withCredentials;
   }
 
   get: HTTPMethod = (url, options) =>
@@ -50,6 +58,12 @@ export default class HTTPTransport {
   patch: HTTPMethod = (url, options) =>
     this.request(url, { ...options, method: METHODS.PATCH });
 
+  /**
+   * Выполняет HTTP-запрос
+   * @param url - URL для запроса
+   * @param options - Опции запроса
+   * @returns Ответ сервера
+   */
   request = <TRequest, TResponse>(
     url: string,
     options: TOptions<TRequest>,
@@ -63,6 +77,7 @@ export default class HTTPTransport {
     } = options;
     let updatedUrl = `${this.apiUrl}${url}`;
 
+    // Обработка GET-запроса с параметрами
     if (method === METHODS.GET && data) {
       const queryParams = queryStringify(data);
       updatedUrl += `?${queryParams}`;
@@ -74,6 +89,7 @@ export default class HTTPTransport {
       xhr.open(method, updatedUrl);
       xhr.setRequestHeader('Content-Type', 'application/json');
 
+      // Установка заголовков запроса
       if (headers) {
         Object.entries(headers).forEach(([header, value]) => {
           xhr.setRequestHeader(header, value);
@@ -108,11 +124,8 @@ export default class HTTPTransport {
         reject(new Error('Request timed out'));
       };
 
-      if (method === METHODS.GET) {
-        xhr.send();
-      } else {
-        xhr.send(JSON.stringify(data));
-      }
+      // Отправка данных в запросе
+      xhr.send(method === METHODS.GET ? null : JSON.stringify(data));
     });
   };
 }

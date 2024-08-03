@@ -1,8 +1,13 @@
-import { isEqual } from './utils';
+import { isEqual } from '../lib/utils/utils';
 import { StoreEvents } from '../services/Store';
 import Block from './Block';
 import { AppState } from '../@types/types';
 
+/**
+ * Функция высшего порядка для подключения компонента к хранилищу
+ * @param mapStateToProps - Функция, преобразующая состояние хранилища в пропсы компонента
+ * @returns - Новый компонент с возможностью подписки на обновления состояния хранилища
+ */
 export function connect(
   mapStateToProps: (state: AppState) => Partial<AppState>,
 ) {
@@ -13,16 +18,18 @@ export function connect(
       constructor(props: { [x: string]: never }) {
         const { store } = window;
 
-        // сохраняем начальное состояние
+        // Сохраняем начальное состояние
         let state = mapStateToProps(store.getState());
 
+        // Инициализируем базовый компонент с состоянием
         super({ ...props, ...state });
 
+        // Обработчик изменения состояния хранилища
         this.onChangeStoreCallback = () => {
           // при обновлении получаем новое состояние
           const newState = mapStateToProps(store.getState());
 
-          // если что-то из используемых данных поменялось, обновляем компонент
+          // Если состояние изменилось, обновляем пропсы компонента
           if (!isEqual(state, newState)) {
             this.setProps({ ...newState });
           }
@@ -31,12 +38,13 @@ export function connect(
           state = newState;
         };
 
-        // подписываемся на событие
+        // Подписываемся на изменения в хранилище
         store.on(StoreEvents.Updated, this.onChangeStoreCallback);
       }
 
       componentWillUnmount() {
         super.componentWillUnmount();
+        // Отписываемся от изменений в хранилище при размонтировании компонента
         window.store.off(StoreEvents.Updated, this.onChangeStoreCallback);
       }
     };

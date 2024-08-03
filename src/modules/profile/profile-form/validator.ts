@@ -1,7 +1,7 @@
 import FormValidate from '../../../tools/FormValidator';
 
 export default class CustomFormValidate extends FormValidate {
-  // Переопределите метод showInputErrors
+  // Переопределение метода showInputErrors
   showInputErrors = (input: HTMLInputElement): void => {
     const parent = input.closest('.input-container');
 

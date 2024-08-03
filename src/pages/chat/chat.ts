@@ -3,11 +3,11 @@ import { ChatroomBlock } from '../../modules/chats/chatroom';
 import { ChatsPanelBlock } from '../../modules/chats/chats-panel';
 import { ChatCardBlock } from '../../modules/chats/chats-panel/chat-card';
 import { LoyautRows } from '../../layouts';
-import getFormattedDate from '../../tools/getFormattedDate';
+import getFormattedDate from '../../lib/utils/getFormattedDate.ts';
 import CheckmarkBlock from '../../components/checkmark';
 import avatarSVG from '../../assets/images/avatar.svg';
-import Block from '../../tools/Block.ts';
-import { connect } from '../../tools/connect.ts';
+import Block from '../../tools/Block';
+import { connect } from '../../tools/connect';
 
 class ChatPage extends LoyautRows {
   constructor(props: { rows: Block[] }) {

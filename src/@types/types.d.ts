@@ -1,5 +1,3 @@
-import { b } from 'vite/dist/node/types.d-aGj9QkWt';
-
 export type InputProps = {
   type?: string;
   name?: string;
@@ -35,6 +33,8 @@ export type AppState = {
   chats: Chat[];
   loginError?: string;
   isEditionProfile: boolean;
+  isAuthorized: boolean;
+  findUsers: User[];
 };
 
 export type User = {

@@ -1,7 +1,7 @@
 import Block from '../../tools/Block';
 import './style.scss';
 import { Link } from '../../components';
-import { ROUTES_PATH } from '../../lib/constants';
+import { ROUTES_PATH } from '../../lib/constants/routes.ts';
 
 class ErrorBlock extends Block {
   constructor({ ...props }) {

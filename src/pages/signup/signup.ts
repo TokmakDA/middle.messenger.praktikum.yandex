@@ -1,126 +1,47 @@
 import { InputProps } from '../../@types/types';
 import { Input, Button, Link, AuthorizeWrapper, Form } from '../../components';
-import { ROUTES_PATH } from '../../lib/constants';
+import { ROUTES_PATH } from '../../lib/constants/routes';
 import { LoyautCenter } from '../../layouts';
 import { TSignUpRequest } from '../../@types/api';
-import { UserAuthController } from '../../controllers/auth';
-import Block from '../../tools/Block.ts';
-import { connect } from '../../tools/connect.ts';
-
-// TODO Вынести инпуты и аттрибуты в отдельную переменную
-const inputsList: InputProps[] = [
-  {
-    name: 'login',
-    label: 'Логин',
-    value: '',
-    attr: {
-      type: 'text',
-      required: true,
-      pattern: '(?=.*[a-z]|[A-Z])[a-zA-Z0-9\\-_]{3,20}',
-      minlength: 3,
-      maxlength: 20,
-    },
-  },
-  {
-    name: 'first_name',
-    label: 'Имя',
-    value: '',
-    attr: {
-      type: 'text',
-      required: true,
-      pattern: '^[A-ZА-Я]+[A-Za-zА-Яа-я\\-]*',
-    },
-  },
-  {
-    name: 'second_name',
-    label: 'Фамилия',
-    value: '',
-    attr: {
-      type: 'text',
-      required: true,
-      pattern: '^[A-ZА-Я]+[A-Za-zА-Яа-я\\-]*',
-    },
-  },
-  {
-    name: 'email',
-    label: 'Почта',
-    value: '',
-    attr: {
-      type: 'email',
-      required: true,
-      pattern: '^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$',
-      minlength: 3,
-      maxlength: 20,
-    },
-  },
-  {
-    type: 'phone',
-    name: 'phone',
-    label: 'Телефон',
-    value: '',
-    attr: {
-      type: 'phone',
-      required: true,
-      pattern: '^[\\+]?[0-9]{10,15}',
-      minlength: 10,
-      maxlength: 15,
-    },
-  },
-  {
-    name: 'password',
-    label: 'Пароль',
-    value: '',
-    attr: {
-      type: 'password',
-      required: true,
-      pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
-      minlength: 8,
-      maxlength: 40,
-    },
-  },
-  {
-    name: 'rePassword',
-    label: 'Повторите пароль',
-    value: '',
-    attr: {
-      type: 'password',
-      required: true,
-      pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
-      minlength: 8,
-      maxlength: 40,
-    },
-  },
-];
-
-const authController = new UserAuthController();
+import { UserAuthController } from '../../controllers/Auth.ts';
+import Block from '../../tools/Block';
+import { connect } from '../../tools/connect';
+import { SIGN_UP_INPUT_FIELDS as signUpInputs } from '../../lib/constants/formFieldConstants';
 
 class SignUpPage extends LoyautCenter {
-  constructor(props: { content: Block }) {
+  constructor(props: { content: AuthorizeWrapper }) {
     super({
       ...props,
       content: new AuthorizeWrapper({
         title: 'Зарегистрироваться',
         form: new Form({
-          inputsList: inputsList.map((item) => ({
+          inputsList: signUpInputs.map((item: InputProps) => ({
             input: new Input({ ...item }),
           })),
           formName: 'signup',
           button: new Button({ text: 'Зарегистрироваться ', type: 'submit' }),
           link: new Link({ text: 'Войти', url: ROUTES_PATH.signin }),
-          onSubmit: async (formData) => {
-            const data: TSignUpRequest = {
-              login: formData.login,
-              password: formData.password,
-              first_name: formData.first_name,
-              second_name: formData.second_name,
-              email: formData.email,
-              phone: formData.phone,
-            };
-            await authController.signUp(data);
-          },
+          onSubmit: (formData) => this.handleSubmit(formData),
         }),
       }),
     });
+  }
+
+  async handleSubmit(formData: Record<string, string>): Promise<void> {
+    const data: TSignUpRequest = {
+      login: formData.login,
+      password: formData.password,
+      first_name: formData.first_name,
+      second_name: formData.second_name,
+      email: formData.email,
+      phone: formData.phone,
+    };
+
+    try {
+      await UserAuthController.signUp(data);
+    } catch (error) {
+      console.error('signUp error:', error);
+    }
   }
 }
 

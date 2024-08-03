@@ -1,7 +1,7 @@
 import Block from '../tools/Block';
 import Router from './Router';
 import * as Pages from '../pages';
-import { ROUTES_PATH } from '../lib/constants';
+import { ROUTES_PATH } from '../lib/constants/routes';
 
 // Добавим роуты
 const routes: {

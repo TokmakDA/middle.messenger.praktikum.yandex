@@ -1,15 +1,28 @@
 import './style.scss';
 
-import { PROFILE_INPUTS } from '../../temp/data';
+import { PROFILE_INPUT_FIELDS as profileInputs } from '../../lib/constants/formFieldConstants';
 import avatarSVG from '../../assets/images/avatar.svg';
 import Block from '../../tools/Block';
 import { ProfileInput } from './profile-input';
 import { ProfileFormBlock } from './profile-form';
 import { connect } from '../../tools/connect';
+import { User } from '../../@types/types';
 
 class ProfileBlock extends Block {
   constructor({ ...props }) {
     super({
+      ...props,
+      avatarSVG,
+      profileForm: new ProfileFormBlock({
+        inputList: profileInputs.map((field) => {
+          return {
+            input: new ProfileInput({
+              ...field,
+              value: props.user?.[field.name as keyof User] || field.value,
+            }),
+          };
+        }),
+      }),
       template: `
         <section class="profile">
           <div class="profile__container">
@@ -23,23 +36,10 @@ class ProfileBlock extends Block {
           </div>
         </section>
       `,
-      ...props,
-      profileForm: new ProfileFormBlock({
-        ...props,
-        inputList: PROFILE_INPUTS.map((prop) => {
-          return {
-            input: new ProfileInput({
-              ...prop,
-              value: props.user?.[prop.name] || prop.value,
-            }),
-          };
-        }),
-      }),
-      avatarSVG,
     });
   }
 }
 
-export default connect(({ isEditionProfile }) => ({
-  isEditionProfile,
+export default connect(({ user }) => ({
+  user,
 }))(ProfileBlock as typeof Block);

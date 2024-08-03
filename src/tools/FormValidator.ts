@@ -2,9 +2,9 @@ import { TFormData } from '../@types/types';
 
 export default class FormValidate {
   isValidForm: boolean = true;
-
   formData: TFormData = {};
 
+  // Метод для валидации формы
   formValidate = (e: SubmitEvent): boolean => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
@@ -23,17 +23,13 @@ export default class FormValidate {
       return true;
     });
 
-    // if (this.isValidForm) {
-    //   // eslint-disable-next-line no-console
-    //   console.log('Form is valid:', this.formData);
-    // } else {
-    //   // eslint-disable-next-line no-console
-    //   console.log('Form is invalid');
-    // }
     return this.isValidForm;
   };
 
-  isFormInputElement = (element: Element): element is HTMLInputElement => {
+  // Проверка, является ли элемент формовым элементом
+  isFormInputElement = (
+    element: Element,
+  ): element is HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement => {
     return (
       element instanceof HTMLInputElement ||
       element instanceof HTMLTextAreaElement ||
@@ -41,6 +37,7 @@ export default class FormValidate {
     );
   };
 
+  // Показать ошибки валидации для поля ввода
   showInputErrors = (input: HTMLInputElement): void => {
     const parent = input.closest('.input');
 
@@ -57,11 +54,13 @@ export default class FormValidate {
     }
   };
 
+  // Проверка валидности поля ввода
   validateInput = (input: HTMLInputElement): boolean => {
     this.showInputErrors(input);
     return input.checkValidity();
   };
 
+  // Получить данные полей формы
   giveFieldData = (): TFormData => {
     return this.formData;
   };

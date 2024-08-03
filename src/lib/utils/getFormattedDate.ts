@@ -28,7 +28,7 @@ const getFormattedDate: (time: string) => string = (time) => {
     return formatTime(lastTime);
   }
   if (
-    // В течении недели
+    // В течение недели
     periods.days &&
     periods.weekday === periods.days &&
     !periods.months &&
