@@ -6,7 +6,7 @@ import Block from '../../tools/Block';
 import { ProfileInput } from './profile-input';
 import { ProfileFormBlock } from './profile-form';
 import { connect } from '../../tools/connect';
-import { User } from '../../@types/types';
+import type { User } from '../../@types/types';
 
 class ProfileBlock extends Block {
   constructor({ ...props }) {
@@ -18,7 +18,8 @@ class ProfileBlock extends Block {
           return {
             input: new ProfileInput({
               ...field,
-              value: props.user?.[field.name as keyof User] || field.value,
+              // TODO Проверить на новом пользователе
+              value: props.user[field.name as keyof User], // || field.value,
             }),
           };
         }),
@@ -30,7 +31,9 @@ class ProfileBlock extends Block {
               <div class="profile__avatar-wrapper">
                 <img class="profile__avatar" src="${avatarSVG}" alt="аватар" />
               </div>
-              <h1 class="profile__title">Иван</h1>
+              <h1 class="profile__title">
+                {{ user.first_name }}
+              </h1>
             </div>
             {{{ profileForm }}}
           </div>
@@ -42,4 +45,4 @@ class ProfileBlock extends Block {
 
 export default connect(({ user }) => ({
   user,
-}))(ProfileBlock as typeof Block);
+}))(ProfileBlock);

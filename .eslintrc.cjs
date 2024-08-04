@@ -44,7 +44,7 @@ module.exports = {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['./tpl.hbs', '@types/*'],
+        ignore: ['\\.svg\\?raw$', './tpl.hbs', './tpl.hbs?raw$', '@types/*'],
       },
     ],
     'prettier/prettier': 'error',

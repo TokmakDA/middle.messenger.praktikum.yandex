@@ -1,7 +1,7 @@
 import { isEqual } from '../lib/utils/utils';
 import { StoreEvents } from '../services/Store';
 import Block from './Block';
-import { AppState } from '../@types/types';
+import type { AppState } from '../@types/types';
 
 /**
  * Функция высшего порядка для подключения компонента к хранилищу
@@ -15,7 +15,7 @@ export function connect(
     return class extends Component {
       protected onChangeStoreCallback: () => void;
 
-      constructor(props: { [x: string]: never }) {
+      constructor(props: { [x: string]: unknown }) {
         const { store } = window;
 
         // Сохраняем начальное состояние

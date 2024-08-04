@@ -3,7 +3,7 @@ import { ChatroomBlock } from '../../modules/chats/chatroom';
 import { ChatsPanelBlock } from '../../modules/chats/chats-panel';
 import { ChatCardBlock } from '../../modules/chats/chats-panel/chat-card';
 import { LoyautRows } from '../../layouts';
-import getFormattedDate from '../../lib/utils/getFormattedDate.ts';
+import getFormattedDate from '../../lib/utils/getFormattedDate';
 import CheckmarkBlock from '../../components/checkmark';
 import avatarSVG from '../../assets/images/avatar.svg';
 import Block from '../../tools/Block';
@@ -35,4 +35,4 @@ class ChatPage extends LoyautRows {
 
 export default connect(({ chats }) => ({
   chats,
-}))(ChatPage as typeof Block);
+}))(ChatPage);

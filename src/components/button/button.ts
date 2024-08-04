@@ -1,14 +1,44 @@
 import Block from '../../tools/Block';
+import SVGBlock from '../svg/svg';
+
+interface ButtonProps {
+  type?: string;
+  className?: string;
+  page?: string;
+  text?: string;
+  iconBefore?: SVGBlock;
+  iconAfter?: SVGBlock;
+  attr?: {
+    [key: string]: string;
+  };
+  events?: {
+    [key: string]: EventListenerOrEventListenerObject;
+  };
+}
 
 class Button extends Block {
-  constructor({ ...props }) {
+  constructor(props: ButtonProps) {
     super({
+      ...props,
       template: `
-        <button type={{ type }} class="button">
-          {{ text }}
+        <button 
+          type="{{ type }}" 
+          class="{{#if className}} {{className}} {{else}} button {{/if}}" 
+          {{#if page}} page="{{ page }}" {{/if}} 
+        >
+          {{{ iconBefore }}}
+          
+          {{#if text}}
+            {{ text }}
+          {{/if}}
+          
+          {{{ iconAfter }}}
         </button>
       `,
-      ...props,
+      children: {
+        iconBefore: props.iconBefore,
+        iconAfter: props.iconAfter,
+      },
     });
   }
 }

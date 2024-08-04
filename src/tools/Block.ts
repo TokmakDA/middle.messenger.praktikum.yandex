@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
 import Handlebars from 'handlebars';
 import EventBus from './EventBus';
-import { isEqual } from '../lib/utils/utils';
+// import { isEqual } from '../lib/utils/utils';
 
 // Интерфейсы для типов событий, атрибутов и дочерних элементов
 interface EventMap {
@@ -25,7 +24,7 @@ interface Props {
 /**
  * Основной класс Block для работы с компонентами
  */
-export default class Block {
+export default class Block<T extends Props = Props> {
   // События жизненного цикла компонента
   static EVENTS = {
     INIT: 'init',
@@ -36,7 +35,7 @@ export default class Block {
   };
   private _element: HTMLElement | null = null;
   protected id: string = this._generateRandomId();
-  protected props: Props = {};
+  protected props: Props = {} as T;
   protected children: Children = {};
   protected eventBus: () => EventBus;
   protected lists: { [key: string]: Children[] } = {};
@@ -148,6 +147,24 @@ export default class Block {
   dispatchComponentDidMount(): void {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
+  //
+  // protected _updateChildDidUpdate() {
+  //   Object.values(this.children).forEach((child) => {
+  //     console.log(`Updating child ${child.id}`);
+  //
+  //     child.setProps(this.props);
+  //   });
+  //
+  //   Object.values(this.lists).forEach((childList) => {
+  //     childList.forEach((childdren) => {
+  //       Object.values(childdren).forEach((child) => {
+  //         console.log(`Updating child ${child.id}`);
+  //
+  //         child.setProps(this.props);
+  //       });
+  //     });
+  //   });
+  // }
 
   /**
    * Обрабатывает обновление компонента
@@ -157,6 +174,7 @@ export default class Block {
   _componentDidUpdate(oldProps: object, newProps: object): void {
     const shouldRender = this.componentDidUpdate(oldProps, newProps);
     if (shouldRender) {
+      // this._updateChildDidUpdate();
       this._render();
     }
   }
@@ -168,7 +186,11 @@ export default class Block {
    * @returns Нужно ли перерисовывать компонент
    */
   componentDidUpdate(oldProps: object, newProps: object): boolean {
-    return !isEqual(oldProps, newProps);
+    // return !isEqual(oldProps, newProps);
+    // Всегда возвращаем true, чтобы перерисовывать компонент
+    console.log('Старые пропсы:', oldProps);
+    console.log('Новые пропсы:', newProps);
+    return true;
   }
 
   /**
@@ -176,6 +198,22 @@ export default class Block {
    */
   _componentWillUnmount() {
     this.componentWillUnmount();
+    // Обработка дочерних компонентов
+    Object.values(this.children).forEach((child) => {
+      // console.log(`Unmounting child ${child.id}`);
+      child.unmount();
+    });
+
+    // Обработка элементов в массиве lists
+    Object.values(this.lists).forEach((childList) => {
+      Object.values(childList).forEach((children) =>
+        Object.values(children).forEach((child) => {
+          // console.log(`Unmounting child ${child.id}`);
+          child.unmount();
+        }),
+      );
+    });
+
     this._removeEvents();
     this._element?.remove();
   }
@@ -248,9 +286,9 @@ export default class Block {
       ) as HTMLElement;
       const childElement = this._createDocumentElement('template').content;
       childList.forEach((child) => {
-        childElement.append(
-          Object.values(child)[0].getContent() as HTMLElement,
-        );
+        Object.values(child).forEach((item) => {
+          childElement.append(item.getContent() as HTMLElement);
+        });
       });
 
       if (stub) {
@@ -304,8 +342,7 @@ export default class Block {
    * @returns Прокси объект
    */
   _makePropsProxy(props: object): Props {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this;
+    const self = this as Block<T>;
     return new Proxy(props, {
       get(target: { [key: string]: object }, prop: string) {
         const value = target[prop];
