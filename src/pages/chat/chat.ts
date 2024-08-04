@@ -1,28 +1,32 @@
-import { CHAT_LIST, MY_LOGIN } from '../../temp/data';
+import { AppState } from '../../@types/store';
+
 import { ChatroomBlock } from '../../modules/chats/chatroom';
 import { ChatsPanelBlock } from '../../modules/chats/chats-panel';
 import { ChatCardBlock } from '../../modules/chats/chats-panel/chat-card';
 import { LoyautRows } from '../../layouts';
 import getFormattedDate from '../../lib/utils/getFormattedDate';
-import CheckmarkBlock from '../../components/checkmark';
 import avatarSVG from '../../assets/images/avatar.svg';
-import Block from '../../tools/Block';
 import { connect } from '../../tools/connect';
+import { ChatsController } from '../../controllers';
 
 class ChatPage extends LoyautRows {
-  constructor(props: { rows: Block[] }) {
+  private count: number;
+  constructor({ ...props }: AppState) {
     super({
       ...props,
       rows: [
         {
           sidePanel: new ChatsPanelBlock({
-            chats: CHAT_LIST.map((item) => ({
+            chats: props.chatList.map((ChatItem) => ({
               chat: new ChatCardBlock({
-                displayTime: getFormattedDate(item.last_message.time!),
-                isMy: item.last_message.user.login === MY_LOGIN,
-                checkmark: new CheckmarkBlock({}),
+                displayTime: ChatItem.last_message
+                  ? getFormattedDate(ChatItem.last_message.time)
+                  : null,
+                isMy: ChatItem.last_message?.user.login === props.user?.login,
+                // checkmark: new CheckmarkBlock({}),
                 avatarSVG,
-                ...item,
+                is_active: ChatItem.id === props.currentChat,
+                ...ChatItem,
               }),
             })),
           }),
@@ -30,9 +34,20 @@ class ChatPage extends LoyautRows {
         { chatRoom: new ChatroomBlock({}) },
       ],
     });
+    this.count = 0;
+  }
+
+  async componentDidMount() {
+    this.count += 1;
+    console.log(this.count);
+
+    await ChatsController.fetchChatList({});
   }
 }
 
-export default connect(({ chats }) => ({
-  chats,
+export default connect((store) => ({
+  chatList: store.chatList,
+  currentChat: store.currentChat,
+  isOpenDialogChat: store.isOpenDialogChat,
+  user: store.user,
 }))(ChatPage);

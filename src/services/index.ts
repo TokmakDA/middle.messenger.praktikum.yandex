@@ -1,16 +1,22 @@
 import { Store } from './Store';
-import { AppState } from '../@types/types';
+import { AppState } from '../@types/store';
 
 // Начальное состояние приложения
 const initialState: AppState = {
   isLoading: false,
+  isAuthorized: false,
+
   error: null,
   user: null,
-  isOpenDialogChat: false,
-  chats: [],
   isEditionProfile: false,
-  isAuthorized: false,
+
+  isOpenDialogChat: false,
+
   findUsers: [],
+  findUser: null,
+  currentChat: null, // TODO переписать
+  chatList: [],
+  chatUsers: [],
 };
 
 // Создание единственного экземпляра Store с начальным состоянием

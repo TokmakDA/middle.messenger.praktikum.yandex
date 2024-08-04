@@ -3,8 +3,8 @@ import {
   TChangePasswordRequest,
   TFindUserRequest,
   TUpdateUserRequest,
+  TUserApi,
 } from '../@types/api';
-import { User } from '../@types/types';
 import { BaseController } from './BaseController';
 
 export class UserController extends BaseController {
@@ -18,7 +18,7 @@ export class UserController extends BaseController {
       const response = await UsersApi.updateProfile(data);
       this.throwError(response, 'Ошибка обновления профиля');
 
-      window.store.set({ user: response as User, isEditionProfile: false });
+      window.store.set({ user: response as TUserApi, isEditionProfile: false });
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при обновлении профиля');
     } finally {
@@ -26,7 +26,7 @@ export class UserController extends BaseController {
     }
   }
 
-  // TODO ПРоверить, может лучше вынесу в компонент
+  // TODO Пpоверить, может лучше вынесу в компонент при работе с аватаром
   /**
    * Создает FormData из файла для обновления аватара.
    * @param file Файл изображения.
@@ -51,7 +51,7 @@ export class UserController extends BaseController {
       this.throwError(response, 'Ошибка обновления аватара');
 
       // TODO Проверить на другую логику
-      window.store.set({ user: response as User, isEditionProfile: false });
+      window.store.set({ user: response as TUserApi, isEditionProfile: false });
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при обновлении аватара');
     } finally {
@@ -87,7 +87,27 @@ export class UserController extends BaseController {
       const response = await UsersApi.searchUsers(data);
       this.throwError(response, 'Ошибка поиска пользователей');
 
-      window.store.set({ findUsers: response as User[] });
+      window.store.set({ findUsers: response as TUserApi[] });
+
+      // TODO добавить дополнительную логику после успешного поиска
+    } catch (error) {
+      this.handleError(error, 'Неизвестная ошибка при поиске пользователей');
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  // /**
+  //  * Ищет пользователей по логину.
+  //  * @param data Данные для поиска пользователя.
+  //  */
+  public static async getUserByID(id: string | number) {
+    this.setLoading(true);
+    try {
+      const response = await UsersApi.fetchUserByID(id);
+      this.throwError(response, 'Ошибка поиска пользователей');
+
+      window.store.set({ findUser: response as TUserApi });
 
       // TODO добавить дополнительную логику после успешного поиска
     } catch (error) {

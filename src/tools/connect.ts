@@ -1,7 +1,7 @@
 import { isEqual } from '../lib/utils/utils';
 import { StoreEvents } from '../services/Store';
 import Block from './Block';
-import type { AppState } from '../@types/types';
+import { AppState } from '../@types/types';
 
 /**
  * Функция высшего порядка для подключения компонента к хранилищу

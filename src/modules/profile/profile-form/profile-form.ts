@@ -3,10 +3,9 @@ import Block from '../../../tools/Block';
 import { ProfileButton } from '../profile-button';
 // import { ProfileLink } from '../profile-link';
 import CustomFormValidate from './validator';
-import { UserAuthController } from '../../../controllers/Auth';
+import { UserAuthController, UserController } from '../../../controllers';
 import { connect } from '../../../tools/connect';
-import { UserController } from '../../../controllers/User';
-import type { TUpdateUserRequest } from '../../../@types/api';
+import { TUpdateUserRequest } from '../../../@types/api';
 
 class ProfileFormBlock extends Block {
   private validator: CustomFormValidate;

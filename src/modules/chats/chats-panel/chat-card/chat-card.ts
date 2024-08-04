@@ -8,6 +8,8 @@ class ChatCardBlock extends Block {
       template,
       ...props,
     });
+
+    console.log('ChatCardBlock =>', this.props);
   }
 }
 

@@ -1,7 +1,7 @@
 import { ROUTES_PATH } from '../lib/constants/routes';
 import store from '../services';
 import type Router from './Router';
-import { UserAuthController } from '../controllers/Auth.ts'; // Импорт вашего контроллера
+import { UserAuthController } from '../controllers';
 
 /**
  * Менеджер авторизации и защиты маршрутов.

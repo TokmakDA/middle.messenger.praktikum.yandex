@@ -1,5 +1,5 @@
-import { APIError } from '../../@types/api';
+import { TErrorApi } from '../../@types/api';
 
-export function apiHasError(response: unknown): response is APIError {
-  return (response as APIError)?.reason !== undefined;
+export function apiHasError(response: unknown): response is TErrorApi {
+  return (response as TErrorApi)?.reason !== undefined;
 }

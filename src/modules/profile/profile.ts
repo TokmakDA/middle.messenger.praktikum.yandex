@@ -1,4 +1,5 @@
 import './style.scss';
+import { TUpdateUserRequest } from '../../@types/api';
 
 import { PROFILE_INPUT_FIELDS as profileInputs } from '../../lib/constants/formFieldConstants';
 import avatarSVG from '../../assets/images/avatar.svg';
@@ -6,9 +7,10 @@ import Block from '../../tools/Block';
 import { ProfileInput } from './profile-input';
 import { ProfileFormBlock } from './profile-form';
 import { connect } from '../../tools/connect';
-import type { User } from '../../@types/types';
+// import { ChatsController } from '../../controllers';
 
 class ProfileBlock extends Block {
+  private count: number;
   constructor({ ...props }) {
     super({
       ...props,
@@ -19,7 +21,7 @@ class ProfileBlock extends Block {
             input: new ProfileInput({
               ...field,
               // TODO Проверить на новом пользователе
-              value: props.user[field.name as keyof User], // || field.value,
+              value: props.user[field.name as keyof TUpdateUserRequest], // || field.value,
             }),
           };
         }),
@@ -40,6 +42,13 @@ class ProfileBlock extends Block {
         </section>
       `,
     });
+    this.count = 0;
+  }
+  async componentDidMount() {
+    this.count += 1;
+    console.log(this.count);
+
+    // await ChatsController.createChat({ title: 'NewChat' });
   }
 }
 

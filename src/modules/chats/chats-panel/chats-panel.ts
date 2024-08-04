@@ -5,6 +5,8 @@ import Block from '../../../tools/Block';
 class ChatsPanelBlock extends Block {
   constructor({ ...props }) {
     super({
+      ...props,
+
       template: `
         <section class='sidebar'>
           <div class='sidebar__header'>
@@ -28,9 +30,10 @@ class ChatsPanelBlock extends Block {
           </div>
         </section>
       `,
-      ...props,
       profileButton: new ChatsPanelButton(),
     });
+
+    console.log(this.props)
   }
 }
 

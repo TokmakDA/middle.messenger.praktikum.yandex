@@ -147,24 +147,7 @@ export default class Block<T extends Props = Props> {
   dispatchComponentDidMount(): void {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
-  //
-  // protected _updateChildDidUpdate() {
-  //   Object.values(this.children).forEach((child) => {
-  //     console.log(`Updating child ${child.id}`);
-  //
-  //     child.setProps(this.props);
-  //   });
-  //
-  //   Object.values(this.lists).forEach((childList) => {
-  //     childList.forEach((childdren) => {
-  //       Object.values(childdren).forEach((child) => {
-  //         console.log(`Updating child ${child.id}`);
-  //
-  //         child.setProps(this.props);
-  //       });
-  //     });
-  //   });
-  // }
+
 
   /**
    * Обрабатывает обновление компонента
@@ -174,7 +157,6 @@ export default class Block<T extends Props = Props> {
   _componentDidUpdate(oldProps: object, newProps: object): void {
     const shouldRender = this.componentDidUpdate(oldProps, newProps);
     if (shouldRender) {
-      // this._updateChildDidUpdate();
       this._render();
     }
   }
@@ -188,8 +170,8 @@ export default class Block<T extends Props = Props> {
   componentDidUpdate(oldProps: object, newProps: object): boolean {
     // return !isEqual(oldProps, newProps);
     // Всегда возвращаем true, чтобы перерисовывать компонент
-    console.log('Старые пропсы:', oldProps);
-    console.log('Новые пропсы:', newProps);
+    // console.log('Старые пропсы:', oldProps);
+    // console.log('Новые пропсы:', newProps);
     return true;
   }
 

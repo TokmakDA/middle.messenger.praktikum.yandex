@@ -2,7 +2,7 @@ import { InputProps } from '../../@types/types';
 import { Input, Button, Link, AuthorizeWrapper, Form } from '../../components';
 import { ROUTES_PATH } from '../../lib/constants/routes';
 import { LoyautCenter } from '../../layouts';
-import { UserAuthController } from '../../controllers/Auth';
+import { UserAuthController } from '../../controllers';
 import { TSignInRequest } from '../../@types/api';
 import { connect } from '../../tools/connect';
 import Block from '../../tools/Block';
