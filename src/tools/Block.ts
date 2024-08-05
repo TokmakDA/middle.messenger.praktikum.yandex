@@ -25,6 +25,7 @@ interface Props {
  * Основной класс Block для работы с компонентами
  */
 export default class Block<T extends Props = Props> {
+  [key: string]: unknown;
   // События жизненного цикла компонента
   static EVENTS = {
     INIT: 'init',
@@ -135,7 +136,6 @@ export default class Block<T extends Props = Props> {
     //   child.dispatchComponentDidMount();
     // });
 
-
     // Object.values(this.lists).forEach((childList) => {
     //   Object.values(childList).forEach((children) =>
     //     Object.values(children).forEach((child) => {
@@ -176,9 +176,7 @@ export default class Block<T extends Props = Props> {
    * @param newProps - Новые пропсы
    * @returns Нужно ли перерисовывать компонент
    */
-  componentDidUpdate(
-    oldProps: object, newProps: object
-  ): boolean {
+  componentDidUpdate(oldProps: object, newProps: object): boolean {
     return !isEqual(oldProps, newProps);
     // Всегда возвращаем true, чтобы перерисовывать компонент
     // console.log('Старые пропсы:', oldProps);
@@ -234,6 +232,37 @@ export default class Block<T extends Props = Props> {
     const oldProps = { ...this.props };
     Object.assign(this.props, nextProps);
     this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, this.props);
+  };
+
+  /**
+   * Устанавливает новые пропсы и вызывает обновление компонента
+   * @param PropsAndChildren - Новые пропсы
+   */
+  setPropsAndChildren = (PropsAndChildren: Partial<T>): void => {
+    if (!PropsAndChildren) {
+      return;
+    }
+
+    const newData = this._extractPropsAndChildren(PropsAndChildren);
+
+    Object.entries(newData).forEach(([k, v]) => {
+      if (Object.keys(v).length) {
+        // Если свойство существует, обновляем его
+        if (this.hasOwnProperty(k)) {
+          console.log(k, v);
+
+          const key = k as keyof this;
+          const oldProps = { ...(this[key] as typeof this) };
+          this[key] = { ...oldProps, ...v };
+          this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, this[key]);
+        } else {
+          console.warn(`Property ${k} does not exist on Block instance.`);
+        }
+      }
+    });
+    // const oldLists = { ...this.lists };
+    // Object.assign(this.props, nextLists);
+    // this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldLists, this.lists);
   };
 
   /**

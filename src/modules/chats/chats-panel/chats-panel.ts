@@ -48,7 +48,7 @@ class ChatsPanelBlock extends Block {
 
     await ChatsController.fetchChatList({});
     const props = this.props as AppState;
-    this.setProps({
+    this.setPropsAndChildren({
       chats: props.chatList.map((ChatItem) => ({
         chat: new ChatCardBlock({
           displayTime: ChatItem.last_message
