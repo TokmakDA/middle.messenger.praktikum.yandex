@@ -6,6 +6,7 @@ import getFormattedDate from '../../../lib/utils/getFormattedDate.ts';
 import avatarSVG from '../../../assets/images/avatar.svg';
 import { connect } from '../../../tools/connect.ts';
 import { ChatsController } from '../../../controllers';
+import {AppState} from "../../../@types/store";
 
 class ChatsPanelBlock extends Block {
   private count: number;
@@ -46,7 +47,7 @@ class ChatsPanelBlock extends Block {
     console.log(this.count);
 
     await ChatsController.fetchChatList({});
-    const props = this.props;
+    const props = this.props as AppState;
     this.setProps({
       chats: props.chatList.map((ChatItem) => ({
         chat: new ChatCardBlock({
