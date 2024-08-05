@@ -1,6 +1,6 @@
 import Handlebars from 'handlebars';
 import EventBus from './EventBus';
-// import { isEqual } from '../lib/utils/utils';
+import { isEqual } from '../lib/utils/utils';
 
 // Интерфейсы для типов событий, атрибутов и дочерних элементов
 interface EventMap {
@@ -131,9 +131,19 @@ export default class Block<T extends Props = Props> {
    */
   _componentDidMount(): void {
     this.componentDidMount();
-    Object.values(this.children).forEach((child) => {
-      child.dispatchComponentDidMount();
-    });
+    // Object.values(this.children).forEach((child) => {
+    //   child.dispatchComponentDidMount();
+    // });
+
+
+    // Object.values(this.lists).forEach((childList) => {
+    //   Object.values(childList).forEach((children) =>
+    //     Object.values(children).forEach((child) => {
+    //       // console.log(`Unmounting child ${child.id}`);
+    //       child.dispatchComponentDidMount();
+    //     }),
+    //   );
+    // });
   }
 
   /**
@@ -147,7 +157,6 @@ export default class Block<T extends Props = Props> {
   dispatchComponentDidMount(): void {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
-
 
   /**
    * Обрабатывает обновление компонента
@@ -167,12 +176,14 @@ export default class Block<T extends Props = Props> {
    * @param newProps - Новые пропсы
    * @returns Нужно ли перерисовывать компонент
    */
-  componentDidUpdate(oldProps: object, newProps: object): boolean {
-    // return !isEqual(oldProps, newProps);
+  componentDidUpdate(
+    oldProps: object, newProps: object
+  ): boolean {
+    return !isEqual(oldProps, newProps);
     // Всегда возвращаем true, чтобы перерисовывать компонент
     // console.log('Старые пропсы:', oldProps);
     // console.log('Новые пропсы:', newProps);
-    return true;
+    // return true;
   }
 
   /**
@@ -292,6 +303,8 @@ export default class Block<T extends Props = Props> {
     }
     this._element = newElement;
     this._addEvents();
+
+    // console.log(this.element);
   }
 
   /**

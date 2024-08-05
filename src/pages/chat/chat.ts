@@ -17,18 +17,7 @@ class ChatPage extends LoyautRows {
       rows: [
         {
           sidePanel: new ChatsPanelBlock({
-            chats: props.chatList.map((ChatItem) => ({
-              chat: new ChatCardBlock({
-                displayTime: ChatItem.last_message
-                  ? getFormattedDate(ChatItem.last_message.time)
-                  : null,
-                isMy: ChatItem.last_message?.user.login === props.user?.login,
-                // checkmark: new CheckmarkBlock({}),
-                avatarSVG,
-                is_active: ChatItem.id === props.currentChat,
-                ...ChatItem,
-              }),
-            })),
+
           }),
         },
         { chatRoom: new ChatroomBlock({}) },
@@ -37,17 +26,19 @@ class ChatPage extends LoyautRows {
     this.count = 0;
   }
 
-  async componentDidMount() {
-    this.count += 1;
-    console.log(this.count);
-
-    await ChatsController.fetchChatList({});
-  }
+  // async componentDidMount() {
+  //   this.count += 1;
+  //   console.log(this.count);
+  //
+  //   await ChatsController.fetchChatList({});
+  // }
 }
 
+// export default ChatPage
+
 export default connect((store) => ({
-  chatList: store.chatList,
-  currentChat: store.currentChat,
-  isOpenDialogChat: store.isOpenDialogChat,
-  user: store.user,
+  // chatList: store.chatList,
+  // currentChat: store.currentChat,
+  // isOpenDialogChat: store.isOpenDialogChat,
+  // user: store.user,
 }))(ChatPage);

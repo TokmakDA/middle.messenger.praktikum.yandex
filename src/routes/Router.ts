@@ -79,7 +79,6 @@ class Router {
       console.log(
         '_onRoute => ',
         this._currentRoute,
-        this._currentRoute,
         route,
       );
       this._currentRoute.leave();

@@ -1,5 +1,5 @@
 import { InputProps } from '../../@types/types';
-import { Input, Button, Link, AuthorizeWrapper, Form } from '../../components';
+import { Input, Button, AuthorizeWrapper, Form } from '../../components';
 import { ROUTES_PATH } from '../../lib/constants/routes';
 import { LoyautCenter } from '../../layouts';
 import { TSignUpRequest } from '../../@types/api';
@@ -20,12 +20,24 @@ class SignUpPage extends LoyautCenter {
           })),
           formName: 'signup',
           button: new Button({ text: 'Зарегистрироваться ', type: 'submit' }),
-          link: new Link({ text: 'Войти', url: ROUTES_PATH.signin }),
+          link: new Button({
+            text: 'Войти',
+            className: 'link',
+	          page: 'signup',
+            events: {
+              click: (e) => this.handleSignUp(e),
+            },
+          }),
           onSubmit: (formData) => this.handleSubmit(formData),
         }),
       }),
     });
   }
+
+	handleSignUp(e: Event) {
+		e.preventDefault()
+		window.router.go(ROUTES_PATH.signin)
+	}
 
   async handleSubmit(formData: Record<string, string>): Promise<void> {
     const data: TSignUpRequest = {

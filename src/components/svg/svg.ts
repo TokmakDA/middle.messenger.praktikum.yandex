@@ -19,8 +19,6 @@ class SVGBlock extends Block {
       template: props.template,
       attr: props.attr,
     });
-
-    console.log(this.props.template);
   }
 
   render(): string {
