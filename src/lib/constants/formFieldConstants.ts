@@ -1,4 +1,6 @@
-export const SIGN_UP_INPUT_FIELDS = [
+import { InputField } from '../../@types/types';
+
+export const SIGN_UP_INPUT_FIELDS: InputField[] = [
   {
     name: 'login',
     label: 'Логин',
@@ -82,7 +84,7 @@ export const SIGN_UP_INPUT_FIELDS = [
   },
 ];
 
-export const SIGN_IN_INPUT_FIELDS = [
+export const SIGN_IN_INPUT_FIELDS: InputField[] = [
   {
     label: 'Логин',
     name: 'login',
@@ -109,7 +111,7 @@ export const SIGN_IN_INPUT_FIELDS = [
   },
 ];
 
-export const PROFILE_INPUT_FIELDS = [
+export const PROFILE_INPUT_FIELDS: InputField[] = [
   {
     type: 'text',
     name: 'login',

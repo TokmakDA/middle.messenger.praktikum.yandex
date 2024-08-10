@@ -1,22 +1,23 @@
 import Block from '../../../../tools/Block';
 import './style.scss';
-import avatarSVG from '../../../../assets/images/avatar.svg';
+import { connect } from '../../../../tools/connect';
 
 class HeaderChatroomBlock extends Block {
   constructor({ ...props }) {
     super({
+      ...props,
+
       template: `
         <div class='chat__header'>
           <div class='chat__name'>
-            {{! Блок с аватаркой и значом сети }}
-            <div class='chat__avatar-wrapper chat__avatar-wrapper_is-online'>
-              {{#if avatar}}
-                <img class='chat__avatar' src='{{avatarSVG}}' alt='аватар' />
+            <div class='chat__avatar-wrapper'>
+              {{#if currentChat.avatar}}
+                <img class='chat__avatar' src='{{ currentChat.avatar }}' alt='аватар' />
               {{else}}
-                <span class="chat__initials">{{initials}}</span>
+                <span class="chat__initials">{{ initials }}</span>
               {{/if}}
             </div>
-            <h1 class='chat__title'>Вадим</h1>
+            <h1 class='chat__title'>{{ currentChat.title }}</h1>
           </div>
           <div class='chat__menu'>
             <button class='chat__button'>
@@ -36,10 +37,11 @@ class HeaderChatroomBlock extends Block {
           </div>
         </div>
       `,
-      avatarSVG,
-      ...props,
     });
   }
 }
 
-export default HeaderChatroomBlock;
+// export default HeaderChatroomBlock;
+export default connect(({ currentChat }) => ({ currentChat }))(
+  HeaderChatroomBlock,
+);

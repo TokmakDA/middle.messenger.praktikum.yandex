@@ -1,21 +1,56 @@
-import template from './tpl.hbs?raw';
 import './style.scss';
 import Block from '../../../../tools/Block';
+import { connect } from '../../../../tools/connect';
+import { ChatsController } from '../../../../controllers';
+import { TChatCard } from '../../../../@types/api';
+import { AppState } from '../../../../@types/store';
+import avatarSVG from '../../../../assets/images/avatar.svg';
+
+type IChatCardProps = TChatCard &
+  AppState & {
+    onClick: () => void;
+  };
 
 class ChatCardBlock extends Block {
-  constructor({ ...props }) {
+  constructor(props: IChatCardProps) {
     super({
       ...props,
-      template: `
+      avatarSVG,
+      events: {
+        click: () => this.handleChatClick(props),
+      },
+    });
+  }
+
+  handleChatClick({
+    onClick,
+    id,
+    title,
+    avatar,
+    unread_count,
+    created_by,
+    last_message,
+  }: IChatCardProps) {
+    const chat = { id, title, avatar, unread_count, created_by, last_message };
+
+    ChatsController.selectChat(chat);
+    onClick();
+  }
+
+  render(): string {
+    const { id, currentChat } = this.props as IChatCardProps;
+    const isActive = id === currentChat?.id;
+
+    return `
         <li>
-          <div class="chats__chat-card chat-card" active="{{is_active}}">
+          <div class="chats__chat-card chat-card {{#if ${isActive}}} chat-card_active {{/if}} "">
             {{! Блок с аватаркой и значом сети }}
             <div class="chat-card__avatar-wrapper chat-card__avatar-wrapper_is-online">
-              {{#if avatar}}
-              <img class="chat-card__avatar" src="{{avatarSVG}}" alt="аватар" />
-              {{else}}
-              <span class="chat-card__initials">{{initials}}</span>
-              {{/if}}
+              <img 
+                class="chat-card__avatar"
+                src="{{#if avatar}} {{ avatar }} {{else}} {{avatarSVG}} {{/if}}" 
+                alt="аватар" 
+              />
             </div>
             <div class="chat-card__info-blok">
               {{! Блок с названием чата и датой последнего сообщения }}
@@ -45,11 +80,10 @@ class ChatCardBlock extends Block {
           </div>
           <div class="sidebar__line"></div>
         </li>
-      `,
-    });
-
-    console.log('ChatCardBlock =>', this.props);
+      `;
   }
 }
 
-export default ChatCardBlock;
+export default connect((store) => ({
+  currentChat: store.currentChat,
+}))(ChatCardBlock);

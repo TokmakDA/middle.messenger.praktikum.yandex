@@ -8,7 +8,7 @@ class ProfileInput extends Block {
       template: `
         <div class="input-container">
           <label class="input-container__label">
-            {{label}}
+            {{ label }}
            {{{ input }}}
           </label>
           <span class="input-container__error">{{ error }}</span>
@@ -18,6 +18,7 @@ class ProfileInput extends Block {
       attr: false,
       input: new InputElement({ ...props }),
     });
+    console.log(props);
   }
 }
 

@@ -1,5 +1,5 @@
 import './style.scss';
-import { TUpdateUserRequest } from '../../@types/api';
+import { TUpdateUserRequest, TUserApi } from '../../@types/api';
 
 import { PROFILE_INPUT_FIELDS as profileInputs } from '../../lib/constants/formFieldConstants';
 import avatarSVG from '../../assets/images/avatar.svg';
@@ -7,24 +7,25 @@ import Block from '../../tools/Block';
 import { ProfileInput } from './profile-input';
 import { ProfileFormBlock } from './profile-form';
 import { connect } from '../../tools/connect';
-// import { ChatsController } from '../../controllers';
+import { AppState } from '../../@types/store';
+import { InputField } from '../../@types/types';
+
 
 class ProfileBlock extends Block {
-  private count: number;
-  constructor({ ...props }) {
+  constructor(props: { [x: string]: unknown; user: TUserApi | null }) {
     super({
       ...props,
       avatarSVG,
       profileForm: new ProfileFormBlock({
-        inputList: profileInputs.map((field) => {
-          return {
-            input: new ProfileInput({
-              ...field,
-              // TODO Проверить на новом пользователе
-              value: props.user[field.name as keyof TUpdateUserRequest], // || field.value,
-            }),
-          };
-        }),
+        inputList: profileInputs.map((field) => ({
+          input: new ProfileInput({
+            ...field,
+            // TODO Проверить на новом пользователе
+            value: props.user
+              ? props.user[field.name as keyof TUpdateUserRequest]
+              : field.value,
+          }),
+        })),
       }),
       template: `
         <section class="profile">
@@ -44,14 +45,37 @@ class ProfileBlock extends Block {
     });
     this.count = 0;
   }
-  async componentDidMount() {
-    this.count += 1;
-    console.log(this.count);
 
-    // await ChatsController.createChat({ title: 'NewChat' });
+  getFieldComponent(field: InputField, user: TUserApi | null) {
+    return {
+      input: new ProfileInput({
+        ...field,
+        // TODO Проверить на новом пользователе
+        value: user
+          ? user[field.name as keyof TUpdateUserRequest]
+          : field.value,
+      }),
+    };
+  }
+
+  updateUserField() {
+    const props = this.props as AppState;
+    return {
+      ...props,
+      profileForm: new ProfileFormBlock({
+        inputList: profileInputs.map((field) =>
+          this.getFieldComponent(field, props.user),
+        ),
+      }),
+    };
+  }
+  async componentDidMount() {
+    this.updateUserField();
+    this.setPropsAndChildren(this.updateUserField());
   }
 }
 
-export default connect(({ user }) => ({
+export default connect(({ user, isEditionProfile }) => ({
   user,
+  isEditionProfile,
 }))(ProfileBlock);

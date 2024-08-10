@@ -16,14 +16,13 @@ class SVGBlock extends Block {
     // Передаем шаблон и атрибуты в конструктор родительского класса
     super({
       ...props,
-      template: props.template,
       attr: props.attr,
     });
   }
 
   render(): string {
     // Используем переданный шаблон или стандартный SVG
-    return this.template || ``;
+    return this.props.template || ``;
   }
 }
 

@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
 import AuthApi from '../api/auth';
-import { TSignInRequest, TSignUpRequest } from '../@types/api';
+import { TSignInRequest, TSignUpRequest, TUserApi } from '../@types/api';
 import { ROUTES_PATH } from '../lib/constants/routes';
-import { User } from '../@types/types';
 import { BaseController } from './BaseController';
 
 export class UserAuthController extends BaseController {
@@ -53,7 +52,7 @@ export class UserAuthController extends BaseController {
         response,
         'Произошла ошибка при получении пользовательских данных',
       );
-      window.store.set({ user: response as User, isAuthorized: true });
+      window.store.set({ user: response as TUserApi, isAuthorized: true });
     } catch (error) {
       this.handleError(error);
       this.clearState();

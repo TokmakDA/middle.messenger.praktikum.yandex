@@ -1,26 +1,9 @@
 import { Store } from './Store';
 import { AppState } from '../@types/store';
-
-// Начальное состояние приложения
-const initialState: AppState = {
-  isLoading: false,
-  isAuthorized: false,
-
-  error: null,
-  user: null,
-  isEditionProfile: false,
-
-  isOpenDialogChat: false,
-
-  findUsers: [],
-  findUser: null,
-  currentChat: null, // TODO переписать
-  chatList: [],
-  chatUsers: [],
-};
+import { INITIAL_STATE } from '../lib/constants/state';
 
 // Создание единственного экземпляра Store с начальным состоянием
-const store = new Store(initialState);
+const store = new Store(INITIAL_STATE);
 
 // Объявление глобальной переменной store для доступа к ней из любого места
 declare global {

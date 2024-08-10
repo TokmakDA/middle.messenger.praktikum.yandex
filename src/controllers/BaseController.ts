@@ -1,5 +1,6 @@
 import { apiHasError } from '../lib/utils/apiHasError';
 import { ROUTES_PATH } from '../lib/constants/routes';
+import { INITIAL_STATE } from '../lib/constants/state';
 
 /**
  * Базовый контроллер с общими методами.
@@ -39,7 +40,7 @@ export class BaseController {
    * Очищает состояние пользователя и перенаправляет на страницу авторизации.
    */
   protected static clearState() {
-    window.store.set({ user: null, chats: [], isAuthorized: false });
+    window.store.set(INITIAL_STATE);
     window.router.go(ROUTES_PATH.signin);
   }
 

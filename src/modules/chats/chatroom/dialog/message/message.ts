@@ -1,28 +1,37 @@
 import Block from '../../../../../tools/Block';
 import CheckmarkBlock from '../../../../../components/checkmark';
 import './style.scss';
-
-const text = `Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер все еще находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с пленкой.
-
-Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они так никогда и не попали. Всего их было произведено 25 штук, одну из них недавно продали на аукционе за 45000 евро.`;
+import getFormattedDate from '../../../../../lib/utils/getFormattedDate';
+import { WebSocketResponseMessage } from '../../../../../@types/socket';
+import { AppState } from '../../../../../@types/store';
 
 class MessageBlock extends Block {
   constructor({ ...props }) {
     super({
-      template: `
-        <div class='chat__message aling_start'>
+      checkmark: new CheckmarkBlock({ is_read: props.is_read }),
+      ...props,
+    });
+  }
+
+  render(): string {
+    const { time, user_id, user } = this.props as WebSocketResponseMessage &
+      AppState;
+    const displayTime = getFormattedDate(time);
+    const isMy = `${user_id}` === `${user?.id}`;
+
+    return `
+        <div class='chat__message {{#if ${isMy}}} chat__is-my {{/if}}'>
           <div class='chat__wrapper'>
-            <p class='chat__text'>{{text}}</p>
+            <p class='chat__text'>{{ content }}</p>
             <div class='chat__time-stamp'>
-              <time class='chat__time' datetime='11:56'>11:56</time>{{{checkmark}}}
+              <time class='chat__time' datetime='${displayTime}'>${displayTime}</time>
+              {{#if is_read}}
+                {{{checkmark}}}
+              {{/if}}
             </div>
           </div>
         </div>
-      `,
-      text,
-      checkmark: new CheckmarkBlock({ is_read: true }),
-      ...props,
-    });
+      `;
   }
 }
 

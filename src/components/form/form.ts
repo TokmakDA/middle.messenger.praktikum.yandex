@@ -1,16 +1,13 @@
 import Block from '../../tools/Block';
 import FormValidate from '../../tools/FormValidator';
-import { Input } from '../input';
-import { Button } from '../button';
-import { Link } from '../link';
 import { TFormData } from '../../@types/types';
+import { Children } from '../../@types/block';
 
 interface FormProps {
   onSubmit: (data: TFormData) => void; // Добавляем коллбэк для сабмита
-  inputsList: { input: Input }[] | undefined;
-  formName: string;
-  button: Button;
-  link: Link;
+  fields?: Children[] | Block;
+  formName?: string;
+  actions?: Children[] | Block;
 }
 
 export default class Form extends Block {
@@ -24,11 +21,10 @@ export default class Form extends Block {
       template: `
         <form class="form" name={{ formName }}  novalidate>
           <div class="form__inputs">
-            {{{ inputsList }}}
+            {{{ fields }}}
           </div>
           <div class="form__inputs">
-            {{{ button }}}
-            {{{ link }}}
+            {{{ actions }}}
           </div>
         </form>
       `,

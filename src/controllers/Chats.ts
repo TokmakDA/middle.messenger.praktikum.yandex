@@ -1,16 +1,21 @@
 import ChatsApi from '../api/chats';
 import { BaseController } from './BaseController';
+import { WebSocketController } from '.';
+
 import {
-  TChat,
+  TChatCard,
   TChatListParams,
   TCreateChatRequest,
   TChatRequest,
   TChatUsersPayload,
   TChangeChatUsersRequest,
   ChatUser,
+  TTokenChat,
 } from '../@types/api';
 
 export class ChatsController extends BaseController {
+  private static store = window.store;
+
   /**
    * Получает список чатов с учетом параметров запроса.
    * @param data Параметры для запроса списка чатов.
@@ -18,16 +23,16 @@ export class ChatsController extends BaseController {
    * @param data.limit Опциональный параметр для лимита количества результатов на страницу. Тип: number.
    * @param data.title Опциональный параметр для фильтрации по названию чата. Тип: string.
    */
-  public static async fetchChatList(data: TChatListParams) {
+  public static async fetchChatList(data?: TChatListParams) {
     this.setLoading(true);
     try {
-      const response = await ChatsApi.fetchChatList(data);
+      const response = await ChatsApi.fetchChatList({ ...data, limit: 50 });
       this.throwError(response, 'Ошибка получения списка чатов');
 
       console.log('Чаты успешно получены', response);
 
       window.store.set({
-        chatList: response as TChat[],
+        chatList: response as TChatCard[],
       });
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при получении списка чатов');
@@ -46,8 +51,9 @@ export class ChatsController extends BaseController {
     try {
       const response = await ChatsApi.createChat(data);
       this.throwError(response, 'Ошибка создания чата');
-
+      // const ChatUsers = response;
       console.log('Чат успешно создан', response);
+      await this.fetchChatList();
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при создании чата');
     } finally {
@@ -144,6 +150,27 @@ export class ChatsController extends BaseController {
       );
     } finally {
       this.setLoading(false);
+    }
+  }
+
+  public static async selectChat(chat: TChatCard) {
+    const { id } = chat;
+    // TODO Добавить проверку на текущий чат
+    const { user } = this.store.getState();
+    await this.fetchUsersChat({ id });
+
+    const tokenResponse = await ChatsApi.getTokenFromChat({ id });
+    this.throwError(tokenResponse, 'Ошибка удаления пользователей из чата');
+    const { token } = tokenResponse as TTokenChat;
+    if (chat.id && user && token) {
+      await WebSocketController.getInstance().connect({
+        chatId: id,
+        userId: user.id,
+        token,
+      });
+      this.store.set({ currentChat: chat, isOpenDialogChat: true });
+
+      WebSocketController.getInstance().fetchOldMessages();
     }
   }
 }

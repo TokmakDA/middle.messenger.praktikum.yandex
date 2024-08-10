@@ -5,22 +5,23 @@
   gap: 10px;
   padding: 8px 10px;
   transition: background-color 0.5s;
+  width: 100%;
+
   &:hover {
     background-color: $alice-blue;
     transition: all 0.5s;
   }
-  &[active='true'] {
+  &_active {
     background-color: $marble-alabaster;
     transition: all 0.5s;
   }
 }
 
 .chat-card__avatar-wrapper {
-  width: 48px;
   height: 48px;
   border-radius: 50%;
   background-color: $gallery;
-  aspect-ratio: 1;
+  aspect-ratio: 1/1;
 
   &_is-online {
     position: relative;
@@ -39,7 +40,7 @@
 }
 
 .chat-card__avatar {
-  width: 100%;
+  height: 48px;
   border-radius: 50%;
   object-fit: cover;
   aspect-ratio: 1;

@@ -11,3 +11,19 @@ export type InputProps = {
 export type TFormData = {
   [key: string]: string;
 };
+
+export interface InputFieldAttr {
+  type: string;
+  required: boolean;
+  pattern?: string;
+  minlength?: number;
+  maxlength?: number;
+}
+
+export interface InputField {
+  name: string;
+  label: string;
+  value: string;
+  attr: InputFieldAttr;
+  type?: string;
+}

@@ -3,7 +3,7 @@ import {
   TErrorApi,
   ChatUser,
   TChatUsersQueryParams,
-  TChat,
+  TChatCard,
   TChatListParams,
   TChatUsersPayload,
   TCreateChatRequest,
@@ -11,6 +11,8 @@ import {
   TChatRequest,
   TDeleteChatResponse,
   TChangeChatUsersRequest,
+  TPathID,
+  TTokenChat,
 } from '../@types/api';
 import URLS from '../lib/constants/urls';
 
@@ -19,8 +21,8 @@ const transport = new HTTPTransport({ withCredentials: true });
 export default class ChatsApi {
   static async fetchChatList(
     data: TChatListParams,
-  ): Promise<TChat[] | TErrorApi> {
-    return transport.get<TChatListParams, TChat[] | TErrorApi>(
+  ): Promise<TChatCard[] | TErrorApi> {
+    return transport.get<TChatListParams, TChatCard[] | TErrorApi>(
       URLS.chats.base,
       {
         data,
@@ -54,7 +56,7 @@ export default class ChatsApi {
     payload: TChatUsersPayload,
   ): Promise<ChatUser[] | TErrorApi> {
     return transport.get<TChatUsersQueryParams, ChatUser[] | TErrorApi>(
-      `${URLS.users.user(payload.id)}`,
+      `${URLS.chats.users(payload.id)}`,
       {
         data: payload.data,
       },
@@ -79,6 +81,14 @@ export default class ChatsApi {
       {
         data,
       },
+    );
+  }
+
+  static async getTokenFromChat({
+    id,
+  }: TPathID): Promise<TTokenChat | TErrorApi> {
+    return transport.post<TPathID, TTokenChat | TErrorApi>(
+      URLS.chats.token(id),
     );
   }
 }

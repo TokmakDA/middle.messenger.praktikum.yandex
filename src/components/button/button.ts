@@ -22,7 +22,7 @@ class Button extends Block {
       ...props,
       template: `
         <button 
-          type="{{ type }}" 
+          type="{{#if type}} {{ type }} {{else}} button {{/if}}" 
           class="{{#if className}} {{className}} {{else}} button {{/if}}" 
           {{#if page}} page="{{ page }}" {{/if}} 
         >

@@ -1,4 +1,10 @@
+import { WebSocketConnect } from '../../@types/socket';
+
 const URLS = {
+  base: '/',
+  ws: ({ userId, chatId, token }: WebSocketConnect) => {
+    return `wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`;
+  },
   auth: {
     signin: '/auth/signin',
     signup: '/auth/signup',
@@ -14,9 +20,9 @@ const URLS = {
   },
   chats: {
     base: '/chats', // Использовать для GET, POST и DELETE
-    users: (id: string | number) => `/chats/${id}/users`, // Получить пользователей чата
+    users: (chatId: string | number) => `/chats/${chatId}/users`, // Получить пользователей чата
     modifyUsers: '/chats/users', // Добавить или удалить пользователей
-    newMessagesCount: (id: string | number) => `/chats/new/${id}`, // Количество новых сообщений
+    newMessagesCount: (chatId: string | number) => `/chats/new/${chatId}`, // Количество новых сообщений
     avatar: '/chats/avatar', // Загрузить аватар чата
     token: (id: string | number) => `/chats/token/${id}`, // Запрос токена для подключения к серверу сообщений
   },

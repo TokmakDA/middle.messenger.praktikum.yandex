@@ -5,7 +5,7 @@
 
   &__input {
     flex: 1;
-    color: $light-gray;
+    color: color.adjust($suva-grey, $lightness: -50%);
     text-align: end;
   }
 

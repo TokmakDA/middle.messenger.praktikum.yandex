@@ -2,21 +2,28 @@ import './style.scss';
 import { ChatsPanelButton } from './button';
 import Block from '../../../tools/Block';
 import { ChatCardBlock } from './chat-card';
-import getFormattedDate from '../../../lib/utils/getFormattedDate.ts';
-import avatarSVG from '../../../assets/images/avatar.svg';
-import { connect } from '../../../tools/connect.ts';
+import getFormattedDate from '../../../lib/utils/getFormattedDate';
+import { connect } from '../../../tools/connect';
 import { ChatsController } from '../../../controllers';
-import {AppState} from "../../../@types/store";
+import { AppState } from '../../../@types/store';
+import { Button } from '../../../components';
+import { Children } from '../../../@types/block';
+import store from '../../../services';
+import { StoreEvents } from '../../../services/Store';
+
+type ChatsPanelProps = {
+  clickNewChat: (e: Event) => void;
+  chats?: Children[] | Block;
+  profileButton?: Block;
+  newChatButton?: Block;
+} & AppState;
 
 class ChatsPanelBlock extends Block {
-  private count: number;
-
-  constructor({ ...props }) {
+  constructor(props: ChatsPanelProps) {
     super({
       ...props,
-
       template: `
-        <section class='sidebar'>
+        <div class="sidebar__chat-panel">
           <div class='sidebar__header'>
             {{{ profileButton }}}
             <form class='sidebar__search'>
@@ -29,6 +36,7 @@ class ChatsPanelBlock extends Block {
                 value=''
               />
             </form>
+            {{{ newChatButton }}}                                                                                                                                                                                                                                                 </button>
           </div>
           <div class='sidebar__chats chats'>
             <div class='sidebar__line'></div>
@@ -36,39 +44,51 @@ class ChatsPanelBlock extends Block {
                {{{ chats }}}
             </ul>
           </div>
-        </section>
+        </div>
       `,
       profileButton: new ChatsPanelButton(),
+      newChatButton: new Button({
+        text: 'Создать чат',
+        events: {
+          click: (e: Event) => props.clickNewChat(e),
+        },
+      }),
     });
-    this.count = 1000;
-  }
-  async componentDidMount() {
-    this.count += 1;
-    console.log(this.count);
 
-    await ChatsController.fetchChatList({});
-    const props = this.props as AppState;
-    this.setPropsAndChildren({
-      chats: props.chatList.map((ChatItem) => ({
+    store.on(StoreEvents.Updated, this.updateChatsProps.bind(this));
+  }
+  init() {}
+
+  getChatListComponets() {
+    const props = this.props as ChatsPanelProps;
+
+    return {
+      ...props,
+      chats: props.chatList.map((chatItem) => ({
         chat: new ChatCardBlock({
-          displayTime: ChatItem.last_message
-            ? getFormattedDate(ChatItem.last_message.time)
+          displayTime: chatItem.last_message
+            ? getFormattedDate(chatItem.last_message.time)
             : null,
-          isMy: ChatItem.last_message?.user.login === props.user?.login,
-          // checkmark: new CheckmarkBlock({}),
-          // avatarSVG,
-          is_active: ChatItem.id === props.currentChat,
-          ...ChatItem,
+          isMy: chatItem.last_message?.user.login === props.user?.login,
+          ...chatItem,
+          onClick: () => this.updateChatsProps(),
         }),
       })),
-    });
+    };
+  }
+
+  updateChatsProps() {
+    this.setPropsAndChildren(this.getChatListComponets());
+  }
+
+  async componentDidMount() {
+    await ChatsController.fetchChatList({});
+    this.updateChatsProps();
   }
 }
 
-// export default ChatsPanelBlock;
-export default connect((store) => ({
-  chatList: store.chatList,
-  currentChat: store.currentChat,
-  isOpenDialogChat: store.isOpenDialogChat,
-  user: store.user,
+export default connect(({ chatList, isOpenDialogChat, user }) => ({
+  chatList,
+  isOpenDialogChat,
+  user,
 }))(ChatsPanelBlock);

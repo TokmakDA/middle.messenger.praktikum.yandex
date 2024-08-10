@@ -78,7 +78,7 @@ export interface LastMessage {
   content: string;
 }
 
-export type TChat = {
+export type TChatCard = {
   id: number;
   title: string;
   avatar: string;
@@ -115,7 +115,7 @@ export type TDeleteChatResponse = {
 
 // Параметры пути (path parameters)
 export type TPathID = {
-  id: string | number; // ID, обязательный параметр пути
+  id: number; // ID, обязательный параметр пути
 };
 // Параметры данных запроса (payload)
 export type TChatUsersQueryParams = {
@@ -137,9 +137,13 @@ export type ChatUser = {
 };
 
 export type TChatUsersPayload = {
-  data: TChatUsersQueryParams;
+  data?: TChatUsersQueryParams;
 } & TPathID;
 
 export type TChangeChatUsersRequest = {
   users: number[];
 } & TChatRequest;
+
+export type TTokenChat = {
+  token: string;
+};

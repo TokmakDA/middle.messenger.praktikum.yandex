@@ -1,5 +1,5 @@
 import { InputProps } from '../../@types/types';
-import { Input, Button, AuthorizeWrapper, Form } from '../../components';
+import { Input, Button, Form, ModalBlock } from '../../components';
 import { ROUTES_PATH } from '../../lib/constants/routes';
 import { LoyautCenter } from '../../layouts';
 import { TSignUpRequest } from '../../@types/api';
@@ -9,35 +9,41 @@ import { connect } from '../../tools/connect';
 import { SIGN_UP_INPUT_FIELDS as signUpInputs } from '../../lib/constants/formFieldConstants';
 
 class SignUpPage extends LoyautCenter {
-  constructor(props: { content: AuthorizeWrapper }) {
+  constructor(props: { content: ModalBlock }) {
     super({
       ...props,
-      content: new AuthorizeWrapper({
+      content: new ModalBlock({
         title: 'Зарегистрироваться',
-        form: new Form({
-          inputsList: signUpInputs.map((item: InputProps) => ({
-            input: new Input({ ...item }),
+        content: new Form({
+          fields: signUpInputs.map((item: InputProps) => ({
+            fields: new Input({ ...item }),
           })),
           formName: 'signup',
-          button: new Button({ text: 'Зарегистрироваться ', type: 'submit' }),
-          link: new Button({
-            text: 'Войти',
-            className: 'link',
-	          page: 'signup',
-            events: {
-              click: (e) => this.handleSignUp(e),
+          actions: [
+            {
+              send: new Button({ text: 'Зарегистрироваться ', type: 'submit' }),
             },
-          }),
+            {
+              link: new Button({
+                text: 'Войти',
+                className: 'link',
+                page: 'signup',
+                events: {
+                  click: (e) => this.handleSignUp(e),
+                },
+              }),
+            },
+          ],
           onSubmit: (formData) => this.handleSubmit(formData),
         }),
       }),
     });
   }
 
-	handleSignUp(e: Event) {
-		e.preventDefault()
-		window.router.go(ROUTES_PATH.signin)
-	}
+  handleSignUp(e: Event) {
+    e.preventDefault();
+    window.router.go(ROUTES_PATH.signin);
+  }
 
   async handleSubmit(formData: Record<string, string>): Promise<void> {
     const data: TSignUpRequest = {

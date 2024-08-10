@@ -1,5 +1,5 @@
-// eslint-disable-next-line import/no-unresolved
-import { ChatUser, TChat, TUserApi } from './api';
+import { ChatUser, TChatCard, TUserApi } from './api';
+import { WebSocketResponseMessage } from './socket';
 
 export type AppState = {
   isLoading: boolean;
@@ -10,10 +10,12 @@ export type AppState = {
   isEditionProfile: boolean;
 
   isOpenDialogChat: boolean;
+  isOpenedModal: boolean;
 
   findUsers: TUserApi[];
   findUser: TUserApi | null;
-  currentChat: null; // TODO переписать
-  chatList: TChat[];
+  currentChat: TChatCard | null;
+  chatList: TChatCard[];
   chatUsers: ChatUser[];
+  messages: WebSocketResponseMessage[];
 };

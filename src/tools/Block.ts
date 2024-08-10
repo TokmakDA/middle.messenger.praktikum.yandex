@@ -1,30 +1,12 @@
 import Handlebars from 'handlebars';
 import EventBus from './EventBus';
 import { isEqual } from '../lib/utils/utils';
-
-// Интерфейсы для типов событий, атрибутов и дочерних элементов
-interface EventMap {
-  [key: string]: EventListenerOrEventListenerObject;
-}
-
-interface Attributes {
-  [key: string]: string;
-}
-
-interface Children {
-  [key: string]: Block;
-}
-
-interface Props {
-  events?: EventMap;
-  attr?: Attributes | false;
-  template?: string;
-}
+import { BlockProps, Children, PlainObject } from '../@types/block';
 
 /**
  * Основной класс Block для работы с компонентами
  */
-export default class Block<T extends Props = Props> {
+export default class Block<T extends BlockProps = BlockProps> {
   [key: string]: unknown;
   // События жизненного цикла компонента
   static EVENTS = {
@@ -34,11 +16,12 @@ export default class Block<T extends Props = Props> {
     FLOW_CWU: 'flow:component-will-unmount',
     FLOW_RENDER: 'flow:render',
   };
+  private _isMounted: boolean = false;
   private _element: HTMLElement | null = null;
   protected id: string = this._generateRandomId();
-  protected props: Props = {} as T;
+  protected props: BlockProps = {} as T;
   protected children: Children = {};
-  protected eventBus: () => EventBus;
+  protected eventBus: EventBus;
   protected lists: { [key: string]: Children[] } = {};
   protected template: string | undefined;
 
@@ -47,16 +30,15 @@ export default class Block<T extends Props = Props> {
    * @param propsWithChildren - Свойства и дочерние элементы компонента
    */
   constructor({ ...propsWithChildren }) {
-    const eventBus = new EventBus();
+    this.eventBus = new EventBus();
     const { props, children, lists } =
       this._extractPropsAndChildren(propsWithChildren);
     this.props = this._makePropsProxy(props);
     this.children = children;
     this.lists = lists;
     this.template = this.props.template;
-    this.eventBus = () => eventBus;
-    this._registerEvents(eventBus);
-    eventBus.emit(Block.EVENTS.INIT);
+    this._registerEvents();
+    this.eventBus.emit(Block.EVENTS.INIT);
   }
 
   /**
@@ -84,23 +66,35 @@ export default class Block<T extends Props = Props> {
 
   /**
    * Регистрирует обработчики событий жизненного цикла компонента
-   * @param eventBus - Экземпляр EventBus
    */
-  _registerEvents(eventBus: EventBus): void {
-    eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+  _registerEvents(): void {
+    this.eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
+    this.eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+    this.eventBus.on(
+      Block.EVENTS.FLOW_CDU,
+      this._componentDidUpdate.bind(this),
+    );
+    this.eventBus.on(
+      Block.EVENTS.FLOW_CWU,
+      this._componentWillUnmount.bind(this),
+    );
+    this.eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
   /**
    * Инициализация компонента
    */
-  init(): void {
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  _init(): void {
+    this.init();
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
+  /**
+   * Переопределяемый метод инициализации компонента
+   */
+  init(): void {
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+  }
   /**
    * Извлекает пропсы и дочерние элементы из переданных данных
    * @param propsAndChildren - Свойства и дочерние элементы компонента
@@ -131,19 +125,23 @@ export default class Block<T extends Props = Props> {
    * Обрабатывает событие монтирования компонента
    */
   _componentDidMount(): void {
-    this.componentDidMount();
-    // Object.values(this.children).forEach((child) => {
-    //   child.dispatchComponentDidMount();
-    // });
+    if (!this._isMounted) {
+      this._isMounted = true;
+      this.componentDidMount();
 
-    // Object.values(this.lists).forEach((childList) => {
-    //   Object.values(childList).forEach((children) =>
-    //     Object.values(children).forEach((child) => {
-    //       // console.log(`Unmounting child ${child.id}`);
-    //       child.dispatchComponentDidMount();
-    //     }),
-    //   );
-    // });
+      // Монтируем дочерние компоненты
+      Object.values(this.children).forEach((child) => {
+        child.dispatchComponentDidMount();
+      });
+
+      Object.values(this.lists).forEach((childList) => {
+        Object.values(childList).forEach((children) =>
+          Object.values(children).forEach((child) => {
+            child.dispatchComponentDidMount();
+          }),
+        );
+      });
+    }
   }
 
   /**
@@ -155,7 +153,7 @@ export default class Block<T extends Props = Props> {
    * Вызывает обработку монтирования компонента
    */
   dispatchComponentDidMount(): void {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
   /**
@@ -163,7 +161,7 @@ export default class Block<T extends Props = Props> {
    * @param oldProps - Старые пропсы
    * @param newProps - Новые пропсы
    */
-  _componentDidUpdate(oldProps: object, newProps: object): void {
+  _componentDidUpdate(oldProps?: object, newProps?: object): void {
     const shouldRender = this.componentDidUpdate(oldProps, newProps);
     if (shouldRender) {
       this._render();
@@ -176,7 +174,7 @@ export default class Block<T extends Props = Props> {
    * @param newProps - Новые пропсы
    * @returns Нужно ли перерисовывать компонент
    */
-  componentDidUpdate(oldProps: object, newProps: object): boolean {
+  componentDidUpdate(oldProps?: object, newProps?: object): boolean {
     return !isEqual(oldProps, newProps);
     // Всегда возвращаем true, чтобы перерисовывать компонент
     // console.log('Старые пропсы:', oldProps);
@@ -218,51 +216,38 @@ export default class Block<T extends Props = Props> {
    * Вызывает обработку размонтирования компонента
    */
   unmount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CWU);
+    this.eventBus.emit(Block.EVENTS.FLOW_CWU);
   }
 
   /**
-   * Устанавливает новые пропсы и вызывает обновление компонента
-   * @param nextProps - Новые пропсы
+   * Устанавливает новые пропсы, детей и списки детей и вызывает обновление компонента
+   * @param nextPropsAndChildren - Новые пропсы и дети
    */
-  setProps = (nextProps: object): void => {
-    if (!nextProps) {
-      return;
-    }
-    const oldProps = { ...this.props };
-    Object.assign(this.props, nextProps);
-    this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, this.props);
-  };
-
-  /**
-   * Устанавливает новые пропсы и вызывает обновление компонента
-   * @param PropsAndChildren - Новые пропсы
-   */
-  setPropsAndChildren = (PropsAndChildren: Partial<T>): void => {
-    if (!PropsAndChildren) {
+  setPropsAndChildren = (nextPropsAndChildren: PlainObject): void => {
+    if (!nextPropsAndChildren) {
       return;
     }
 
-    const newData = this._extractPropsAndChildren(PropsAndChildren);
+    const newData = this._extractPropsAndChildren(nextPropsAndChildren);
+    const oldPropsState: PlainObject = {};
+    const newPropsState: PlainObject = {};
 
     Object.entries(newData).forEach(([k, v]) => {
-      if (Object.keys(v).length) {
-        // Если свойство существует, обновляем его
-        if (this.hasOwnProperty(k)) {
-          console.log(k, v);
+      const key = k as keyof this;
 
-          const key = k as keyof this;
-          const oldProps = { ...(this[key] as typeof this) };
-          this[key] = { ...oldProps, ...v };
-          this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, this[key]);
-        } else {
-          console.warn(`Property ${k} does not exist on Block instance.`);
+      if (v && Object.keys(v).length) {
+        // Приведение текущего значения к типу, основанному на типе ключа
+        const oldProps = this[key];
+        // Обновляем свойство только если типы совместимы
+        if (typeof oldProps === 'object' && typeof v === 'object') {
+          this[key] = { ...oldProps, ...v } as this[keyof this];
         }
+
+        oldPropsState[key as keyof PlainObject] = oldProps;
+        newPropsState[key as keyof PlainObject] = this[key];
       }
     });
-    // const oldLists = { ...this.lists };
-    // Object.assign(this.props, nextLists);
-    // this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldLists, this.lists);
+    this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldPropsState, newPropsState);
   };
 
   /**
@@ -306,15 +291,14 @@ export default class Block<T extends Props = Props> {
       const stub = fragment.content.querySelector(
         `[data-id="${listID}"]`,
       ) as HTMLElement;
-      const childElement = this._createDocumentElement('template').content;
-      childList.forEach((child) => {
-        Object.values(child).forEach((item) => {
-          childElement.append(item.getContent() as HTMLElement);
-        });
-      });
-
       if (stub) {
-        stub.replaceWith(childElement);
+        const elements = childList
+          .map((children) =>
+            Object.values(children).map((child) => child.getContent()),
+          )
+          .flat();
+
+        stub.replaceWith(...elements);
       }
     });
 
@@ -365,7 +349,7 @@ export default class Block<T extends Props = Props> {
    * @param props - Пропсы компонента
    * @returns Прокси объект
    */
-  _makePropsProxy(props: object): Props {
+  _makePropsProxy(props: object): BlockProps {
     const self = this as Block<T>;
     return new Proxy(props, {
       get(target: { [key: string]: object }, prop: string) {
@@ -375,9 +359,11 @@ export default class Block<T extends Props = Props> {
       set(target: { [key: string]: object }, prop: string, value: object) {
         const updateTarget = target;
         updateTarget[prop] = value;
-        self
-          .eventBus()
-          .emit(Block.EVENTS.FLOW_CDU, { ...updateTarget }, updateTarget);
+        self.eventBus.emit(
+          Block.EVENTS.FLOW_CDU,
+          { ...updateTarget },
+          updateTarget,
+        );
         return true;
       },
       deleteProperty() {
