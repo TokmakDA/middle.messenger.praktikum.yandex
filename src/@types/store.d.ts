@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { ChatUser, TChatCard, TUserApi } from './api';
 import { WebSocketResponseMessage } from './socket';
 

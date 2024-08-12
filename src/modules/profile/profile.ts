@@ -10,7 +10,6 @@ import { connect } from '../../tools/connect';
 import { AppState } from '../../@types/store';
 import { InputField } from '../../@types/types';
 
-
 class ProfileBlock extends Block {
   constructor(props: { [x: string]: unknown; user: TUserApi | null }) {
     super({

@@ -1,6 +1,6 @@
 import './style.scss';
 import arrowSVG from '../../../../assets/images/arrow-right.svg';
-import { ROUTES_PATH } from '../../../../lib/constants/routes.ts';
+import { ROUTES_PATH } from '../../../../lib/constants/routes';
 import Block from '../../../../tools/Block';
 
 class ChatsPanelButton extends Block {

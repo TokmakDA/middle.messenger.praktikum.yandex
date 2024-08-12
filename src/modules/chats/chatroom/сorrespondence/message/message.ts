@@ -14,6 +14,7 @@ class MessageBlock extends Block {
   }
 
   render(): string {
+    /* eslint-disable-next-line @typescript-eslint/naming-convention */
     const { time, user_id, user } = this.props as WebSocketResponseMessage &
       AppState;
     const displayTime = getFormattedDate(time);

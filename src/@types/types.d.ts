@@ -1,5 +1,6 @@
 import { SVGBlock } from '../components';
 import Block from '../tools/Block';
+// eslint-disable-next-line import/no-unresolved
 import { BlockProps, Children } from './block';
 
 export type InputProps = {

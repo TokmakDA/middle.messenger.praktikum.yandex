@@ -16,4 +16,3 @@ export const ROUTES_PATH = {
   error5XX: '/500',
   error404: '*',
 };
-

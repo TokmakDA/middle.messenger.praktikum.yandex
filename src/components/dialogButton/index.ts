@@ -1,3 +1,3 @@
 import './style.scss';
 
-export { default as Button } from './dialogButton.ts';
+export { default as Button } from './dialogButton';

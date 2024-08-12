@@ -19,6 +19,7 @@ export function connect(
   mapStateToProps: (state: AppState) => Partial<AppState>,
   dispatch?: DispatchHandlers,
 ) {
+  // eslint-disable-next-line func-names
   return function (Component: typeof Block) {
     return class extends Component {
       protected onChangeStoreCallback: () => void;
