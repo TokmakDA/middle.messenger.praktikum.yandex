@@ -19,7 +19,7 @@ class RemoveUserFromChat extends Backdrop {
             name: 'userId',
             label: 'Выберите пользователя',
             attr: {
-              required: true,
+              required: `${true}`,
             },
             options: [],
           }),
@@ -55,9 +55,12 @@ class RemoveUserFromChat extends Backdrop {
   getOptions(props: AppState) {
     return (
       props.chatUsers
-        .filter((user: ChatUser) => user.role !== 'admin')
-        ?.map((user: ChatUser) => {
-          return { value: user.id, label: user.login };
+        .filter(
+          (chatUser: ChatUser) =>
+            chatUser.role !== 'admin' && chatUser.id !== props.user?.id,
+        )
+        ?.map((chatUser: ChatUser) => {
+          return { value: chatUser.id, label: chatUser.login };
         }) || []
     );
   }
@@ -67,4 +70,6 @@ class RemoveUserFromChat extends Backdrop {
   }
 }
 
-export default connect(({ chatUsers }) => ({ chatUsers }))(RemoveUserFromChat);
+export default connect(({ chatUsers, user }) => ({ chatUsers, user }))(
+  RemoveUserFromChat,
+);

@@ -28,9 +28,6 @@ export class ChatsController extends BaseController {
     try {
       const response = await ChatsApi.fetchChatList({ ...data, limit: 50 });
       this.throwError(response, 'Ошибка получения списка чатов');
-
-      // console.log('Чаты успешно получены', response);
-
       this.store.set({
         chatList: response as TChatCard[],
       });
@@ -51,9 +48,6 @@ export class ChatsController extends BaseController {
     try {
       const response = await ChatsApi.createChat(data);
       this.throwError(response, 'Ошибка создания чата');
-
-      // console.log('Чат успешно создан', response);
-
       await this.fetchChatList();
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при создании чата');
@@ -72,9 +66,6 @@ export class ChatsController extends BaseController {
     try {
       const response = await ChatsApi.deleteChat(data);
       this.throwError(response, 'Ошибка удаления чата');
-
-      // console.log('Чат успешно удален', response);
-
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при удалении чата');
     } finally {
@@ -93,9 +84,6 @@ export class ChatsController extends BaseController {
     try {
       const response = await ChatsApi.fetchUsers(data);
       this.throwError(response, 'Ошибка получения списка пользователей чата');
-
-      // console.log('Список пользователей получен', response);
-
       this.store.set({
         chatUsers: response as ChatUser[],
       });
@@ -120,9 +108,6 @@ export class ChatsController extends BaseController {
     try {
       const response = await ChatsApi.addUsersToChat(data);
       this.throwError(response, 'Ошибка добавления пользователей в чат');
-
-      // console.log('Пользователи успешно добавлены в чат', response);
-
       await this.fetchUsersChat({ id: data.chatId });
     } catch (error) {
       this.handleError(
@@ -145,9 +130,6 @@ export class ChatsController extends BaseController {
     try {
       const response = await ChatsApi.removeUsersFromChat(data);
       this.throwError(response, 'Ошибка удаления пользователей из чата');
-
-      // console.log('Пользователи успешно удалены из чата', response);
-
       await this.fetchUsersChat({ id: data.chatId });
     } catch (error) {
       this.handleError(

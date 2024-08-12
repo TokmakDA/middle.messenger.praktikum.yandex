@@ -18,6 +18,7 @@ export class ModalController extends BaseController {
         }
       }
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   }
@@ -32,6 +33,7 @@ export class ModalController extends BaseController {
         });
       }
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   }

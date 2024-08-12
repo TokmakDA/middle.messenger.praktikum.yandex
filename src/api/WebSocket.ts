@@ -42,24 +42,26 @@ export class WebSocketService {
 
   private onClose = (event: CloseEvent) => {
     if (event.wasClean) {
+      // eslint-disable-next-line no-console
       console.log('Соединение закрыто чисто');
     } else {
+      // eslint-disable-next-line no-console
       console.log('Обрыв соединения');
     }
-
-    // console.log(`Код: ${event.code} | Причина: ${event.reason}`);
+    // eslint-disable-next-line no-console
+    console.log(`Код: ${event.code} | Причина: ${event.reason}`);
     if (this.pingInterval) {
       clearInterval(this.pingInterval);
     }
   };
 
   private onMessage = (event: MessageEvent) => {
-    // console.log('Получены данные', event.data);
     const data = JSON.parse(event.data);
     this.handleIncomingMessage(data);
   };
 
   private onError = (event: Event) => {
+    // eslint-disable-next-line no-console
     console.warn('Ошибка', (event as ErrorEvent).message);
   };
 
@@ -90,9 +92,6 @@ export class WebSocketService {
         messages: [data, ...messages],
       });
     }
-    // else {
-    //   console.warn('Игнорируем неподдерживаемое сообщение', data);
-    // }
   }
 
   public sendPing() {

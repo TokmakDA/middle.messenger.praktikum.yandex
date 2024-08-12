@@ -22,6 +22,7 @@ export class BaseController {
     const errorMessage =
       error instanceof Error ? error.message : defaultErrorMessage;
     this.store.set({ error: errorMessage });
+    // eslint-disable-next-line no-console
     console.error('Error:', errorMessage);
   }
 
