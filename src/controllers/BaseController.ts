@@ -1,11 +1,15 @@
 import { apiHasError } from '../lib/utils/apiHasError';
 import { ROUTES_PATH } from '../lib/constants/routes';
 import { INITIAL_STATE } from '../lib/constants/state';
+import { Store } from '../services/Store';
+import { AppState } from '../@types/store';
 
 /**
  * Базовый контроллер с общими методами.
  */
 export class BaseController {
+  protected static store: Store<AppState> = window.store;
+
   /**
    * Обрабатывает ошибки и устанавливает их в состояние store.
    * @param error Ошибка для обработки.
@@ -17,7 +21,7 @@ export class BaseController {
   ) {
     const errorMessage =
       error instanceof Error ? error.message : defaultErrorMessage;
-    window.store.set({ error: errorMessage });
+    this.store.set({ error: errorMessage });
     console.error('Error:', errorMessage);
   }
 
@@ -40,7 +44,7 @@ export class BaseController {
    * Очищает состояние пользователя и перенаправляет на страницу авторизации.
    */
   protected static clearState() {
-    window.store.set(INITIAL_STATE);
+    this.store.set(INITIAL_STATE);
     window.router.go(ROUTES_PATH.signin);
   }
 
@@ -49,6 +53,6 @@ export class BaseController {
    * @param isLoading Статус загрузки.
    */
   protected static setLoading(isLoading: boolean) {
-    window.store.set({ isLoading });
+    this.store.set({ isLoading });
   }
 }

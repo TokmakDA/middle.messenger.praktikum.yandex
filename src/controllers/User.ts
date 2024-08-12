@@ -18,7 +18,7 @@ export class UserController extends BaseController {
       const response = await UsersApi.updateProfile(data);
       this.throwError(response, 'Ошибка обновления профиля');
 
-      window.store.set({ user: response as TUserApi, isEditionProfile: false });
+      this.store.set({ user: response as TUserApi, isEditionProfile: false });
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при обновлении профиля');
     } finally {
@@ -51,7 +51,7 @@ export class UserController extends BaseController {
       this.throwError(response, 'Ошибка обновления аватара');
 
       // TODO Проверить на другую логику
-      window.store.set({ user: response as TUserApi, isEditionProfile: false });
+      this.store.set({ user: response as TUserApi, isEditionProfile: false });
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при обновлении аватара');
     } finally {
@@ -87,11 +87,12 @@ export class UserController extends BaseController {
       const response = await UsersApi.searchUsers(data);
       this.throwError(response, 'Ошибка поиска пользователей');
 
-      window.store.set({ findUsers: response as TUserApi[] });
+      return response;
 
       // TODO добавить дополнительную логику после успешного поиска
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при поиске пользователей');
+      return undefined;
     } finally {
       this.setLoading(false);
     }
@@ -107,7 +108,7 @@ export class UserController extends BaseController {
       const response = await UsersApi.fetchUserByID(id);
       this.throwError(response, 'Ошибка поиска пользователей');
 
-      window.store.set({ findUser: response as TUserApi });
+      this.store.set({ findUser: response as TUserApi });
 
       // TODO добавить дополнительную логику после успешного поиска
     } catch (error) {

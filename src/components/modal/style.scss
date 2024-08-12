@@ -20,3 +20,9 @@
   line-height: $lh-100;
   text-align: center;
 }
+
+.modal__content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

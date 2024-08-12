@@ -1,23 +1,18 @@
-import {
-  WebSocketConnect,
-  WebSocketMessage,
-  WebSocketResponseMessage,
-} from '../@types/socket';
-import store from '../services/index';
+import { WebSocketConnect, WebSocketResponseMessage } from '../@types/socket';
+import store from '../services';
 import URLS from '../lib/constants/urls';
-import { BaseController } from './BaseController';
 
-export class WebSocketController extends BaseController {
+export class WebSocketService {
   private socket: WebSocket | null = null;
-  private static instance: WebSocketController;
+  private static instance: WebSocketService;
   private pingInterval: NodeJS.Timeout | null = null;
   private store = store;
 
-  public static getInstance(): WebSocketController {
-    if (!WebSocketController.instance) {
-      WebSocketController.instance = new WebSocketController();
+  public static getInstance(): WebSocketService {
+    if (!WebSocketService.instance) {
+      WebSocketService.instance = new WebSocketService();
     }
-    return WebSocketController.instance;
+    return WebSocketService.instance;
   }
 
   public async connect({ userId, chatId, token }: WebSocketConnect) {
@@ -52,7 +47,7 @@ export class WebSocketController extends BaseController {
       console.log('Обрыв соединения');
     }
 
-    console.log(`Код: ${event.code} | Причина: ${event.reason}`);
+    // console.log(`Код: ${event.code} | Причина: ${event.reason}`);
     if (this.pingInterval) {
       clearInterval(this.pingInterval);
     }
@@ -65,22 +60,8 @@ export class WebSocketController extends BaseController {
   };
 
   private onError = (event: Event) => {
-    console.log('Ошибка', (event as ErrorEvent).message);
+    console.warn('Ошибка', (event as ErrorEvent).message);
   };
-
-  private sendUserConnectedNotification() {
-    const { user } = this.store.getState();
-    if (user) {
-      if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-        this.socket.send(
-          JSON.stringify({
-            content: `${user.id}`,
-            type: 'user connected',
-          } as WebSocketMessage),
-        );
-      }
-    }
-  }
 
   private isValidMessage(
     message: unknown,
@@ -108,9 +89,10 @@ export class WebSocketController extends BaseController {
       this.store.set({
         messages: [data, ...messages],
       });
-    } else {
-      console.warn('Игнорируем неподдерживаемое сообщение', data);
     }
+    // else {
+    //   console.warn('Игнорируем неподдерживаемое сообщение', data);
+    // }
   }
 
   public sendPing() {
@@ -130,28 +112,6 @@ export class WebSocketController extends BaseController {
         JSON.stringify({
           content,
           type: 'message',
-        }),
-      );
-    }
-  }
-
-  public sendFile(fileId: string) {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.send(
-        JSON.stringify({
-          content: fileId,
-          type: 'file',
-        }),
-      );
-    }
-  }
-
-  public sendSticker(stickerId: string) {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.send(
-        JSON.stringify({
-          content: stickerId,
-          type: 'sticker',
         }),
       );
     }

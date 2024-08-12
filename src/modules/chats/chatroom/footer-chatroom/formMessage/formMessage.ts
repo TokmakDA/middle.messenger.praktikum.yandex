@@ -1,7 +1,7 @@
 import './style.scss';
 import Block from '../../../../../tools/Block';
 import template from './tpl.hbs?raw';
-import { WebSocketController } from '../../../../../controllers';
+import { WebSocketService } from '../../../../../api/WebSocket';
 
 class FormMessage extends Block {
   constructor({ ...props }) {
@@ -30,7 +30,7 @@ class FormMessage extends Block {
     if (messageElement && messageElement.checkValidity()) {
       formData.message = messageElement.value;
 
-      WebSocketController.getInstance().sendMessage(formData.message);
+      WebSocketService.getInstance().sendMessage(formData.message);
       form.reset();
       this.updateSubmitButtonState(form);
     }

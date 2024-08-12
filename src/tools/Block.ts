@@ -19,11 +19,11 @@ export default class Block<T extends BlockProps = BlockProps> {
   private _isMounted: boolean = false;
   private _element: HTMLElement | null = null;
   protected id: string = this._generateRandomId();
-  protected props: BlockProps = {} as T;
-  protected children: Children = {};
   protected eventBus: EventBus;
-  protected lists: { [key: string]: Children[] } = {};
   protected template: string | undefined;
+  props: BlockProps = {} as T;
+  children: Children = {};
+  lists: { [key: string]: Children[] } = {};
 
   /**
    * Конструктор класса Block
@@ -176,10 +176,6 @@ export default class Block<T extends BlockProps = BlockProps> {
    */
   componentDidUpdate(oldProps?: object, newProps?: object): boolean {
     return !isEqual(oldProps, newProps);
-    // Всегда возвращаем true, чтобы перерисовывать компонент
-    // console.log('Старые пропсы:', oldProps);
-    // console.log('Новые пропсы:', newProps);
-    // return true;
   }
 
   /**

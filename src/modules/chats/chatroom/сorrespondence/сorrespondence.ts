@@ -7,7 +7,7 @@ import store from '../../../../services';
 import { StoreEvents } from '../../../../services/Store';
 import { AppState } from '../../../../@types/store';
 
-class DialogBlock extends Block {
+class CorrespondenceBlock extends Block {
   constructor({ ...props }) {
     super({
       ...props,
@@ -17,10 +17,8 @@ class DialogBlock extends Block {
   }
 
   handleStoreUpdate() {
-    // Обновляем пропсы и перерисовываем компонент
     const state = store.getState();
     const messageList = this.getMessageListFromProps(state);
-    // Обновляем пропсы и перерисовываем компонент
     this.setPropsAndChildren({
       ...this.props,
       messageList: messageList.length > 0 ? messageList : [],
@@ -28,11 +26,9 @@ class DialogBlock extends Block {
   }
 
   componentWillUnmount() {
-    // Отписываемся от событий при размонтировании компонента
     store.off(StoreEvents.Updated, this.handleStoreUpdate);
   }
 
-  // получаем список с компонентами сообщений
   getMessageListFromProps(props: AppState) {
     return (
       props.messages?.map((messageItem: WebSocketResponseMessage) => ({
@@ -55,9 +51,8 @@ class DialogBlock extends Block {
   }
 }
 
-// export default DialogBlock;
 export default connect(({ currentChat, user, messages }) => ({
   currentChat,
   messages,
   user,
-}))(DialogBlock);
+}))(CorrespondenceBlock);

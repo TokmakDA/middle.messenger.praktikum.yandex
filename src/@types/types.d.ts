@@ -1,3 +1,7 @@
+import { SVGBlock } from '../components';
+import Block from '../tools/Block';
+import { BlockProps, Children } from './block';
+
 export type InputProps = {
   type?: string;
   name?: string;
@@ -26,4 +30,62 @@ export interface InputField {
   value: string;
   attr: InputFieldAttr;
   type?: string;
+}
+
+export interface ButtonProps extends BlockProps {
+  type?: string;
+  page?: string;
+  text?: string;
+  iconBefore?: SVGBlock;
+  iconAfter?: SVGBlock;
+  dialogContent?: Children[] | Block | string;
+  dialogPosition?:
+    | 'top'
+    | 'bottom'
+    | 'left'
+    | 'right'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right';
+  attr?: {
+    [key: string]: string;
+  };
+  isOpen?: boolean;
+  events?: {
+    [key: string]: EventListenerOrEventListenerObject;
+  };
+  className?: string;
+  isIcon?: boolean;
+  outline?: boolean;
+  flat?: boolean;
+  small?: boolean;
+  disabled?: boolean;
+}
+
+export interface DialogProps extends BlockProps {
+  position?:
+    | 'top'
+    | 'bottom'
+    | 'left'
+    | 'right'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right';
+  isOpen?: boolean;
+  content?: Children[] | Block | string;
+  events?: {
+    [key: string]: EventListenerOrEventListenerObject;
+  };
+}
+
+export interface Option extends BlockProps {
+  value: string;
+  label: string;
+}
+
+export interface SelectElementProps extends BlockProps {
+  options: Option[];
+  name?: string;
 }

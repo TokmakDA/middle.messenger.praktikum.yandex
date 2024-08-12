@@ -6,7 +6,7 @@ export interface EventMap {
 }
 
 export interface Attributes {
-  [key: string]: string;
+  [key: string]: unknown;
 }
 
 export interface Children {

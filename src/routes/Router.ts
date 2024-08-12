@@ -76,11 +76,6 @@ class Router {
       return;
     }
     if (this._currentRoute && this._currentRoute !== route) {
-      console.log(
-        '_onRoute => ',
-        this._currentRoute,
-        route,
-      );
       this._currentRoute.leave();
     }
     this._currentRoute = route;

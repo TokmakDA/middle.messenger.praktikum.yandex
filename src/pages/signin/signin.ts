@@ -22,7 +22,7 @@ class SignInPage extends LoyautCenter {
           formName: 'signin',
           actions: [
             {
-              send: new Button({ text: 'Войти', type: 'submit' }),
+              send: new Button({ flat: true, text: 'Войти', type: 'submit' }),
             },
             {
               link: new Button({
@@ -52,15 +52,10 @@ class SignInPage extends LoyautCenter {
       password: formData.password,
     };
 
-    try {
-      await UserAuthController.login(data);
-    } catch (error) {
-      console.error('Login error:', error);
-    }
+    await UserAuthController.login(data);
   }
 }
 
-export default connect(({ isLoading, loginError }) => ({
+export default connect(({ isLoading }) => ({
   isLoading,
-  loginError,
 }))(SignInPage as typeof Block);

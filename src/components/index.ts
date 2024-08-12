@@ -6,6 +6,7 @@ import { ButtonTransparent } from './button-transparent';
 import { SVGBlock } from './svg';
 import { Backdrop } from './backdrop';
 import { ModalBlock } from './modal';
+import { Select } from './select';
 
 export {
   Button,
@@ -16,4 +17,5 @@ export {
   SVGBlock,
   Backdrop,
   ModalBlock,
+  Select,
 };

@@ -6,10 +6,11 @@ import getFormattedDate from '../../../lib/utils/getFormattedDate';
 import { connect } from '../../../tools/connect';
 import { ChatsController } from '../../../controllers';
 import { AppState } from '../../../@types/store';
-import { Button } from '../../../components';
+import { Button, SVGBlock } from '../../../components';
 import { Children } from '../../../@types/block';
 import store from '../../../services';
 import { StoreEvents } from '../../../services/Store';
+import { chatSVG } from '../../../assets/images';
 
 type ChatsPanelProps = {
   clickNewChat: (e: Event) => void;
@@ -49,6 +50,13 @@ class ChatsPanelBlock extends Block {
       profileButton: new ChatsPanelButton(),
       newChatButton: new Button({
         text: 'Создать чат',
+        isIcon: true,
+        iconBefore: new SVGBlock({
+          attr: {
+            width: '15px',
+          },
+          template: chatSVG,
+        }),
         events: {
           click: (e: Event) => props.clickNewChat(e),
         },
@@ -57,7 +65,6 @@ class ChatsPanelBlock extends Block {
 
     store.on(StoreEvents.Updated, this.updateChatsProps.bind(this));
   }
-  init() {}
 
   getChatListComponets() {
     const props = this.props as ChatsPanelProps;
@@ -71,7 +78,6 @@ class ChatsPanelBlock extends Block {
             : null,
           isMy: chatItem.last_message?.user.login === props.user?.login,
           ...chatItem,
-          onClick: () => this.updateChatsProps(),
         }),
       })),
     };

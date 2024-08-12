@@ -18,7 +18,6 @@ class ProfileInput extends Block {
       attr: false,
       input: new InputElement({ ...props }),
     });
-    console.log(props);
   }
 }
 

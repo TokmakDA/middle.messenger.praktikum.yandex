@@ -52,7 +52,7 @@ export class UserAuthController extends BaseController {
         response,
         'Произошла ошибка при получении пользовательских данных',
       );
-      window.store.set({ user: response as TUserApi, isAuthorized: true });
+      this.store.set({ user: response as TUserApi, isAuthorized: true });
     } catch (error) {
       this.handleError(error);
       this.clearState();

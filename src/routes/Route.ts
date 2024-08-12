@@ -47,7 +47,6 @@ export default class Route {
    */
   leave() {
     if (this._block) {
-      console.log('leave => this._block', this._block);
       this._block.unmount();
       this._block = null;
     }

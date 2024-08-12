@@ -6,10 +6,7 @@ import { TChatCard } from '../../../../@types/api';
 import { AppState } from '../../../../@types/store';
 import avatarSVG from '../../../../assets/images/avatar.svg';
 
-type IChatCardProps = TChatCard &
-  AppState & {
-    onClick: () => void;
-  };
+type IChatCardProps = TChatCard & AppState;
 
 class ChatCardBlock extends Block {
   constructor(props: IChatCardProps) {
@@ -22,8 +19,7 @@ class ChatCardBlock extends Block {
     });
   }
 
-  handleChatClick({
-    onClick,
+  async handleChatClick({
     id,
     title,
     avatar,
@@ -32,9 +28,7 @@ class ChatCardBlock extends Block {
     last_message,
   }: IChatCardProps) {
     const chat = { id, title, avatar, unread_count, created_by, last_message };
-
-    ChatsController.selectChat(chat);
-    onClick();
+    await ChatsController.selectChat(chat);
   }
 
   render(): string {

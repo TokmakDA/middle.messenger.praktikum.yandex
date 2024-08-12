@@ -1,0 +1,93 @@
+.dialog-button__container {
+  position: relative;
+  display: inline-block;
+}
+
+.dialog-button__container.open {
+  &::after {
+    visibility: visible;
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 0;
+  }
+}
+
+.dialog {
+  visibility: hidden;
+  position: absolute;
+  z-index: 500;
+  width: max-content;
+  max-width: 340px;
+  border-radius: 12px;
+  background: var(--white, #fff);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+  margin: 0 auto;
+  padding: 15px;
+
+  &.open {
+    visibility: visible;
+  }
+}
+
+.dialog.top {
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -10px);
+}
+
+.dialog.bottom {
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 10px);
+}
+
+.dialog.left {
+  right: 100%;
+  top: 50%;
+  transform: translate(-10px, -50%);
+}
+
+.dialog.right {
+  left: 100%;
+  top: 50%;
+  transform: translate(10px, -50%);
+}
+
+.dialog.top-left {
+  bottom: 100%;
+  left: 0;
+  transform: translate(-100%, 10px);
+}
+
+.dialog.top-right {
+  bottom: 100%;
+  right: 0;
+  transform: translate(100%, -10px);
+}
+
+.dialog.bottom-left {
+  top: 100%;
+  left: 0;
+  transform: translate(-100%, 10px);
+}
+
+.dialog.bottom-right {
+  top: 100%;
+  right: 0;
+  transform: translate(100%, 10px);
+}
+
+.button.active {
+  background-color: darkgrey; // замените на цвет активной кнопки
+}

@@ -1,6 +1,6 @@
 import ChatsApi from '../api/chats';
 import { BaseController } from './BaseController';
-import { WebSocketController } from '.';
+import { WebSocketService } from '../api/WebSocket';
 
 import {
   TChatCard,
@@ -14,7 +14,7 @@ import {
 } from '../@types/api';
 
 export class ChatsController extends BaseController {
-  private static store = window.store;
+  private static wsService = WebSocketService;
 
   /**
    * Получает список чатов с учетом параметров запроса.
@@ -29,9 +29,9 @@ export class ChatsController extends BaseController {
       const response = await ChatsApi.fetchChatList({ ...data, limit: 50 });
       this.throwError(response, 'Ошибка получения списка чатов');
 
-      console.log('Чаты успешно получены', response);
+      // console.log('Чаты успешно получены', response);
 
-      window.store.set({
+      this.store.set({
         chatList: response as TChatCard[],
       });
     } catch (error) {
@@ -51,8 +51,9 @@ export class ChatsController extends BaseController {
     try {
       const response = await ChatsApi.createChat(data);
       this.throwError(response, 'Ошибка создания чата');
-      // const ChatUsers = response;
-      console.log('Чат успешно создан', response);
+
+      // console.log('Чат успешно создан', response);
+
       await this.fetchChatList();
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при создании чата');
@@ -72,7 +73,8 @@ export class ChatsController extends BaseController {
       const response = await ChatsApi.deleteChat(data);
       this.throwError(response, 'Ошибка удаления чата');
 
-      console.log('Чат успешно удален', response);
+      // console.log('Чат успешно удален', response);
+
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при удалении чата');
     } finally {
@@ -92,9 +94,9 @@ export class ChatsController extends BaseController {
       const response = await ChatsApi.fetchUsers(data);
       this.throwError(response, 'Ошибка получения списка пользователей чата');
 
-      console.log('Список пользователей получен', response);
+      // console.log('Список пользователей получен', response);
 
-      window.store.set({
+      this.store.set({
         chatUsers: response as ChatUser[],
       });
     } catch (error) {
@@ -119,7 +121,9 @@ export class ChatsController extends BaseController {
       const response = await ChatsApi.addUsersToChat(data);
       this.throwError(response, 'Ошибка добавления пользователей в чат');
 
-      console.log('Пользователи успешно добавлены в чат', response);
+      // console.log('Пользователи успешно добавлены в чат', response);
+
+      await this.fetchUsersChat({ id: data.chatId });
     } catch (error) {
       this.handleError(
         error,
@@ -142,7 +146,9 @@ export class ChatsController extends BaseController {
       const response = await ChatsApi.removeUsersFromChat(data);
       this.throwError(response, 'Ошибка удаления пользователей из чата');
 
-      console.log('Пользователи успешно удалены из чата', response);
+      // console.log('Пользователи успешно удалены из чата', response);
+
+      await this.fetchUsersChat({ id: data.chatId });
     } catch (error) {
       this.handleError(
         error,
@@ -163,14 +169,14 @@ export class ChatsController extends BaseController {
     this.throwError(tokenResponse, 'Ошибка удаления пользователей из чата');
     const { token } = tokenResponse as TTokenChat;
     if (chat.id && user && token) {
-      await WebSocketController.getInstance().connect({
+      await this.wsService.getInstance().connect({
         chatId: id,
         userId: user.id,
         token,
       });
       this.store.set({ currentChat: chat, isOpenDialogChat: true });
 
-      WebSocketController.getInstance().fetchOldMessages();
+      this.wsService.getInstance().fetchOldMessages();
     }
   }
 }

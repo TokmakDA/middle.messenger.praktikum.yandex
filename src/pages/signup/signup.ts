@@ -21,7 +21,11 @@ class SignUpPage extends LoyautCenter {
           formName: 'signup',
           actions: [
             {
-              send: new Button({ text: 'Зарегистрироваться ', type: 'submit' }),
+              send: new Button({
+                flat: true,
+                text: 'Зарегистрироваться ',
+                type: 'submit',
+              }),
             },
             {
               link: new Button({
@@ -55,15 +59,10 @@ class SignUpPage extends LoyautCenter {
       phone: formData.phone,
     };
 
-    try {
-      await UserAuthController.signUp(data);
-    } catch (error) {
-      console.error('signUp error:', error);
-    }
+    await UserAuthController.signUp(data);
   }
 }
 
-export default connect(({ isLoading, loginError }) => ({
+export default connect(({ isLoading }) => ({
   isLoading,
-  loginError,
 }))(SignUpPage as typeof Block);
