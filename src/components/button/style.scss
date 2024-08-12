@@ -31,6 +31,18 @@
     align-items: center;
   }
 
+  &:hover {
+    transition: all 0.2s;
+  }
+
+  &:focus {
+    transition: all 0.2s;
+  }
+
+  &:disabled {
+    transition: all 0.2s;
+  }
+
   &.flat {
     background-color: $royal-blue;
     color: #fdfdfd;
@@ -99,17 +111,5 @@
     &:disabled {
       background-color: #b3b5b9;
     }
-  }
-
-  &:hover {
-    transition: all 0.2s;
-  }
-
-  &:focus {
-    transition: all 0.2s;
-  }
-
-  &:disabled {
-    transition: all 0.2s;
   }
 }
