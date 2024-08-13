@@ -11,6 +11,31 @@ export class BaseController {
   protected static store: Store<AppState> = window.store;
 
   /**
+   * Обновляет ошибки в состоянии store.
+   * @param value Новое состояние ошибки.
+   */
+  protected static setError(value: string | null) {
+    this.store.set({ error: value });
+  }
+
+  /**
+   * Очищает ошибки в состоянии store.
+   */
+  protected static clearError() {
+    this.setError(null);
+  }
+
+  /**
+   * Сбрасывает ошибки при изменении поля формы.
+   */
+  public static changeForm() {
+    const { error } = this.store.getState();
+    if (error) {
+      this.clearError(); // Очищаем ошибки, если они есть
+    }
+  }
+
+  /**
    * Обрабатывает ошибки и устанавливает их в состояние store.
    * @param error Ошибка для обработки.
    * @param defaultErrorMessage Сообщение по умолчанию, если ошибка не является экземпляром Error.
@@ -21,7 +46,7 @@ export class BaseController {
   ) {
     const errorMessage =
       error instanceof Error ? error.message : defaultErrorMessage;
-    this.store.set({ error: errorMessage });
+    this.setError(errorMessage);
     // eslint-disable-next-line no-console
     console.error('Error:', errorMessage);
   }

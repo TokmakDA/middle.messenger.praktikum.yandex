@@ -19,7 +19,10 @@ class AuthManager {
     router: Router,
     callback: () => void,
   ) {
-    const { isAuthorized } = store.getState();
+    const { isAuthorized, error } = store.getState();
+    if (error) {
+      UserAuthController.changeForm();
+    }
     const isAuthPage =
       pathname === ROUTES_PATH.signin || pathname === ROUTES_PATH.signup;
     const isProtectedRoute =

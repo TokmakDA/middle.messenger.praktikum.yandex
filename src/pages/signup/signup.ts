@@ -15,6 +15,9 @@ class SignUpPage extends LoyautCenter {
       content: new ModalBlock({
         title: 'Зарегистрироваться',
         content: new Form({
+          handleInputChange() {
+            UserAuthController.changeForm();
+          },
           fields: signUpInputs.map((item: InputProps) => ({
             fields: new Input({ ...item }),
           })),

@@ -25,6 +25,7 @@ export class ChatsController extends BaseController {
    */
   public static async fetchChatList(data?: TChatListParams) {
     this.setLoading(true);
+    this.clearError();
     try {
       const response = await ChatsApi.fetchChatList({ ...data, limit: 50 });
       this.throwError(response, 'Ошибка получения списка чатов');
@@ -45,6 +46,7 @@ export class ChatsController extends BaseController {
    */
   public static async createChat(data: TCreateChatRequest) {
     this.setLoading(true);
+    this.clearError();
     try {
       const response = await ChatsApi.createChat(data);
       this.throwError(response, 'Ошибка создания чата');
@@ -63,6 +65,7 @@ export class ChatsController extends BaseController {
    */
   public static async deleteChat(data: TChatRequest) {
     this.setLoading(true);
+    this.clearError();
     try {
       const response = await ChatsApi.deleteChat(data);
       this.throwError(response, 'Ошибка удаления чата');
@@ -81,6 +84,7 @@ export class ChatsController extends BaseController {
    */
   public static async fetchUsersChat(data: TChatUsersPayload) {
     this.setLoading(true);
+    this.clearError();
     try {
       const response = await ChatsApi.fetchUsers(data);
       this.throwError(response, 'Ошибка получения списка пользователей чата');
@@ -105,10 +109,12 @@ export class ChatsController extends BaseController {
    */
   public static async addUsersToChat(data: TChangeChatUsersRequest) {
     this.setLoading(true);
+    this.clearError();
+
     try {
       const response = await ChatsApi.addUsersToChat(data);
       this.throwError(response, 'Ошибка добавления пользователей в чат');
-      await this.fetchUsersChat({ id: data.chatId });
+      await this.fetchUsersChat({ id: data.chatId } as TChatUsersPayload);
     } catch (error) {
       this.handleError(
         error,
@@ -127,10 +133,11 @@ export class ChatsController extends BaseController {
    */
   public static async removeUsersFromChat(data: TChangeChatUsersRequest) {
     this.setLoading(true);
+    this.clearError()
     try {
       const response = await ChatsApi.removeUsersFromChat(data);
       this.throwError(response, 'Ошибка удаления пользователей из чата');
-      await this.fetchUsersChat({ id: data.chatId });
+      await this.fetchUsersChat({ id: data.chatId } as TChatUsersPayload);
     } catch (error) {
       this.handleError(
         error,
@@ -145,7 +152,7 @@ export class ChatsController extends BaseController {
     const { id } = chat;
     // TODO Добавить проверку на текущий чат
     const { user } = this.store.getState();
-    await this.fetchUsersChat({ id });
+    await this.fetchUsersChat({ id } as TChatUsersPayload);
 
     const tokenResponse = await ChatsApi.getTokenFromChat({ id });
     this.throwError(tokenResponse, 'Ошибка удаления пользователей из чата');

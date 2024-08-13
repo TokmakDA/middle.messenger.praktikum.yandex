@@ -8,14 +8,19 @@ import { connect } from '../../tools/connect';
 import Block from '../../tools/Block';
 
 import { SIGN_IN_INPUT_FIELDS as signInInputs } from '../../lib/constants/formFieldConstants';
+import { AppState } from '../../@types/store';
 
 class SignInPage extends LoyautCenter {
-  constructor(props: { content: ModalBlock }) {
+  constructor(props: { content: ModalBlock; error: AppState['error'] }) {
     super({
       ...props,
       content: new ModalBlock({
         title: 'Войти',
         content: new Form({
+          handleInputChange() {
+            UserAuthController.changeForm();
+          },
+          errorMessage: props.error,
           fields: signInInputs.map((item: InputProps) => ({
             field: new Input({ ...item }),
           })),
@@ -56,6 +61,7 @@ class SignInPage extends LoyautCenter {
   }
 }
 
-export default connect(({ isLoading }) => ({
+export default connect(({ isLoading, error }) => ({
   isLoading,
+  error,
 }))(SignInPage as typeof Block);
