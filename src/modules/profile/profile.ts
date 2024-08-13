@@ -2,19 +2,18 @@ import './style.scss';
 import { TUpdateUserRequest, TUserApi } from '../../@types/api';
 
 import { PROFILE_INPUT_FIELDS as profileInputs } from '../../lib/constants/formFieldConstants';
-import avatarSVG from '../../assets/images/avatar.svg';
 import Block from '../../tools/Block';
 import { ProfileInput } from './profile-input';
 import { ProfileFormBlock } from './profile-form';
 import { connect } from '../../tools/connect';
 import { AppState } from '../../@types/store';
 import { InputField } from '../../@types/types';
+import { ProfileAvatar } from './profile-avatar';
 
 class ProfileBlock extends Block {
   constructor(props: { [x: string]: unknown; user: TUserApi | null }) {
     super({
       ...props,
-      avatarSVG,
       profileForm: new ProfileFormBlock({
         inputList: profileInputs.map((field) => ({
           input: new ProfileInput({
@@ -26,13 +25,19 @@ class ProfileBlock extends Block {
           }),
         })),
       }),
+      profileAvatar: new ProfileAvatar({
+        user: props.user,
+        events: {
+          click: (e?: Event) => {
+            console.log(e);
+          },
+        },
+      }),
       template: `
         <section class="profile">
           <div class="profile__container">
             <div class="profile__top">
-              <div class="profile__avatar-wrapper">
-                <img class="profile__avatar" src="${avatarSVG}" alt="аватар" />
-              </div>
+              {{{ profileAvatar }}}
               <h1 class="profile__title">
                 {{ user.first_name }}
               </h1>
