@@ -1,5 +1,10 @@
-import { Backdrop, Button, Form, Select } from '../../../components';
-import ModalBlock from '../../../components/modal/modal';
+import {
+  Backdrop,
+  Button,
+  Form,
+  Select,
+  ModalBlock,
+} from '../../../components';
 import { ModalController } from '../../../controllers';
 import { connect } from '../../../tools/connect';
 import { ChatUser } from '../../../@types/api';

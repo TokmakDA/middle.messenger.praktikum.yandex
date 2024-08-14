@@ -7,6 +7,8 @@ import {
   AddUserToChat,
   ChatCreating,
   RemoveUserFromChat,
+  RemoveChat,
+  SetChatAvatar,
 } from '../../modules/modals';
 
 class ChatPage extends Block {
@@ -23,6 +25,15 @@ class ChatPage extends Block {
       removeUserFromChatModal: new RemoveUserFromChat({
         handleClose: () => this.closeRemovingUser(),
       }),
+
+      removeChatModal: new RemoveChat({
+        handleClose: () => this.closeRemovingChat(),
+      }),
+
+      setChatAvatarModal: new SetChatAvatar({
+        handleClose: () => this.closeSetChatAvatar(),
+      }),
+
       pageContent: new LoyautRows({
         rows: [
           {
@@ -41,6 +52,12 @@ class ChatPage extends Block {
               },
               handleRemoveUser: () => {
                 this.openRemovingUser();
+              },
+              handleSetChatAvatar: () => {
+                this.openSetChatAvatar();
+              },
+              handleRemoveChat: () => {
+                this.openRemovingChat();
               },
             }),
           },
@@ -73,7 +90,7 @@ class ChatPage extends Block {
     addUserToChatModal.setPropsAndChildren({ isOpen: value });
   }
 
-  // Управление модалкой Добавления Юзера
+  // Управление модалкой Удаления Юзера
   openRemovingUser() {
     this.updateRemovingUserProps(true);
   }
@@ -85,6 +102,30 @@ class ChatPage extends Block {
     removeUserFromChatModal.setPropsAndChildren({ isOpen: value });
   }
 
+  // Управление модалкой Удаления Чата
+  openRemovingChat() {
+    this.updateRemovingChatProps(true);
+  }
+  closeRemovingChat() {
+    this.updateRemovingChatProps();
+  }
+  updateRemovingChatProps(value = false) {
+    const { removeChatModal } = this.children;
+    removeChatModal.setPropsAndChildren({ isOpen: value });
+  }
+
+  // Управление модалкой Установки Аватара Чата
+  openSetChatAvatar() {
+    this.updateSetChatAvatarProps(true);
+  }
+  closeSetChatAvatar() {
+    this.updateSetChatAvatarProps();
+  }
+  updateSetChatAvatarProps(value = false) {
+    const { setChatAvatarModal } = this.children;
+    setChatAvatarModal.setPropsAndChildren({ isOpen: value });
+  }
+
   render(): string {
     return `
       <div>
@@ -92,6 +133,8 @@ class ChatPage extends Block {
         {{{ chatCreationModal }}}
         {{{ addUserToChatModal }}}
         {{{ removeUserFromChatModal }}}
+        {{{ removeChatModal }}}
+        {{{ setChatAvatarModal }}}
       </div>
     `;
   }

@@ -62,6 +62,7 @@ export default class ChatsApi {
       },
     );
   }
+
   static async addUsersToChat(
     data: TChangeChatUsersRequest,
   ): Promise<never | TErrorApi> {
@@ -90,5 +91,11 @@ export default class ChatsApi {
     return transport.post<TPathID, TTokenChat | TErrorApi>(
       URLS.chats.token(id),
     );
+  }
+
+  static async setChatAvatar(data: FormData): Promise<never | TErrorApi> {
+    return transport.put<FormData, never | TErrorApi>(URLS.chats.avatar, {
+      data,
+    });
   }
 }

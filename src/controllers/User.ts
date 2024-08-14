@@ -26,18 +26,6 @@ export class UserController extends BaseController {
     }
   }
 
-  // TODO Пpоверить, может лучше вынесу в компонент при работе с аватаром
-  /**
-   * Создает FormData из файла для обновления аватара.
-   * @param file Файл изображения.
-   * @returns FormData для отправки.
-   */
-  private static createAvatarFormData(file: File): FormData {
-    const formData = new FormData();
-    formData.append('avatar', file);
-    return formData;
-  }
-
   /**
    * Обновляет аватар пользователя.
    * @param file Файл изображения для обновления аватара.

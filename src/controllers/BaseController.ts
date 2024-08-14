@@ -81,4 +81,15 @@ export class BaseController {
   protected static setLoading(isLoading: boolean) {
     this.store.set({ isLoading });
   }
+
+  /**
+   * Создает FormData из файла для обновления аватара.
+   * @param file Файл изображения.
+   * @returns FormData для отправки.
+   */
+  protected static createAvatarFormData(file: File): FormData {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    return formData;
+  }
 }

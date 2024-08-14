@@ -1,5 +1,4 @@
-import { Backdrop, Button, Form, Input } from '../../../components';
-import ModalBlock from '../../../components/modal/modal';
+import { Backdrop, Button, Form, Input, ModalBlock } from '../../../components';
 import { ChatsController } from '../../../controllers';
 
 class ChatCreating extends Backdrop {

@@ -6,7 +6,6 @@ import {
   TChatCard,
   TChatListParams,
   TCreateChatRequest,
-  TChatRequest,
   TChatUsersPayload,
   TChangeChatUsersRequest,
   ChatUser,
@@ -59,15 +58,18 @@ export class ChatsController extends BaseController {
   }
 
   /**
-   * Удаляет существующий чат.
-   * @param data Параметры для удаления чата.
-   * @param data.chatId ID чата для удаления. Тип: number.
+   * Удаляет текущий чат.
    */
-  public static async deleteChat(data: TChatRequest) {
+  public static async deleteChat() {
+    const { currentChat } = this.store.getState();
+
     this.setLoading(true);
     this.clearError();
     try {
-      const response = await ChatsApi.deleteChat(data);
+      if (!currentChat) {
+        throw new Error('Чат не выбран');
+      }
+      const response = await ChatsApi.deleteChat({ chatId: currentChat.id });
       this.throwError(response, 'Ошибка удаления чата');
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при удалении чата');
@@ -133,7 +135,7 @@ export class ChatsController extends BaseController {
    */
   public static async removeUsersFromChat(data: TChangeChatUsersRequest) {
     this.setLoading(true);
-    this.clearError()
+    this.clearError();
     try {
       const response = await ChatsApi.removeUsersFromChat(data);
       this.throwError(response, 'Ошибка удаления пользователей из чата');
@@ -148,6 +150,10 @@ export class ChatsController extends BaseController {
     }
   }
 
+  /**
+   * Выбирает чат и устанавливает соединение WebSocket для общения.
+   * @param chat Информация о выбранном чате.
+   */
   public static async selectChat(chat: TChatCard) {
     const { id } = chat;
     // TODO Добавить проверку на текущий чат
@@ -166,6 +172,33 @@ export class ChatsController extends BaseController {
       this.store.set({ currentChat: chat, isOpenDialogChat: true });
 
       this.wsService.getInstance().fetchOldMessages();
+    }
+  }
+
+  /**
+   * Устанавливает аватар для чата.
+   * @param file Файл изображения аватара. Тип: File.
+   */
+  public static async setChatAvatar(file: File) {
+    const { currentChat } = this.store.getState();
+
+    this.setLoading(true);
+    this.clearError();
+    try {
+      const formData = this.createAvatarFormData(file);
+      if (!currentChat) {
+        throw new Error('Чат не выбран');
+      }
+      formData.append('chatId', String(currentChat.id));
+
+      const response = await ChatsApi.setChatAvatar(formData);
+      this.throwError(response, 'Ошибка установки аватара чата');
+      // Обновляем список чатов, чтобы отобразить новый аватар.
+      await this.fetchChatList();
+    } catch (error) {
+      this.handleError(error, 'Неизвестная ошибка при установке аватара чата');
+    } finally {
+      this.setLoading(false);
     }
   }
 }
