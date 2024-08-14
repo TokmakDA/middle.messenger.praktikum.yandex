@@ -4,7 +4,6 @@ import { ROUTES_PATH } from '../../../lib/constants/routes';
 import { connect } from '../../../tools/connect';
 import { Button, SVGBlock } from '../../../components';
 import backIcon from '../../../assets/images/back__icon.svg?raw';
-import { AppState } from '../../../@types/store';
 
 class BackBlock extends Block {
   constructor({ ...props }) {
@@ -29,15 +28,8 @@ class BackBlock extends Block {
   }
 
   public handleClick() {
-    const { isEditionProfile } = this.props as AppState;
-    if (isEditionProfile && window.location.pathname === ROUTES_PATH.profile) {
-      window.store.set({ isEditionProfile: false });
-    } else {
-      window.router.go(ROUTES_PATH.chat);
-    }
+    window.router.go(ROUTES_PATH.chat);
   }
 }
 
-export default connect((state) => ({
-  isEditionProfile: state.isEditionProfile,
-}))(BackBlock);
+export default connect(() => ({}))(BackBlock);

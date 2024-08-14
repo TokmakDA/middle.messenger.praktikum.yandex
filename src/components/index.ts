@@ -7,6 +7,7 @@ import { SVGBlock } from './svg';
 import { Backdrop } from './backdrop';
 import { ModalBlock } from './modal';
 import { Select } from './select';
+import { FileInput } from './file-input';
 
 export {
   Button,
@@ -18,4 +19,5 @@ export {
   Backdrop,
   ModalBlock,
   Select,
+  FileInput,
 };

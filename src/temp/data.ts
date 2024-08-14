@@ -139,47 +139,6 @@ export const PROFILE_INPUTS = [
   },
 ];
 
-export const PASS_INPUTS = [
-  {
-    type: 'password',
-    name: 'oldPassword',
-    label: 'Старый пароль',
-    value: '',
-    attr: {
-      type: 'password',
-      required: true,
-      pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
-      minlength: 8,
-      maxlength: 40,
-    },
-  },
-  {
-    type: 'password',
-    name: 'newPassword',
-    label: 'Новый пароль',
-    value: '',
-    attr: {
-      type: 'password',
-      required: true,
-      pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
-      minlength: 8,
-      maxlength: 40,
-    },
-  },
-  {
-    type: 'password',
-    name: 'rePassword',
-    label: 'Повторите пароль',
-    value: '',
-    attr: {
-      type: 'password',
-      required: true,
-      pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
-      minlength: 8,
-      maxlength: 40,
-    },
-  },
-];
 
 export const PROFILE_LINKS = [
   { text: 'Изменить данные', url: '/profile-edit', natural: true },

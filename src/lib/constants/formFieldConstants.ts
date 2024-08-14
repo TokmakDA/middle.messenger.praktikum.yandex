@@ -185,3 +185,45 @@ export const PROFILE_INPUT_FIELDS: InputField[] = [
     },
   },
 ];
+
+export const PASS_INPUTS: InputField[] = [
+  {
+    type: 'password',
+    name: 'oldPassword',
+    label: 'Старый пароль',
+    value: '',
+    attr: {
+      type: 'password',
+      required: true,
+      pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
+      minlength: 8,
+      maxlength: 40,
+    },
+  },
+  {
+    type: 'password',
+    name: 'newPassword',
+    label: 'Новый пароль',
+    value: '',
+    attr: {
+      type: 'password',
+      required: true,
+      pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
+      minlength: 8,
+      maxlength: 40,
+    },
+  },
+  {
+    type: 'password',
+    name: 'rePassword',
+    label: 'Повторите пароль',
+    value: '',
+    attr: {
+      type: 'password',
+      required: true,
+      pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
+      minlength: 8,
+      maxlength: 40,
+    },
+  },
+];

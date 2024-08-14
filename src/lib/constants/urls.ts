@@ -1,7 +1,7 @@
 import { WebSocketConnect } from '../../@types/socket';
 
 const URLS = {
-  base: '/',
+  base: 'https://ya-praktikum.tech/api/v2',
   ws: ({ userId, chatId, token }: WebSocketConnect) => {
     return `wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`;
   },
@@ -26,6 +26,7 @@ const URLS = {
     avatar: '/chats/avatar', // Загрузить аватар чата
     token: (id: string | number) => `/chats/token/${id}`, // Запрос токена для подключения к серверу сообщений
   },
+  resources: '/resources', // Маршрут для получения ресурсов, добавляется перед url файлов
 };
 
 export default URLS;

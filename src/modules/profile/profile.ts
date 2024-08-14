@@ -1,38 +1,36 @@
 import './style.scss';
-import { TUpdateUserRequest, TUserApi } from '../../@types/api';
+import { TUserApi } from '../../@types/api';
 
-import { PROFILE_INPUT_FIELDS as profileInputs } from '../../lib/constants/formFieldConstants';
 import Block from '../../tools/Block';
-import { ProfileInput } from './profile-input';
 import { ProfileFormBlock } from './profile-form';
-import { connect } from '../../tools/connect';
-import { AppState } from '../../@types/store';
-import { InputField } from '../../@types/types';
 import { ProfileAvatar } from './profile-avatar';
+import { connect } from '../../tools/connect';
+import { AddUsersAvatar } from '../modals';
+import { BlockProps } from '../../@types/block';
+
+interface ProfileBlockProps extends BlockProps {
+  user: TUserApi;
+}
 
 class ProfileBlock extends Block {
-  constructor(props: { [x: string]: unknown; user: TUserApi | null }) {
+  constructor(props: ProfileBlockProps) {
     super({
       ...props,
-      profileForm: new ProfileFormBlock({
-        inputList: profileInputs.map((field) => ({
-          input: new ProfileInput({
-            ...field,
-            // TODO Проверить на новом пользователе
-            value: props.user
-              ? props.user[field.name as keyof TUpdateUserRequest]
-              : field.value,
-          }),
-        })),
-      }),
+      profileForm: new ProfileFormBlock({}),
       profileAvatar: new ProfileAvatar({
         user: props.user,
         events: {
-          click: (e?: Event) => {
-            console.log(e);
+          click: () => {
+            this.openAddingUsersAvatar();
           },
         },
       }),
+      addUsersAvatarModal: new AddUsersAvatar({
+        handleClose: () => {
+          this.closeAddingUsersAvatar();
+        },
+      }),
+
       template: `
         <section class="profile">
           <div class="profile__container">
@@ -44,42 +42,30 @@ class ProfileBlock extends Block {
             </div>
             {{{ profileForm }}}
           </div>
+          
+          {{{ addUsersAvatarModal }}}
         </section>
       `,
     });
     this.count = 0;
   }
 
-  getFieldComponent(field: InputField, user: TUserApi | null) {
-    return {
-      input: new ProfileInput({
-        ...field,
-        // TODO Проверить на новом пользователе
-        value: user
-          ? user[field.name as keyof TUpdateUserRequest]
-          : field.value,
-      }),
-    };
+  // Управление модалкой Добавления Аватар Юзера
+  openAddingUsersAvatar() {
+    this.updateAddingUsersAvatarProps(true);
   }
-
-  updateUserField() {
-    const props = this.props as AppState;
-    return {
-      ...props,
-      profileForm: new ProfileFormBlock({
-        inputList: profileInputs.map((field) =>
-          this.getFieldComponent(field, props.user),
-        ),
-      }),
-    };
+  closeAddingUsersAvatar() {
+    this.updateAddingUsersAvatarProps();
   }
-  async componentDidMount() {
-    this.updateUserField();
-    this.setPropsAndChildren(this.updateUserField());
+  updateAddingUsersAvatarProps(value = false) {
+    const { addUsersAvatarModal, profileAvatar } = this.children;
+    addUsersAvatarModal.setPropsAndChildren({ isOpen: value });
+    profileAvatar.setPropsAndChildren({
+      user: (this.props as ProfileBlockProps).user,
+    });
   }
 }
 
-export default connect(({ user, isEditionProfile }) => ({
+export default connect(({ user }) => ({
   user,
-  isEditionProfile,
 }))(ProfileBlock);

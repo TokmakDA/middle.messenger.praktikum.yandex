@@ -30,6 +30,7 @@
     height: auto;
     object-fit: cover;
     aspect-ratio: 1;
+    border-radius: $radius-50;
 
     transition: color 0.2s;
     cursor: pointer;

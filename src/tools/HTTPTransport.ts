@@ -1,5 +1,5 @@
 import { queryStringify } from '../lib/utils/utils';
-import { BASE_URL } from '../lib/constants/apiEndpoints';
+import URLS from '../lib/constants/urls';
 
 const METHODS = {
   GET: 'GET',
@@ -39,7 +39,7 @@ export default class HTTPTransport {
    * @param withCredentialsDefault - Значение по умолчанию для withCredentials
    */
   constructor({ apiPath = '', withCredentials = false }) {
-    this.apiUrl = `${BASE_URL}${apiPath}`;
+    this.apiUrl = `${URLS.base}${apiPath}`;
     this.withCredentialsDefault = withCredentials;
   }
 
@@ -87,10 +87,9 @@ export default class HTTPTransport {
       const xhr = new XMLHttpRequest();
 
       xhr.open(method, updatedUrl);
-      xhr.setRequestHeader('Content-Type', 'application/json');
 
-      // Установка заголовков запроса
-      if (headers) {
+      // Установка заголовков запроса (за исключением случаев, когда data является FormData)
+      if (headers && !(data instanceof FormData)) {
         Object.entries(headers).forEach(([header, value]) => {
           xhr.setRequestHeader(header, value);
         });
@@ -124,8 +123,13 @@ export default class HTTPTransport {
         reject(new Error('Request timed out'));
       };
 
-      // Отправка данных в запросе
-      xhr.send(method === METHODS.GET ? null : JSON.stringify(data));
+      // Отправка данных в запросе (FormData отправляется напрямую)
+      if (data instanceof FormData) {
+        xhr.send(data);
+      } else {
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(method === METHODS.GET ? null : JSON.stringify(data));
+      }
     });
   };
 }

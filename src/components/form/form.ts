@@ -51,10 +51,9 @@ export default class Form extends Block {
   }
 
   handleInputChange(e: Event): void {
-    console.log(e);
     const { handleInputChange } = this.props as FormProps;
     if (handleInputChange) {
-      this.handleInputChange(e);
+      handleInputChange(e);
     }
   }
 }
