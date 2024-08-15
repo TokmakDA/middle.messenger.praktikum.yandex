@@ -11,7 +11,7 @@ import {
   ChatUser,
   TTokenChat,
 } from '../@types/api';
-import ResourcesApi from '../api/resources.ts';
+import ResourcesApi from '../api/resources';
 
 export class ChatsController extends BaseController {
   private static wsService = WebSocketService;

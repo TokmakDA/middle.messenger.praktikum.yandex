@@ -1,7 +1,7 @@
 import Block from '../../../../tools/Block';
 import './style.scss';
 import { FormMessage } from './formMessage';
-import { AddUserToChat, SendChatMedia } from '../../../modals';
+import { SendChatMedia } from '../../../modals';
 
 class FooterChatroomBlock extends Block {
   constructor({ ...props }) {
