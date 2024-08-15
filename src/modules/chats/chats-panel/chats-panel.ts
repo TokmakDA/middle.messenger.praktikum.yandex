@@ -50,7 +50,7 @@ class ChatsPanelBlock extends Block {
       profileButton: new ChatsPanelButton(),
       newChatButton: new Button({
         text: 'Создать чат',
-        isIcon: true,
+        small: true,
         iconBefore: new SVGBlock({
           attr: {
             width: '15px',

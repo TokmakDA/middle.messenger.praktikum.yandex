@@ -11,6 +11,7 @@ import {
   ChatUser,
   TTokenChat,
 } from '../@types/api';
+import ResourcesApi from '../api/resources.ts';
 
 export class ChatsController extends BaseController {
   private static wsService = WebSocketService;
@@ -188,7 +189,7 @@ export class ChatsController extends BaseController {
     this.setLoading(true);
     this.clearError();
     try {
-      const formData = this.createAvatarFormData(file);
+      const formData = this.createFormData(file, 'avatar');
       if (!currentChat) {
         throw new Error('Чат не выбран');
       }
@@ -200,6 +201,32 @@ export class ChatsController extends BaseController {
       await this.fetchChatList();
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при установке аватара чата');
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  /**
+   * Отправляет медиа файл в сообщении.
+   * @param file Файл изображения аватара. Тип: File.
+   */
+  public static async sendChatFile(file: File) {
+    const { currentChat } = this.store.getState();
+
+    this.setLoading(true);
+    this.clearError();
+    try {
+      const formData = this.createFormData(file, 'resource');
+      if (!currentChat) {
+        throw new Error('Чат не выбран');
+      }
+
+      const response = await ResourcesApi.sendResource(formData);
+      this.throwError(response, 'Ошибка отправки файла');
+      const { id } = response;
+      this.wsService.getInstance().sendFile(id);
+    } catch (error) {
+      this.handleError(error, 'Неизвестная ошибка при отправке файла');
     } finally {
       this.setLoading(false);
     }

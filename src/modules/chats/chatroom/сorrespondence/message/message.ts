@@ -22,16 +22,17 @@ class MessageBlock extends Block {
     const isMy = `${user_id}` === `${user?.id}`;
 
     const { base, resources } = URLS;
-    const url = `${base}${resources}${file}`;
-    const image = type.includes('image');
+    const url = `${base}${resources}${file?.path}`;
+    const image = type.includes('file');
 
     return `
         <div class='chat__message {{#if ${isMy}}} chat__is-my {{/if}}'>
           <div class='chat__wrapper'>
-            {{# if ${image} }}
+            {{#if ${image} }}
               <img class="chat__image" src="${url}" alt="Картинка"/>
+            {{else}}
+              <p class='chat__text'>{{ content }}</p>
             {{/if}}
-            <p class='chat__text'>{{ content }}</p>
             <div class='chat__time-stamp'>
               <time class='chat__time' datetime='${displayTime}'>${displayTime}</time>
               {{#if is_read}}

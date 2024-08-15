@@ -3,6 +3,7 @@ import RemoveUserFromChat from './removeUser';
 import ChatCreating from './chatCreating';
 import SetChatAvatar from './setChatAvatar';
 import RemoveChat from './removeChat';
+import SendChatMedia from './sendChatMedia';
 
 export {
   AddUserToChat,
@@ -10,4 +11,5 @@ export {
   ChatCreating,
   SetChatAvatar,
   RemoveChat,
+  SendChatMedia,
 };

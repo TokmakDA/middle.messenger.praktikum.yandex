@@ -2,12 +2,21 @@ import './style.scss';
 import Block from '../../../../../tools/Block';
 import template from './tpl.hbs?raw';
 import { WebSocketService } from '../../../../../api/WebSocket';
+import { Button, SVGBlock } from '../../../../../components';
+import { imageSVG } from '../../../../../assets/images';
 
 class FormMessage extends Block {
   constructor({ ...props }) {
     super({
       ...props,
       template,
+      mediaButton: new Button({
+        iconAfter: new SVGBlock({ template: imageSVG }),
+        isIcon: true,
+        events: {
+          click: (e: Event) => props.handleSendChatMedia(e),
+        },
+      }),
       events: {
         submit: (e: SubmitEvent): void => {
           e.preventDefault();

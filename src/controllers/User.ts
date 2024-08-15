@@ -33,7 +33,7 @@ export class UserController extends BaseController {
   public static async updateAvatar(file: File) {
     this.setLoading(true);
     try {
-      const formData = this.createAvatarFormData(file);
+      const formData = this.createFormData(file, 'avatar');
 
       const response = await UsersApi.updateAvatar(formData);
       this.throwError(response, 'Ошибка обновления аватара');

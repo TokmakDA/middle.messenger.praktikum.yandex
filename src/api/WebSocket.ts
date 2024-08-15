@@ -116,6 +116,17 @@ export class WebSocketService {
     }
   }
 
+  public sendFile(content: string) {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(
+        JSON.stringify({
+          content,
+          type: 'file',
+        }),
+      );
+    }
+  }
+
   public fetchOldMessages(offset: string = '0') {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(

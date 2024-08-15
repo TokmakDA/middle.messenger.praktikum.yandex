@@ -4,6 +4,7 @@ import {
   ChatCreating,
   SetChatAvatar,
   RemoveChat,
+  SendChatMedia,
 } from './chat';
 import { AddUsersAvatar } from './profile';
 
@@ -14,4 +15,5 @@ export {
   AddUsersAvatar,
   SetChatAvatar,
   RemoveChat,
+  SendChatMedia,
 };

@@ -85,11 +85,12 @@ export class BaseController {
   /**
    * Создает FormData из файла для обновления аватара.
    * @param file Файл изображения.
+   * @param name
    * @returns FormData для отправки.
    */
-  protected static createAvatarFormData(file: File): FormData {
+  protected static createFormData(file: File, name: string): FormData {
     const formData = new FormData();
-    formData.append('avatar', file);
+    formData.append(name, file);
     return formData;
   }
 }
