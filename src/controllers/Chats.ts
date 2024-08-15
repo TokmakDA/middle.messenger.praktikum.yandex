@@ -9,7 +9,7 @@ import {
   TChatUsersPayload,
   TChangeChatUsersRequest,
   ChatUser,
-  TTokenChat,
+  TTokenChat, TResourcesResponse,
 } from '../@types/api';
 import ResourcesApi from '../api/resources';
 
@@ -223,8 +223,8 @@ export class ChatsController extends BaseController {
 
       const response = await ResourcesApi.sendResource(formData);
       this.throwError(response, 'Ошибка отправки файла');
-      const { id } = response;
-      this.wsService.getInstance().sendFile(id);
+      const { id } = response as TResourcesResponse;
+      this.wsService.getInstance().sendFile(`${id}`);
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при отправке файла');
     } finally {
