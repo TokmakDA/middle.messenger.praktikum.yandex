@@ -11,6 +11,7 @@ import {
   ChatUser,
   TTokenChat,
 } from '../@types/api';
+import store from '../services';
 
 export class ChatsController extends BaseController {
   private static wsService = WebSocketService;
@@ -70,6 +71,9 @@ export class ChatsController extends BaseController {
         throw new Error('Чат не выбран');
       }
       const response = await ChatsApi.deleteChat({ chatId: currentChat.id });
+      await this.fetchChatList();
+      this.store.set({ currentChat: null });
+
       this.throwError(response, 'Ошибка удаления чата');
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при удалении чата');

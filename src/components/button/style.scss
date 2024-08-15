@@ -31,6 +31,16 @@
     align-items: center;
   }
 
+  &.small {
+    display: flex;
+    height: 30px;
+    padding: 4px 8px;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    line-height: 12px;
+  }
+
   &:hover {
     transition: all 0.2s;
   }

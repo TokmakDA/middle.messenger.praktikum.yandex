@@ -55,8 +55,15 @@
 .chat__is-my {
   align-items: end;
 
-  &>:first-child {
+  & > :first-child {
     background-color: $alice-blue;
     border-radius: $radius-m $radius-m 0 $radius-m;
   }
+}
+
+.chat__image {
+  width: 100%;
+  max-width: 400px;
+  object-fit: cover;
+  aspect-ratio: 1;
 }

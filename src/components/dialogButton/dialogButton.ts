@@ -7,6 +7,7 @@ import { ButtonProps, DialogProps } from '../../@types/types';
 type DialogButtonProps = DialogProps &
   ButtonProps & {
     classNameButton?: ButtonProps['className'];
+    className?: string;
   };
 
 class DialogButton extends Block {
@@ -42,7 +43,7 @@ class DialogButton extends Block {
   render() {
     const { isOpen } = this;
     return `
-      <div class="dialog-button__container {{#if ${isOpen} }} open {{/if}}">
+      <div class="dialog-button__container {{#if ${isOpen} }} open {{/if}} {{#if className}} {{className}} {{/if}}">
         {{{ button }}}
         {{{ dialog }}}
       </div>
