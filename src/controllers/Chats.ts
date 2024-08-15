@@ -9,7 +9,8 @@ import {
   TChatUsersPayload,
   TChangeChatUsersRequest,
   ChatUser,
-  TTokenChat, TResourcesResponse,
+  TTokenChat,
+  TResourcesResponse,
 } from '../@types/api';
 import ResourcesApi from '../api/resources';
 
