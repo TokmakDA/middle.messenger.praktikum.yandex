@@ -21,7 +21,7 @@ class RemoveChat extends Backdrop {
             {
               cancel: new Button({
                 outline: true,
-                text: 'Удалить',
+                text: 'Отменить',
                 type: 'button',
                 events: {
                   click: (e: Event) => {
