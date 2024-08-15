@@ -11,7 +11,7 @@ export class UserAuthController extends BaseController {
    */
   public static async login(data: TSignInRequest) {
     this.setLoading(true);
-    this.clearError()
+    this.clearError();
     try {
       const response = await AuthApi.login(data);
       this.throwError(response, 'Ошибка авторизации');
@@ -30,7 +30,7 @@ export class UserAuthController extends BaseController {
    */
   public static async signUp(data: TSignUpRequest) {
     this.setLoading(true);
-    this.clearError()
+    this.clearError();
     try {
       const response = await AuthApi.create(data);
       this.throwError(response, 'Ошибка при регистрации');
@@ -48,7 +48,7 @@ export class UserAuthController extends BaseController {
    */
   public static async getUserMe() {
     this.setLoading(true);
-    this.clearError()
+    this.clearError();
     try {
       const response = await AuthApi.me();
       this.throwError(
@@ -69,7 +69,7 @@ export class UserAuthController extends BaseController {
    */
   public static async logout() {
     this.setLoading(true);
-    this.clearError()
+    this.clearError();
     try {
       const response = await AuthApi.logout();
       this.throwError(response, 'Неизвестная ошибка');

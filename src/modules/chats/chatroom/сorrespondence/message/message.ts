@@ -4,7 +4,7 @@ import './style.scss';
 import getFormattedDate from '../../../../../lib/utils/getFormattedDate';
 import { WebSocketResponseMessage } from '../../../../../@types/socket';
 import { AppState } from '../../../../../@types/store';
-import URLS from '../../../../../lib/constants/urls.ts';
+import URLS from '../../../../../lib/constants/urls';
 
 class MessageBlock extends Block {
   constructor({ ...props }) {

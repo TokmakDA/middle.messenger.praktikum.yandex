@@ -139,7 +139,6 @@ export const PROFILE_INPUTS = [
   },
 ];
 
-
 export const PROFILE_LINKS = [
   { text: 'Изменить данные', url: '/profile-edit', natural: true },
   { text: 'Изменить пароль', url: '/profile-pass', natural: true },
