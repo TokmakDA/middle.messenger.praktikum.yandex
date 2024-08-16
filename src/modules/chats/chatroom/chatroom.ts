@@ -2,24 +2,37 @@ import './style.scss';
 import Block from '../../../tools/Block';
 import { HeaderChatroomBlock } from './header-chatroom';
 import { FooterChatroomBlock } from './footer-chatroom';
-import { DialogBlock } from './dialog';
+import { CorrespondenceBlock } from './сorrespondence';
+import { connect } from '../../../tools/connect';
+import { AppState } from '../../../@types/store';
 
 class ChatroomBlock extends Block {
-  constructor({ ...props }) {
+  constructor({ ...props }: AppState) {
     super({
+      ...props,
+      header: new HeaderChatroomBlock({ ...props }),
+      correspondence: new CorrespondenceBlock({ ...props }),
+      footer: new FooterChatroomBlock({}),
+
       template: `
         <section class='chat'>
-          {{{ header }}}
-          {{{ dialog }}}
-          {{{ footer }}}
+          {{#if currentChat}}
+            {{{ header }}}
+            {{{ correspondence }}}
+            {{{ footer }}}
+          {{else}}
+            <div class="chat__placeholder">Выберите чат, чтобы отправить сообщение</div>
+          {{/if}}
         </section>
       `,
-      header: new HeaderChatroomBlock({}),
-      footer: new FooterChatroomBlock({}),
-      dialog: new DialogBlock({}),
-      ...props,
     });
   }
 }
 
-export default ChatroomBlock;
+// export default ChatroomBlock;
+
+export default connect(({ currentChat, messages, user }) => ({
+  currentChat,
+  messages,
+  user,
+}))(ChatroomBlock);

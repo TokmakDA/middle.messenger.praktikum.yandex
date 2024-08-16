@@ -1,7 +1,7 @@
 import Block from '../../tools/Block';
 import './style.scss';
 import { LoyautCenter } from '../../layouts';
-import ROUTES from '../../data/constants';
+import { ROUTES } from '../../lib/constants/routes';
 
 class HomeBlock extends Block {
   constructor({ ...props }) {
@@ -25,10 +25,10 @@ class HomeBlock extends Block {
   }
 }
 
-const homePage = new LoyautCenter({
+const HomePage = new LoyautCenter({
   content: new HomeBlock({
     links: ROUTES,
   }),
 });
 
-export default homePage;
+export default HomePage;

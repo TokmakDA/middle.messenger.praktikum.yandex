@@ -1,40 +1,71 @@
 import './style.scss';
-// import sidebar from '../../layouts/sidebar';
+import { TUserApi } from '../../@types/api';
 
-import { PROFILE_INPUTS } from '../../temp/data';
-import avatarSVG from '../../assets/images/avatar.svg';
 import Block from '../../tools/Block';
-import { ProfileInput } from './profile-input';
 import { ProfileFormBlock } from './profile-form';
+import { ProfileAvatar } from './profile-avatar';
+import { connect } from '../../tools/connect';
+import { AddUsersAvatar } from '../modals';
+import { BlockProps } from '../../@types/block';
+
+interface ProfileBlockProps extends BlockProps {
+  user: TUserApi;
+}
 
 class ProfileBlock extends Block {
-  constructor({ ...props }) {
+  constructor(props: ProfileBlockProps) {
     super({
+      ...props,
+      profileForm: new ProfileFormBlock({}),
+      profileAvatar: new ProfileAvatar({
+        user: props.user,
+        events: {
+          click: () => {
+            this.openAddingUsersAvatar();
+          },
+        },
+      }),
+      addUsersAvatarModal: new AddUsersAvatar({
+        handleClose: () => {
+          this.closeAddingUsersAvatar();
+        },
+      }),
+
       template: `
         <section class="profile">
           <div class="profile__container">
             <div class="profile__top">
-              <div class="profile__avatar-wrapper">
-                <img class="profile__avatar" src="${avatarSVG}" alt="аватар" />
-              </div>
-              <h1 class="profile__title">Иван</h1>
+              {{{ profileAvatar }}}
+              <h1 class="profile__title">
+                {{ user.first_name }}
+              </h1>
             </div>
             {{{ profileForm }}}
           </div>
+          
+          {{{ addUsersAvatarModal }}}
         </section>
       `,
-      isEdition: true,
+    });
+    this.count = 0;
+  }
 
-      ...props,
-      profileForm: new ProfileFormBlock({
-        ...props,
-        inputList: PROFILE_INPUTS.map((prop) => ({
-          inpit: new ProfileInput({ ...prop }),
-        })),
-      }),
-      avatarSVG,
+  // Управление модалкой Добавления Аватар Юзера
+  openAddingUsersAvatar() {
+    this.updateAddingUsersAvatarProps(true);
+  }
+  closeAddingUsersAvatar() {
+    this.updateAddingUsersAvatarProps();
+  }
+  updateAddingUsersAvatarProps(value = false) {
+    const { addUsersAvatarModal, profileAvatar } = this.children;
+    addUsersAvatarModal.setPropsAndChildren({ isOpen: value });
+    profileAvatar.setPropsAndChildren({
+      user: (this.props as ProfileBlockProps).user,
     });
   }
 }
 
-export default ProfileBlock;
+export default connect(({ user }) => ({
+  user,
+}))(ProfileBlock);

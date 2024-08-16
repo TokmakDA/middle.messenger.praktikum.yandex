@@ -12,6 +12,12 @@ class ProfileButton extends Block {
           <button type="{{ type }}" class="profile__button ${color}">{{text}}</button>
         </div>
       `,
+
+      events: {
+        click: (e: Event): void => {
+          props.onClick(e);
+        },
+      },
     });
   }
 }

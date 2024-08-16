@@ -1,40 +1,35 @@
 import Block from '../../../tools/Block';
 import './style.scss';
+import { ROUTES_PATH } from '../../../lib/constants/routes';
+import { connect } from '../../../tools/connect';
+import { Button, SVGBlock } from '../../../components';
+import backIcon from '../../../assets/images/back__icon.svg?raw';
 
 class BackBlock extends Block {
   constructor({ ...props }) {
     super({
       ...props,
+      button: new Button({
+        type: 'button',
+        className: 'sidebar__button',
+        iconBefore: new SVGBlock({
+          template: backIcon,
+        }),
+        events: {
+          click: () => this.handleClick(),
+        },
+      }),
       template: `
         <div class="sidebar__back-container">
-          <a href="/chats" class="sidebar__back">
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="14"
-                cy="14"
-                r="14"
-                transform="rotate(-180 14 14)"
-                fill="#3369F3"
-              />
-              <path
-                d="M12.8 20L8 14M8 14L12.8 8M8 14L20 14"
-                stroke="#FDFDFD"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </a>
+          {{{ button }}}
         </div>
       `,
     });
   }
+
+  public handleClick() {
+    window.router.go(ROUTES_PATH.chat);
+  }
 }
 
-export default BackBlock;
+export default connect(() => ({}))(BackBlock);

@@ -3,7 +3,7 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "dom"],
     "skipLibCheck": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
@@ -29,6 +29,8 @@
     "src",
     "src/globals.d.ts",
     "src/@types",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
     "vite.config.ts",
     "vite-plugin-handlebars-precompile.ts",
     "server.js"

@@ -1,0 +1,86 @@
+.select {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+
+  &__container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-content: flex-end;
+  }
+
+  &__label {
+    align-self: start;
+    width: 100%;
+    height: 13px;
+    margin: 0;
+    padding: 0;
+    color: $light-gray;
+    font-size: 13px;
+    line-height: $lh-100;
+    transition:
+      font-size 0.5s,
+      transform 0.5s;
+    transform: translateY(20px);
+  }
+
+  &__element {
+    width: 100%;
+    height: 28px;
+    margin: 0;
+    border: none;
+    border-bottom: solid 1px $royal-blue;
+    padding: 0;
+    color: $nero;
+    font-weight: $fw-medium;
+    font-size: 13px;
+    line-height: $lh-100;
+    background-color: transparent;
+
+    &::placeholder {
+      color: $light-gray;
+    }
+
+    option {
+      color: $nero;
+      background-color: $white;
+    }
+  }
+
+  &__error {
+    align-self: start;
+    width: 100%;
+    margin: 6px 0 0;
+    padding: 0;
+    color: $vermilion;
+    font-weight: $fw-regular;
+    font-size: 8px;
+    line-height: $lh-100;
+    display: none;
+  }
+
+  &__element:not([value='']) + &__label,
+  &__element:focus + &__label {
+    font-size: 9px;
+    transition:
+      font-size 0.5s,
+      transform 0.5s;
+    transform: translateY(0);
+  }
+
+  &__element:focus {
+    outline: solid 2px $royal-blue;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  &[data-error='true'] &__element {
+    color: $vermilion;
+    border-bottom: solid 1px $vermilion;
+  }
+
+  &[data-error='true'] &__error {
+    display: block;
+  }
+}

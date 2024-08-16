@@ -2,15 +2,20 @@ import { LoyautRows, LoyautSidebar } from '../../layouts';
 import { BackBlock } from '../../modules/profile/back';
 import { ProfileBlock } from '../../modules/profile';
 
-const profilePage = new LoyautRows({
-  rows: [
-    {
-      row: new LoyautSidebar({
-        content: new BackBlock({}),
-      }),
-    },
-    { row: new ProfileBlock({}) },
-  ],
-});
+class ProfilePage extends LoyautRows {
+  constructor({ ...props }) {
+    super({
+      ...props,
+      rows: [
+        {
+          row: new LoyautSidebar({
+            content: new BackBlock({}),
+          }),
+        },
+        { row: new ProfileBlock({}) },
+      ],
+    });
+  }
+}
 
-export default profilePage;
+export default ProfilePage;

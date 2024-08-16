@@ -1,0 +1,38 @@
+.profile {
+  &__avatar-wrapper {
+    max-width: 130px;
+    border-radius: $radius-50;
+    background-color: $gallery;
+    position: relative;
+
+    &:hover::before {
+      content: '';
+      border-radius: $radius-50;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: color.adjust(
+        $royal-blue,
+        $lightness: -20%,
+        $alpha: -0.9
+      );
+      background-image: url('../../../assets/images/edit_24dp.svg');
+      background-size: 35px auto;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  &__avatar {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 1;
+    border-radius: $radius-50;
+
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+}
