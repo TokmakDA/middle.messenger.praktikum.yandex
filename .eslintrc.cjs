@@ -39,7 +39,7 @@ module.exports = {
       },
     },
   },
-  ignorePatterns: ['dist'],
+  ignorePatterns: ['dist', 'mochaSetup.js', 'loader-css.js'],
   rules: {
     'import/no-unresolved': [
       'error',

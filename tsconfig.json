@@ -18,12 +18,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["vite/client"],
+    "types": ["vite/client", "mocha", "node"],
     "plugins": [
       {
         "name": "typescript-hbs-plugin"
       }
-    ]
+    ],
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src",
@@ -31,8 +32,10 @@
     "src/@types",
     "src/**/*.ts",
     "src/**/*.d.ts",
+    "src/**/*.test.ts",
     "vite.config.ts",
     "vite-plugin-handlebars-precompile.ts",
-    "server.js"
+    "server.js",
+    "node_modules/@types/mocha/index.d.ts"
   ]
 }

@@ -1,4 +1,4 @@
-import { queryStringify } from '../lib/utils/utils';
+import { queryString } from '../lib/utils/utils';
 import URLS from '../lib/constants/urls';
 
 const METHODS = {
@@ -79,7 +79,7 @@ export default class HTTPTransport {
 
     // Обработка GET-запроса с параметрами
     if (method === METHODS.GET && data) {
-      const queryParams = queryStringify(data);
+      const queryParams = queryString(data);
       updatedUrl += `?${queryParams}`;
     }
 
