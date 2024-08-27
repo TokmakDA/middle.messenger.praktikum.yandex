@@ -70,11 +70,11 @@
   },
   "lint-staged": {
     "*.ts": [
-      "npm run lint",
+      "npm lint",
       "npm test"
     ],
     "*.scss": [
-      "npm ruu slint:fix"
+      "npm slint:fix"
     ]
   }
 }

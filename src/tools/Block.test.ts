@@ -12,18 +12,15 @@ describe('Smoke test for Components', () => {
         constructor(props: BlockProps) {
           super({
             ...props,
+            template: `<div id="div">{{ text }}</div>`,
           });
-        }
-
-        render() {
-          return `<div id="div">{{text}}</div>`;
         }
       }
 
       BlockClass = Component;
     });
 
-    it('render props', () => {
+    it('should correctly render the given props into the template', () => {
       const textData = 'I am div!';
       const component = new BlockClass({ text: textData });
       const res = (component.element as unknown as HTMLDivElement)?.innerHTML;
@@ -31,7 +28,7 @@ describe('Smoke test for Components', () => {
       expect(res).to.be.eq(textData);
     });
 
-    it('handle click', () => {
+    it('should handle a click event by triggering the provided event handler', () => {
       const handler = Sinon.stub();
       const component = new BlockClass({
         text: 'I am button!',
@@ -41,18 +38,21 @@ describe('Smoke test for Components', () => {
       const event = new MouseEvent('click');
       (component.element as unknown as HTMLDivElement)?.dispatchEvent(event);
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       expect(handler.calledOnce).to.be.true;
     });
 
-    it('Invoke _render', () => {
+    it('should invoke the _render method only once when updating props', () => {
       const component = new BlockClass({});
+      const template = `<div><div id="div">{{ text }}</div><div id="div2">{{ text2 }}</div></div>`;
 
       const spyDCM = Sinon.spy(component, '_render');
 
-      component.setPropsAndChildren({ text: 'I am div' });
+      component.setPropsAndChildren({
+        template,
+        text: 'I am div',
+        text2: 'I am div!',
+      });
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       expect(spyDCM.calledOnce).to.be.true;
     });
   });

@@ -33,9 +33,9 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.test.ts",
+    ".eslintrc.cjs",
     "vite.config.ts",
     "vite-plugin-handlebars-precompile.ts",
-    "server.js",
-    "node_modules/@types/mocha/index.d.ts"
+    "server.js"
   ]
 }

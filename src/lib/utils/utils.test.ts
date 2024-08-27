@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as utils from './utils.ts';
+import * as utils from './utils';
 
 describe('Utility functions', () => {
   describe('isPlainObject function', () => {
