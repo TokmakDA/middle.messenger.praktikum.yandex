@@ -2,22 +2,19 @@
 // import { createSandbox, SinonStub } from 'sinon';
 // import sinonChai from 'sinon-chai';
 // import HTTPTransport from './HTTPTransport';
-// // import { queryString } from '../lib/utils/utils';
-//
-// use(sinonChai);
 //
 // describe.skip('HTTP Transport', () => {
+//   use(sinonChai);
+//
 //   const sandbox = createSandbox();
 //   let http: HTTPTransport;
-//   let requestStub: SinonStub;
+//   let requestStub: SinonStub<any>;
 //
 //   beforeEach(() => {
 //     http = new HTTPTransport({});
-//     requestStub = sandbox.stub(http, 'request').resolves([]);
-//     // request = sandbox
-//     // .stub(http, 'request' as keyof typeof http)
-//     // .callsFake(() => Promise.resolve())
-//     // .resolves([]);
+//     requestStub = sandbox
+//       .stub(http, 'request' as keyof typeof http)
+//       .callsFake(() => Promise.resolve());
 //   });
 //
 //   afterEach(() => {
@@ -26,11 +23,9 @@
 //
 //   it('should include query params in GET request', () => {
 //     const data = { first: 1, second: 2 };
-//     // const queryParams = queryString(data);
-//     // const expectedUrl = `/test?${queryParams}`;
 //
 //     http.get('/test', { data });
 //
-//     expect(requestStub).calledWithMatch(`/test?&first=1&second=2`);
+//     expect(requestStub).calledWithMatch(`/test?&first=1&second=2`, 'GET');
 //   });
 // });

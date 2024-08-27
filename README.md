@@ -192,3 +192,12 @@
 ## Автор:
 
 [Dmitry Tokmak](https://github.com/TokmakDA)
+
+    "mocha",
+    "chai",
+    "sinon",
+    "sinon-chai",
+    "@types/chai",
+    "@types/mocha",
+    "@types/sinon",
+    "@types/sinon-chai",
