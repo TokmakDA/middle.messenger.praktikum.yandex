@@ -13,7 +13,7 @@
     "format": "prettier . --write",
     "slint": "stylelint \"**/*.scss\"",
     "slint:fix": "stylelint \"**/*.scss\" --fix",
-    "test": "mocha --es-module-specifier-resolution=node",
+    "test": "mocha --es-module-specifier-resolution=node --require ts-node/register",
     "prepare": "husky"
   },
   "devDependencies": {

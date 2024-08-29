@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+import { useFakeXMLHttpRequest } from 'sinon';
 
 const jsdom = new JSDOM('<body></body>');
 
@@ -7,4 +8,4 @@ global.document = jsdom.window.document;
 global.Node = jsdom.window.Node;
 global.MouseEvent = jsdom.window.MouseEvent;
 global.FormData = jsdom.window.FormData;
-
+global.XMLHttpRequest = useFakeXMLHttpRequest();

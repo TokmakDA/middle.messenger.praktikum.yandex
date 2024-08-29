@@ -79,8 +79,10 @@ export default class HTTPTransport {
 
     // Обработка GET-запроса с параметрами
     if (method === METHODS.GET && data) {
-      const queryParams = queryString(data);
-      updatedUrl += `?${queryParams}`;
+      if (Object.keys(data).length > 0) {
+        const queryParams = queryString(data);
+        updatedUrl += `?${queryParams}`;
+      }
     }
 
     return new Promise((resolve, reject) => {

@@ -1,7 +1,7 @@
 {
   "extension": ["ts"],
   "spec": "src/**/*.test.ts",
-  "require": ["mochaSetup.js"],
+  "require": ["ts-node/register", "./mochaSetup.js"],
   "reporter": "spec",
   "loader": ["ts-node/esm", "./loader-css.js"]
 }
