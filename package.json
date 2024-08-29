@@ -65,16 +65,16 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npx lint-staged"
     }
   },
   "lint-staged": {
     "*.ts": [
-      "npm lint",
-      "npm test"
+      "npm run lint",
+      "npm run lint:fix"
     ],
     "*.scss": [
-      "npm slint:fix"
+      "npm run slint:fix"
     ]
   }
 }
