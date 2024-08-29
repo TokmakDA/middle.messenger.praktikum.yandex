@@ -1,5 +1,4 @@
-##!/bin/sh
-#. "$(dirname "$0")/_/husky.sh"
-#
-## Запускаем линтер и тесты перед коммитом
-#npx lint-staged
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npx lint-staged
