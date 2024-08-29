@@ -21,7 +21,7 @@ describe('HTTP Transport', function () {
 
   beforeEach(() => {
     requests = [];
-    http = new ({});
+    http = new HTTPTransport({});
   });
 
   after(() => {
