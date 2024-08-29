@@ -1,5 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
-#
-#npm run lint
-#npm test
+
+# Запускаем линтер и тесты перед коммитом
+npx lint-staged
