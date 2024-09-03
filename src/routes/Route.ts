@@ -1,4 +1,4 @@
-import Block from '../tools/Block';
+import type Block from '../tools/Block';
 import renderDOM from '../tools/renderDOM';
 
 /**

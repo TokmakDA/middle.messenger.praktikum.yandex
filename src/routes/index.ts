@@ -2,6 +2,8 @@ import Block from '../tools/Block';
 import Router from './Router';
 import * as Pages from '../pages';
 import { ROUTES_PATH } from '../lib/constants/routes';
+import { BaseController } from '../controllers/BaseController';
+import RouteManager from './RouteManager';
 
 // Добавим роуты
 const routes: {
@@ -21,13 +23,7 @@ Object.entries(routes).forEach(([pathname, block]) => {
   router.use(pathname, block);
 });
 
-// Объявление нового свойства router в глобальной области видимости
-declare global {
-  interface Window {
-    router: Router;
-  }
-}
-
-window.router = router;
+BaseController.setRouter(router);
+RouteManager.setRouter(router);
 
 export { router };

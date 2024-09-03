@@ -16,7 +16,7 @@ export class UserAuthController extends BaseController {
       const response = await AuthApi.login(data);
       this.throwError(response, 'Ошибка авторизации');
       await this.getUserMe();
-      window.router.go(ROUTES_PATH.chat);
+      UserAuthController.router.go(ROUTES_PATH.chat);
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка авторизации');
     } finally {
@@ -35,7 +35,7 @@ export class UserAuthController extends BaseController {
       const response = await AuthApi.create(data);
       this.throwError(response, 'Ошибка при регистрации');
       await this.getUserMe();
-      window.router.go(ROUTES_PATH.chat);
+      UserAuthController.router.go(ROUTES_PATH.chat);
     } catch (error) {
       this.handleError(error, 'Неизвестная ошибка при регистрации');
     } finally {

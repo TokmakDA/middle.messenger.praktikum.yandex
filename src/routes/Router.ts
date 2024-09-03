@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import Block from '../tools/Block';
+import type Block from '../tools/Block';
 import Route from './Route';
 import AuthManager from './AuthManager';
 

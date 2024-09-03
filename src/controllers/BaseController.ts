@@ -3,12 +3,19 @@ import { ROUTES_PATH } from '../lib/constants/routes';
 import { INITIAL_STATE } from '../lib/constants/state';
 import { Store } from '../services/Store';
 import { AppState } from '../@types/store';
+import type Router from '../routes/Router';
 
 /**
  * Базовый контроллер с общими методами.
  */
 export class BaseController {
   protected static store: Store<AppState> = window.store;
+
+  protected static router: Router;
+
+  public static setRouter(router: Router) {
+    BaseController.router = router;
+  }
 
   /**
    * Обновляет ошибки в состоянии store.
@@ -71,7 +78,7 @@ export class BaseController {
    */
   protected static clearState() {
     this.store.set(INITIAL_STATE);
-    window.router.go(ROUTES_PATH.signin);
+    BaseController.router.go(ROUTES_PATH.signin);
   }
 
   /**

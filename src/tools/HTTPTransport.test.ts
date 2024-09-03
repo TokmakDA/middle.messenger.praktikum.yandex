@@ -7,7 +7,7 @@ import sinonChai from 'sinon-chai';
 import HTTPTransport from './HTTPTransport';
 import URLS from '../lib/constants/urls';
 
-describe('HTTP Transport', function () {
+describe('HTTP Transport', () => {
   use(sinonChai);
 
   let http: HTTPTransport;

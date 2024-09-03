@@ -1,7 +1,7 @@
 import './style.scss';
 import arrowSVG from '../../../../assets/images/arrow-right.svg';
-import { ROUTES_PATH } from '../../../../lib/constants/routes';
 import Block from '../../../../tools/Block';
+import RouteManager from '../../../../routes/RouteManager';
 
 class ChatsPanelButton extends Block {
   constructor() {
@@ -14,7 +14,7 @@ class ChatsPanelButton extends Block {
       `,
       events: {
         click: () => {
-          window.router.go(ROUTES_PATH.profile);
+          RouteManager.goRoute('profile');
         },
       },
     });

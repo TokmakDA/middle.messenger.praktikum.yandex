@@ -1,9 +1,9 @@
 import Block from '../../../tools/Block';
 import './style.scss';
-import { ROUTES_PATH } from '../../../lib/constants/routes';
 import { connect } from '../../../tools/connect';
 import { Button, SVGBlock } from '../../../components';
 import backIcon from '../../../assets/images/back__icon.svg?raw';
+import RouteManager from '../../../routes/RouteManager';
 
 class BackBlock extends Block {
   constructor({ ...props }) {
@@ -28,7 +28,7 @@ class BackBlock extends Block {
   }
 
   public handleClick() {
-    window.router.go(ROUTES_PATH.chat);
+    RouteManager.goRoute('chat');
   }
 }
 
