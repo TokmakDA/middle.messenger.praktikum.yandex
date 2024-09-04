@@ -9,7 +9,6 @@ const jsdom = new JSDOM(
 );
 global.window = jsdom.window;
 global.document = jsdom.window.document;
-global.location = jsdom.window.location;
 global.history = jsdom.window.history;
 global.Node = jsdom.window.Node;
 global.MouseEvent = jsdom.window.MouseEvent;

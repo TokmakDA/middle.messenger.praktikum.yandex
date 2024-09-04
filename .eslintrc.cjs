@@ -46,7 +46,7 @@ module.exports = {
       },
     },
   },
-  ignorePatterns: ['dist', 'mochaSetup.js', 'loader-css.js'],
+  ignorePatterns: ['dist', 'mochaSetup.js'],
   rules: {
     'import/no-unresolved': [
       'error',
