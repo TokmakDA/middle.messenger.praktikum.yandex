@@ -60,21 +60,25 @@ describe('Utility functions', () => {
         { data: { nested: [1, 2] } },
         { data: { nested: [1, 2] } },
       );
+
       expect(result).to.be.true;
     });
 
     it('should return false for string equal different length', () => {
       const result = utils.isEqual('', '  ');
+
       expect(result).to.be.false;
     });
 
     it('should return true for deeply equal string', () => {
       const result = utils.isEqual('1', '1');
+
       expect(result).to.be.true;
     });
 
     it('should return false for number equal different numbers', () => {
       const result = utils.isEqual(1, 159);
+
       expect(result).to.be.false;
     });
   });
