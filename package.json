@@ -70,11 +70,12 @@
   },
   "lint-staged": {
     "*.ts": [
-      "npm run lint",
-      "npm run lint:fix"
+      "npx tsc --noEmit",
+      "npx eslint",
+      "npx prettier --check"
     ],
     "*.scss": [
-      "npm run slint:fix"
+      "npx slint"
     ]
   }
 }
