@@ -14,7 +14,7 @@
     "slint": "stylelint \"**/*.scss\"",
     "slint:fix": "stylelint \"**/*.scss\" --fix",
     "test": "mocha --es-module-specifier-resolution=node --require ts-node/register",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/chai": "^4.3.17",
