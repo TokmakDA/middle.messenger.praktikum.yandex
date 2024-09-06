@@ -65,7 +65,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx lint-staged"
+      "pre-commit": "lint-staged && npm test"
     }
   },
   "lint-staged": {
@@ -75,7 +75,7 @@
       "npx prettier --check"
     ],
     "*.scss": [
-      "npx slint"
+      "npx stylelint"
     ]
   }
 }
