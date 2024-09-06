@@ -25,6 +25,20 @@ module.exports = {
       preset: 'bem',
       componentSelectors: bemSelector,
     },
+    'scss/at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: [
+          'extends',
+          'if',
+          'else',
+          'for',
+          'each',
+          'include',
+          'mixin',
+        ],
+      },
+    ],
   },
   ignoreFiles: ['build/*'],
   plugins: ['stylelint-scss', 'stylelint-selector-bem-pattern'],

@@ -1,68 +1,49 @@
-/* eslint-disable no-console */
 import Handlebars from 'handlebars';
 import EventBus from './EventBus';
+import { isEqual } from '../lib/utils/utils';
+import { BlockProps, Children, PlainObject } from '../@types/block';
 
-interface EventMap {
-  [key: string]: EventListenerOrEventListenerObject;
-}
-
-interface Attributes {
-  [key: string]: string;
-}
-
-interface Children {
-  [key: string]: Block;
-}
-
-interface Props {
-  events?: EventMap;
-  attr?: Attributes | false;
-  template?: string;
-}
-
-export default class Block {
+/**
+ * Основной класс Block для работы с компонентами
+ */
+export default class Block<T extends BlockProps = BlockProps> {
+  [key: string]: unknown;
+  // События жизненного цикла компонента
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
+    FLOW_CWU: 'flow:component-will-unmount',
     FLOW_RENDER: 'flow:render',
   };
-
-  // Элемент, к которому привязан компонент
-  protected _element: HTMLElement | null = null;
-
-  // Уникальный идентификатор компонента
+  private _isMounted: boolean = false;
+  private _element: HTMLElement | null = null;
   protected id: string = this._generateRandomId();
-
-  // Свойства компонента
-  protected props: Props = {};
-
-  // Дочерние компоненты
-  protected children: Children = {};
-
-  // Экземпляр EventBus для работы с событиями
-  protected eventBus: () => EventBus;
-
-  // Список дочерних компонентов
-  protected lists: { [key: string]: Children[] } = {};
-
-  // Шаблон
+  protected eventBus: EventBus;
   protected template: string | undefined;
+  props: BlockProps = {} as T;
+  children: Children = {};
+  lists: { [key: string]: Children[] } = {};
 
+  /**
+   * Конструктор класса Block
+   * @param propsWithChildren - Свойства и дочерние элементы компонента
+   */
   constructor({ ...propsWithChildren }) {
-    const eventBus = new EventBus(); // Создание нового экземпляра EventBus
+    this.eventBus = new EventBus();
     const { props, children, lists } =
-      this._extractPropsAndChildren(propsWithChildren); // Извлечение свойств и дочерних компонентов
-    this.props = this._makePropsProxy(props); // Проксирование свойств компонента
-    this.children = children; // Установка дочерних компонентов
-    this.lists = lists; // Установка списка дочерних компонентов
-    this.template = this.props.template; // Установка шаблона
-    this.eventBus = () => eventBus; // Установка экземпляра EventBus
-    this._registerEvents(eventBus); // Регистрация событий
-    eventBus.emit(Block.EVENTS.INIT); // Инициирование события INIT
+      this._extractPropsAndChildren(propsWithChildren);
+    this.props = this._makePropsProxy(props);
+    this.children = children;
+    this.lists = lists;
+    this.template = this.props.template;
+    this._registerEvents();
+    this.eventBus.emit(Block.EVENTS.INIT);
   }
 
-  // Добавление обработчиков событий к элементу
+  /**
+   * Добавляет события на элемент компонента
+   */
   _addEvents(): void {
     const { events = {} } = this.props;
     Object.keys(events).forEach((eventName) => {
@@ -70,34 +51,55 @@ export default class Block {
     });
   }
 
-  // Удаление обработчиков событий к элементу
+  /**
+   * Удаляет события с элемента компонента
+   */
   _removeEvents() {
     const { events } = this.props;
-
     if (!events) {
       return;
     }
-
     Object.keys(events).forEach((eventName) => {
       this._element?.removeEventListener(eventName, events[eventName]);
     });
   }
 
-  // Регистрация обработчиков событий
-  _registerEvents(eventBus: EventBus): void {
-    eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+  /**
+   * Регистрирует обработчики событий жизненного цикла компонента
+   */
+  _registerEvents(): void {
+    this.eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
+    this.eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+    this.eventBus.on(
+      Block.EVENTS.FLOW_CDU,
+      this._componentDidUpdate.bind(this),
+    );
+    this.eventBus.on(
+      Block.EVENTS.FLOW_CWU,
+      this._componentWillUnmount.bind(this),
+    );
+    this.eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  // Инициализация компонента
+  /**
+   * Инициализация компонента
+   */
+  _init(): void {
+    this.init();
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+  }
+
+  /**
+   * Переопределяемый метод инициализации компонента
+   */
   init(): void {
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
-
-  // Извлечение свойств и дочерних компонентов
-  // eslint-disable-next-line class-methods-use-this
+  /**
+   * Извлекает пропсы и дочерние элементы из переданных данных
+   * @param propsAndChildren - Свойства и дочерние элементы компонента
+   * @returns Объект с пропсами, дочерними элементами и списками
+   */
   _extractPropsAndChildren(propsAndChildren: { [s: string]: unknown }) {
     const children: Children = {};
     const props: { [key: string]: unknown } = {};
@@ -119,138 +121,232 @@ export default class Block {
     return { children, props, lists };
   }
 
-  // Обработчик события "componentDidMount"
+  /**
+   * Обрабатывает событие монтирования компонента
+   */
   _componentDidMount(): void {
-    this.componentDidMount();
+    if (!this._isMounted) {
+      this._isMounted = true;
+      this.componentDidMount();
+
+      // Монтируем дочерние компоненты
+      Object.values(this.children).forEach((child) => {
+        child.dispatchComponentDidMount();
+      });
+
+      Object.values(this.lists).forEach((childList) => {
+        Object.values(childList).forEach((children) =>
+          Object.values(children).forEach((child) => {
+            child.dispatchComponentDidMount();
+          }),
+        );
+      });
+    }
   }
 
-  // Обновление свойств компонента
-  // eslint-disable-next-line class-methods-use-this
-  componentDidMount(oldProps?: object): void {
-    // eslint-disable-next-line no-console
-    console.log('componentDidUpdate => oldProps', oldProps);
-  }
+  /**
+   * Переопределяемый метод для обработки монтирования компонента
+   */
+  componentDidMount(): void {}
 
-  // Инициирование события "FLOW_CDM"
+  /**
+   * Вызывает обработку монтирования компонента
+   */
   dispatchComponentDidMount(): void {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
-  // Обновление компонента при изменении свойств
-  _componentDidUpdate(oldProps: object, newProps: object): void {
-    const response = this.componentDidUpdate(oldProps, newProps);
-    if (!response) {
+  /**
+   * Обрабатывает обновление компонента
+   * @param oldProps - Старые пропсы
+   * @param newProps - Новые пропсы
+   */
+  _componentDidUpdate(oldProps?: object, newProps?: object): void {
+    const shouldRender = this.componentDidUpdate(oldProps, newProps);
+    if (shouldRender) {
+      this._render();
+    }
+  }
+
+  /**
+   * Переопределяемый метод для обработки обновления компонента
+   * @param oldProps - Старые пропсы
+   * @param newProps - Новые пропсы
+   * @returns Нужно ли перерисовывать компонент
+   */
+  componentDidUpdate(oldProps?: object, newProps?: object): boolean {
+    return !isEqual(oldProps, newProps);
+  }
+
+  /**
+   * Обрабатывает размонтирование компонента
+   */
+  _componentWillUnmount() {
+    this.componentWillUnmount();
+    // Обработка дочерних компонентов
+    Object.values(this.children).forEach((child) => {
+      // console.log(`Unmounting child ${child.id}`);
+      child.unmount();
+    });
+
+    // Обработка элементов в массиве lists
+    Object.values(this.lists).forEach((childList) => {
+      Object.values(childList).forEach((children) =>
+        Object.values(children).forEach((child) => {
+          // console.log(`Unmounting child ${child.id}`);
+          child.unmount();
+        }),
+      );
+    });
+
+    this._removeEvents();
+    this._element?.remove();
+  }
+
+  /**
+   * Переопределяемый метод для обработки размонтирования компонента
+   */
+  componentWillUnmount() {}
+
+  /**
+   * Вызывает обработку размонтирования компонента
+   */
+  unmount() {
+    this.eventBus.emit(Block.EVENTS.FLOW_CWU);
+  }
+
+  /**
+   * Устанавливает новые пропсы, детей и списки детей и вызывает обновление компонента
+   * @param nextPropsAndChildren - Новые пропсы и дети
+   */
+  setPropsAndChildren = (nextPropsAndChildren: PlainObject): void => {
+    if (!nextPropsAndChildren) {
       return;
     }
-    this._render();
-  }
 
-  // Обработчик события "componentDidUpdate"
-  componentDidUpdate(oldProps: object, newProps: object): boolean {
-    // eslint-disable-next-line no-console
-    console.log('componentDidUpdate =>', oldProps, newProps);
-    return true;
-  }
+    const newData = this._extractPropsAndChildren(nextPropsAndChildren);
+    const oldPropsState: PlainObject = {};
+    const newPropsState: PlainObject = {};
 
-  // Установка новых свойств компонента
-  setProps = (nextProps: object): void => {
-    if (!nextProps) {
-      return;
-    }
-    Object.assign(this.props, nextProps);
+    Object.entries(newData).forEach(([k, v]) => {
+      const key = k as keyof this;
+
+      if (v && Object.keys(v).length) {
+        // Приведение текущего значения к типу, основанному на типе ключа
+        const oldProps = this[key];
+        // Обновляем свойство только если типы совместимы
+        if (typeof oldProps === 'object' && typeof v === 'object') {
+          this[key] = { ...oldProps, ...v } as this[keyof this];
+        }
+
+        oldPropsState[key as keyof PlainObject] = oldProps;
+        newPropsState[key as keyof PlainObject] = this[key];
+      }
+    });
+    this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldPropsState, newPropsState);
   };
 
-  // Получение элемента компонента
+  /**
+   * Возвращает HTML-элемент компонента
+   */
   get element(): HTMLElement {
     return this._element!;
   }
 
-  // Рендеринг компонента
+  /**
+   * Отрисовывает компонент
+   */
   _render() {
     const propsAndStubs: Record<string, unknown> = { ...this.props };
     const listID = this._generateRandomId();
-    // Заменяем в шаблоне дочерние компоненты на заполнители
+
+    // Замена дочерних элементов и списков на заглушки
     Object.entries(this.children).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
     });
 
-    // Заменяем в шаблоне дочерние компоненты на заполнители
     Object.entries(this.lists).forEach(([key]) => {
       propsAndStubs[key] = `<div data-id="${listID}"></div>`;
     });
 
-    // Компилируем шаблон, используя Handlebars и обновленные реквизиты
     const compiledTemplate = Handlebars.compile(this.render())(propsAndStubs);
-    // Создаем фрагмент документа для работы с шаблоном
     const fragment = this._createDocumentElement('template');
     fragment.innerHTML = compiledTemplate;
 
-    // Заменяем фрагмент на реальные дочерние компоненты
+    // Замена заглушек на реальные элементы
     Object.values(this.children).forEach((child) => {
       const stub = fragment.content.querySelector(
-        // eslint-disable-next-line no-underscore-dangle
         `[data-id="${child.id}"]`,
       ) as HTMLElement;
-
       if (stub) {
         stub.replaceWith(child.getContent()!);
       }
     });
 
-    // Заменяем фрагмент на реальные  на реальные дочерние компоненты из массива
-    Object.values(this.lists).forEach((child) => {
+    Object.values(this.lists).forEach((childList) => {
       const stub = fragment.content.querySelector(
         `[data-id="${listID}"]`,
       ) as HTMLElement;
-      const childElement = this._createDocumentElement('template').content;
-      child.forEach((item) => {
-        childElement.append(Object.values(item)[0].getContent() as HTMLElement);
-      });
-
       if (stub) {
-        stub.replaceWith(childElement);
+        const elements = childList
+          .map((children) =>
+            Object.values(children).map((child) => child.getContent()),
+          )
+          .flat();
+
+        stub.replaceWith(...elements);
       }
     });
 
-    // Удаляем обработчики
     this._removeEvents();
+    const newElement = fragment.content.firstElementChild as HTMLElement;
 
-    // Заменяем текущий элемент на обновленный
-    const newElement = fragment.content.firstElementChild;
-
-    // Добавление атрибутов к элементу компонента
+    // Установка атрибутов для нового элемента
     if (newElement && this.props.attr) {
       Object.entries(this.props.attr).forEach(([key, value]) => {
         newElement.setAttribute(key, value);
       });
     }
-
     if (this._element) {
       this._element.replaceWith(newElement!);
     }
-    this._element = newElement as HTMLElement;
-
-    // Добавляем слушателей событий в новый элемент
+    this._element = newElement;
     this._addEvents();
+
+    // console.log(this.element);
   }
 
-  // Генерация шаблона компонента
+  /**
+   * Возвращает HTML-шаблон компонента
+   */
   render(): string {
-    if (this.template) {
-      return this.template;
-    }
-    return '<div>Нет шаблона</div>';
+    return this.template || '<div>Нет шаблона</div>';
   }
 
-  // Получение содержимого компонента
-  getContent(): HTMLElement | null {
+  /**
+   * Возвращает контент компонента
+   */
+  getContent() {
+    if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+      setTimeout(() => {
+        if (
+          this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
+        ) {
+          this.dispatchComponentDidMount();
+        }
+      }, 100);
+    }
+
     return this.element;
   }
 
-  // Проксирование свойств компонента
-  _makePropsProxy(props: object): Props {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this;
+  /**
+   * Создает прокси для пропсов компонента
+   * @param props - Пропсы компонента
+   * @returns Прокси объект
+   */
+  _makePropsProxy(props: object): BlockProps {
+    const self = this as Block<T>;
     return new Proxy(props, {
       get(target: { [key: string]: object }, prop: string) {
         const value = target[prop];
@@ -259,11 +355,11 @@ export default class Block {
       set(target: { [key: string]: object }, prop: string, value: object) {
         const updateTarget = target;
         updateTarget[prop] = value;
-
-        // Запускаем обновление компоненты
-        self
-          .eventBus()
-          .emit(Block.EVENTS.FLOW_CDU, { ...updateTarget }, updateTarget);
+        self.eventBus.emit(
+          Block.EVENTS.FLOW_CDU,
+          { ...updateTarget },
+          updateTarget,
+        );
         return true;
       },
       deleteProperty() {
@@ -272,15 +368,20 @@ export default class Block {
     });
   }
 
-  // Создание элемента документа
-  // eslint-disable-next-line class-methods-use-this
+  /**
+   * Создает HTML-элемент с указанным тегом
+   * @param tagName - Название тега
+   * @returns Созданный элемент
+   */
   _createDocumentElement(tagName: string): HTMLTemplateElement {
     return document.createElement(tagName) as HTMLTemplateElement;
   }
 
-  // Генерация случайного идентификатора
-  // eslint-disable-next-line class-methods-use-this
+  /**
+   * Генерирует случайный ID
+   * @returns Случайный ID
+   */
   _generateRandomId(): string {
-    return Math.random().toString(36).substr(2, 9);
+    return Math.random().toString(36).substring(2, 9);
   }
 }

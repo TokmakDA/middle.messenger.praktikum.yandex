@@ -5,6 +5,19 @@
   gap: 15px;
   height: 100vh;
   padding: 0 20px;
+
+  &__placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    text-align: center;
+    color: $light-gray;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 12px;
+  }
 }
 
 .chat__button {
@@ -15,16 +28,19 @@
   height: 100%;
   max-height: 30px;
   padding: 4px 10px;
-  &:hover svg {
-    & circle,
-    path {
-      fill: color.adjust($royal-blue, $lightness: -10%);
-    }
-    // & * {
-    //   fill: darken($light-gray, 10);
-    // }
+
+  &:disabled {
+    cursor: not-allowed;
   }
-  // & svg {
-  //   align-self: center;
-  // }
+
+  &:hover:not(:disabled) {
+    color: color.adjust($royal-blue, $lightness: -10%);
+
+    & > svg {
+      & circle,
+      path {
+        fill: color.adjust($royal-blue, $lightness: -10%);
+      }
+    }
+  }
 }

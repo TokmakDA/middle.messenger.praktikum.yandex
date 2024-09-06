@@ -6,25 +6,118 @@
   border: none;
   border-radius: 8px;
   padding: 12.5px;
-  color: #fdfdfd;
   font-weight: $fw-medium;
   font-size: 13px;
   line-height: 13px;
   text-align: center;
-  background-color: $royal-blue;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: $light-gray;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    box-shadow 0.2s,
+    outline 0.2s,
+    opacity 0.2s;
+
+  &.icon {
+    height: 30px;
+    padding: 4px 10px;
+    width: fit-content;
+  }
+
+  &.small {
+    display: flex;
+    height: 30px;
+    padding: 4px 8px;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    line-height: 12px;
+  }
 
   &:hover {
-    box-shadow: $shadow;
-    background-color: color.adjust($royal-blue, $lightness: -20%);
+    transition: all 0.2s;
   }
 
   &:focus {
-    border-radius: 4px;
-    outline: solid 2px $royal-blue;
-    outline-offset: 2px;
+    transition: all 0.2s;
   }
 
   &:disabled {
-    background-color: #b3b5b9;
+    transition: all 0.2s;
+  }
+
+  &.flat {
+    background-color: $royal-blue;
+    color: #fdfdfd;
+
+    &.active {
+      background-color: color.adjust($royal-blue, $lightness: -20%);
+    }
+
+    &:hover {
+      box-shadow: $shadow;
+      background-color: color.adjust($royal-blue, $lightness: -20%);
+    }
+
+    &:focus {
+      border-radius: 4px;
+      outline: solid 2px $royal-blue;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      background-color: #b3b5b9;
+    }
+  }
+
+  &.outline {
+    background-color: transparent;
+    color: $light-gray;
+    outline: 2px solid color.adjust($royal-blue, $lightness: -20%);
+
+    &.active {
+      outline: 2px solid color.adjust($royal-blue, $lightness: -20%);
+    }
+
+    &:hover {
+      box-shadow: $shadow;
+      outline: 2px solid color.adjust($royal-blue, $lightness: -20%);
+    }
+
+    &:focus {
+      border-radius: 4px;
+      outline: solid 2px $royal-blue;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      color: #b3b5b9;
+    }
+  }
+
+  &:not(.flat):not(.outline) {
+    &.active {
+      color: color.adjust($royal-blue, $lightness: -20%);
+    }
+
+    &:hover {
+      box-shadow: $shadow;
+      color: color.adjust($royal-blue, $lightness: -20%);
+    }
+
+    &:focus {
+      border-radius: 4px;
+      outline: solid 2px $royal-blue;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      background-color: #b3b5b9;
+    }
   }
 }

@@ -1,46 +1,67 @@
 import { InputProps } from '../../@types/types';
-import { Input, Button, Link, AuthorizeWrapper, Form } from '../../components';
+import { Input, Button, Form, ModalBlock } from '../../components';
 import { LoyautCenter } from '../../layouts';
+import { UserAuthController } from '../../controllers';
+import { TSignInRequest } from '../../@types/api';
+import { connect } from '../../tools/connect';
+import Block from '../../tools/Block';
 
-const inputsList: InputProps[] = [
-  {
-    label: 'Логин',
-    name: 'login',
-    value: '',
-    attr: {
-      type: 'text',
-      required: true,
-      pattern: `(?=.*[a-z]|[A-Z])[a-zA-Z0-9\\-_]{3,20}`,
-      minlength: 3,
-      maxlength: 20,
-    },
-  },
-  {
-    label: 'Пароль',
-    name: 'password',
-    value: '',
-    attr: {
-      type: 'password',
-      required: true,
-      pattern: `((?=.*\\d)(?=.*[A-Z]).{8,40})`,
-      minlength: 8,
-      maxlength: 40,
-    },
-  },
-];
+import { SIGN_IN_INPUT_FIELDS as signInInputs } from '../../lib/constants/formFieldConstants';
+import { AppState } from '../../@types/store';
+import RouteManager from '../../routes/RouteManager';
 
-const signInPage = new LoyautCenter({
-  content: new AuthorizeWrapper({
-    title: 'Войти',
-    form: new Form({
-      inputsList: inputsList.map((item) => ({
-        input: new Input({ ...item }),
-      })),
-      formName: 'signin',
-      button: new Button({ text: 'Войти', type: 'submit' }),
-      link: new Link({ text: 'Зарегистрироваться', url: '/signup' }),
-    }),
-  }),
-});
+class SignInPage extends LoyautCenter {
+  constructor(props: { content: ModalBlock; error: AppState['error'] }) {
+    super({
+      ...props,
+      content: new ModalBlock({
+        title: 'Войти',
+        content: new Form({
+          handleInputChange() {
+            UserAuthController.changeForm();
+          },
+          errorMessage: props.error,
+          fields: signInInputs.map((item: InputProps) => ({
+            field: new Input({ ...item }),
+          })),
+          formName: 'signin',
+          actions: [
+            {
+              send: new Button({ flat: true, text: 'Войти', type: 'submit' }),
+            },
+            {
+              link: new Button({
+                text: 'Зарегистрироваться',
+                className: 'link',
+                page: 'signin',
+                events: {
+                  click: (e) => this.handleSignIn(e),
+                },
+              }),
+            },
+          ],
+          onSubmit: (formData) => this.handleSubmit(formData),
+        }),
+      }),
+    });
+  }
 
-export default signInPage;
+  handleSignIn(e: Event) {
+    e.preventDefault();
+    RouteManager.goRoute('signin');
+  }
+
+  async handleSubmit(formData: Record<string, string>): Promise<void> {
+    const data: TSignInRequest = {
+      login: formData.login,
+      password: formData.password,
+    };
+
+    await UserAuthController.login(data);
+  }
+}
+
+export default connect(({ isLoading, error }) => ({
+  isLoading,
+  error,
+}))(SignInPage as typeof Block);

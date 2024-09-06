@@ -1,16 +1,16 @@
-import { signInPage } from './signin';
-import { signUpPage } from './signup';
-import { erorrPage404, erorrPage5XX } from './errors';
-import { chatPage } from './chat';
-import { homePage } from './home';
-import { profilePage } from './profile';
+import { SignUpPage } from './signup';
+import { SignInPage } from './signin';
+import { ErrorPage404, ErrorPage5XX } from './errors';
+import { ChatPage } from './chat';
+import { HomePage } from './home';
+import { ProfilePage } from './profile';
 
 export {
-  signUpPage,
-  signInPage,
-  erorrPage404,
-  erorrPage5XX,
-  chatPage,
-  profilePage,
-  homePage,
+  SignUpPage,
+  SignInPage,
+  ErrorPage404,
+  ErrorPage5XX,
+  ChatPage,
+  ProfilePage,
+  HomePage,
 };

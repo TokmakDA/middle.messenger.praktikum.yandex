@@ -5,7 +5,7 @@ export default class Sidebar extends Block {
     super({
       ...props,
       template: `
-        <section class="sidebar">
+        <section class="sidebar {{ className }}">
           {{{ content }}}
         </section>
        `,

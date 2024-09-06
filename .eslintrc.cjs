@@ -15,6 +15,13 @@ module.exports = {
   ],
   overrides: [
     {
+      files: ['*.test.{js,ts}', '*.spec.{js,ts}'],
+      rules: {
+        '@typescript-eslint/no-unused-expressions': 'off',
+        'no-unused-expressions': 'off',
+      },
+    },
+    {
       env: {
         node: true,
       },
@@ -39,12 +46,12 @@ module.exports = {
       },
     },
   },
-  ignorePatterns: ['dist'],
+  ignorePatterns: ['dist', 'mochaSetup.js'],
   rules: {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['./tpl.hbs', '@types/*'],
+        ignore: ['\\.svg\\?raw$', './tpl.hbs', './tpl.hbs?raw$', '@types/*'],
       },
     ],
     'prettier/prettier': 'error',
@@ -66,9 +73,10 @@ module.exports = {
     'no-underscore-dangle': ['error', { allowAfterThis: true }],
     'class-methods-use-this': 'off',
     'import/prefer-default-export': [
-      // eslint-disable-next-line no-bitwise
       'off' | 'warn' | 'error',
       { target: 'any' },
     ],
+    'lines-between-class-members': 'off',
+    '@typescript-eslint/lines-between-class-members': ['off'],
   },
 };
