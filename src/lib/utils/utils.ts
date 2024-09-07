@@ -1,17 +1,5 @@
-// Функция isObjKey проверяет, является ли переданный
-// ключ key ключом объекта obj.
-// Параметры:
-// key: Ключ, который нужно проверить.
-// obj: Объект, в котором нужно проверить наличие ключа.
-// Возвращаемое значение:
-// boolean: true, если ключ key является ключом объекта obj, иначе false.
-
-// function isObjKey(key: string, obj: object): key is keyof object {
-//   return key in obj;
-// }
-
 type PlainObject<T = unknown> = {
-  [k in string]: T;
+  [key: string]: T;
 };
 
 function isPlainObject(value: unknown): value is PlainObject {
@@ -27,11 +15,11 @@ function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value);
 }
 
-function isArrayOrObject(value: unknown): value is unknown[] | PlainObject {
+function isArrayOrObject(value: unknown): value is PlainObject | unknown[] {
   return isPlainObject(value) || isArray(value);
 }
 
-function getKey(key: string, parentKey?: string) {
+function getKey(key: string, parentKey?: string): string {
   return parentKey ? `${parentKey}[${key}]` : key;
 }
 
@@ -53,7 +41,7 @@ function getParams(
       }
     });
   } else if (isArray(data)) {
-    data.forEach((value, index) => {
+    [...data].forEach((value, index) => {
       if (isArrayOrObject(value)) {
         result.push(...getParams(value, getKey(String(index), parentKey)));
       } else {
@@ -108,7 +96,14 @@ function isEqual<T>(lhs: T, rhs: T): boolean {
       return false;
     }
 
-    return lhsKeys.every((key) => isEqual(lhs[key], rhs[key]));
+    return lhsKeys.every((key) => {
+      const lhsValue = lhs[key];
+      const rhsValue = rhs ? rhs[key] : undefined;
+
+      if (rhsValue === undefined) return false;
+
+      return isEqual(lhsValue, rhsValue);
+    });
   }
 
   return false;

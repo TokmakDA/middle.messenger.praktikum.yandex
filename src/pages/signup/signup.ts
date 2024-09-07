@@ -1,12 +1,12 @@
 import { InputProps } from '../../@types/types';
 import { Input, Button, Form, ModalBlock } from '../../components';
-import { ROUTES_PATH } from '../../lib/constants/routes';
 import { LoyautCenter } from '../../layouts';
 import { TSignUpRequest } from '../../@types/api';
 import { UserAuthController } from '../../controllers';
 import Block from '../../tools/Block';
 import { connect } from '../../tools/connect';
 import { SIGN_UP_INPUT_FIELDS as signUpInputs } from '../../lib/constants/formFieldConstants';
+import RouteManager from '../../routes/RouteManager';
 
 class SignUpPage extends LoyautCenter {
   constructor(props: { content: ModalBlock }) {
@@ -49,7 +49,7 @@ class SignUpPage extends LoyautCenter {
 
   handleSignUp(e: Event) {
     e.preventDefault();
-    window.router.go(ROUTES_PATH.signin);
+    RouteManager.goRoute('signin');
   }
 
   async handleSubmit(formData: Record<string, string>): Promise<void> {

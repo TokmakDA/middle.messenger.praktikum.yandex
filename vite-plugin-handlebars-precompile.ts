@@ -1,6 +1,5 @@
+import type { PluginOption } from 'vite';
 import Handlebars from 'handlebars';
-// eslint-disable-next-line import/named
-import { PluginOption } from 'vite';
 
 export default function handlebars(): PluginOption {
   const fileRegexp = /\.hbs$| \.handlebars$/;

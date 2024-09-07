@@ -1,4 +1,4 @@
-import { queryStringify } from '../lib/utils/utils';
+import { queryString } from '../lib/utils/utils';
 import URLS from '../lib/constants/urls';
 
 const METHODS = {
@@ -79,8 +79,10 @@ export default class HTTPTransport {
 
     // Обработка GET-запроса с параметрами
     if (method === METHODS.GET && data) {
-      const queryParams = queryStringify(data);
-      updatedUrl += `?${queryParams}`;
+      if (Object.keys(data).length > 0) {
+        const queryParams = queryString(data);
+        updatedUrl += `?${queryParams}`;
+      }
     }
 
     return new Promise((resolve, reject) => {
@@ -124,11 +126,13 @@ export default class HTTPTransport {
       };
 
       // Отправка данных в запросе (FormData отправляется напрямую)
-      if (data instanceof FormData) {
+      if (method === METHODS.GET || !data) {
+        xhr.send();
+      } else if (data instanceof FormData) {
         xhr.send(data);
       } else {
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(method === METHODS.GET ? null : JSON.stringify(data));
+        xhr.send(JSON.stringify(data));
       }
     });
   };

@@ -15,6 +15,13 @@ module.exports = {
   ],
   overrides: [
     {
+      files: ['*.test.{js,ts}', '*.spec.{js,ts}'],
+      rules: {
+        '@typescript-eslint/no-unused-expressions': 'off',
+        'no-unused-expressions': 'off',
+      },
+    },
+    {
       env: {
         node: true,
       },
@@ -39,7 +46,7 @@ module.exports = {
       },
     },
   },
-  ignorePatterns: ['dist'],
+  ignorePatterns: ['dist', 'mochaSetup.js'],
   rules: {
     'import/no-unresolved': [
       'error',
